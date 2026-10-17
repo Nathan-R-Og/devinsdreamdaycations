@@ -1,25 +1,10 @@
 .segment        "PRG0": absolute
 TILES:
-
-
-.ifdef VER_JP
-    .byte 0
-    binclude "../global/enemy_names.asm"
-    .res $1B, 0
-    .byte $29,$29,$29,$29
-    .res $3C, 0
-.else
-    .include "../../global/item_names.asm"
-    .include "../../global/choicer_names.asm"
-    .include "../../global/psi_names.asm"
-    .include "../../global/status_names.asm"
-    .include "../../global/enemy_names.asm"
-    .res $82, 0
-    .byte   $48, $59
-    .res $FD, 0
-    .byte   $48, $59
-    .res $b1, 0
-.endif
+.include "../../global/item_names.asm"
+.include "../../global/choicer_names.asm"
+.include "../../global/psi_names.asm"
+.include "../../global/status_names.asm"
+.include "../../global/enemy_names.asm"
 
 ;battle ui stuff
 ui_list:
@@ -736,18 +721,7 @@ Battle_Text:
 .word UMSG::B_GIEGUE_SPEECH21
 .word UMSG::B_GIEGUE_SPEECH22
 
-.ifdef VER_JP
-    binclude "text/battle_msg.asm"
-    binclude "../global/window_tiles.asm"
-    .res 19, 0
-.else
-    .include "../../global/window_tiles.asm"
-    .res $BF, 0
-    .byte $48,$59
-    .res 4, 0
-    .res 4, 2
-    .res $a4, 0
-.endif
+.include "../../global/window_tiles.asm"
 
 ;must be 8 aligned if B30_1cdf is to work
 .align 8

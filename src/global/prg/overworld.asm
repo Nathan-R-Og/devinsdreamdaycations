@@ -5443,16 +5443,6 @@ OT2_OnyxHook:
     sta soundqueue_pulseg0
     lda #$34
     jsr B31_0e21
-    .ifndef VER_JP
-        ;if antipiracy set, run more checks
-        lda UNK_6
-        beq @return
-        lda #.BANK(ShowAntipiracy)
-        ldx #.LOBYTE(ShowAntipiracy-1)
-        ldy #.HIBYTE(ShowAntipiracy-1)
-        jsr TempUpperBankswitch
-        @return:
-    .endif
     ldx #60
     jmp WaitXFrames_Min1
 

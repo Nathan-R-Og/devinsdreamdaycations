@@ -806,6 +806,7 @@ MSG_MERRYSVILLE_TRAINWOMAN2:
 .byte   stopText
 
 MSG_MYHOME_DOG:
+.byte 5, 8, $e1
 .byte   "*You can converse",newLine
 .byte   " with animals.",newLine
 .byte   pauseText

@@ -147,13 +147,13 @@ PreparePerLineEffect:
 
     ;ready second bg page
     ;2+3+4 = 9 cycles
-    lda #BANK::CHR1400
+    lda #BANK::CHR1000
     ora bankswitch_flags
     sta BANKSELECT
 
     ;start a loop of 9
     ;2 cycles
-    ldx #9
+    ldx #5*8
 
     ;2 cycles
     ldy #2
@@ -241,12 +241,12 @@ commands_irq:
 
     ;unload it
     ;2+4 cycles
-    lda current_banks+BANK::CHR1400
+    lda current_banks+3
     sta BANKDATA
 
     ;2 cycles
     ldy #15
-@wait:
+    @wait:
     ;(2*15) cycles
     dey
     ;(3*14)+2 cycles
@@ -257,13 +257,13 @@ commands_irq:
     ;(4 on 7th)
     cpx #7
     bne @useless_jump
-@useless_jump:
+    @useless_jump:
 
     ;5 cycles
     ;(4 on 4th)
     cpx #4
     bne @useless_jump2
-@useless_jump2:
+    @useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -294,11 +294,11 @@ cashbox_irq:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+BANK::CHR1400
+    lda current_banks+3
     sta BANKDATA
 
     ldy #4
-@wait1:
+    @wait1:
     dey
     bne @wait1
 
@@ -312,18 +312,18 @@ cashbox_irq:
     sta BANKDATA
 
     ldy #3
-@wait2:
+    @wait2:
     dey
     bne @wait2
 
     bit 0
 
     ;unload it??? lmao???
-    lda current_banks+BANK::CHR1400
+    lda current_banks+3
     sta BANKDATA
 
     ldy #2
-@wait3:
+    @wait3:
     dey
     bne @wait3
 
@@ -334,11 +334,11 @@ cashbox_irq:
 
     cpx #6
     bne @useless_jump
-@useless_jump:
+    @useless_jump:
 
     cpx #3
     bne @useless_jump2
-@useless_jump2:
+    @useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -352,24 +352,21 @@ eightwindow_irq:
     jsr PreparePerLineEffect
     jmp eightwindow_irq_jmp
 
-;dialogue irq
-;extends from 11 to -2
-dialogue_irq:
-    jsr PreparePerLineEffect
-    jmp dialogue_irq_jmp
+.endif
 
+.ifdef VER_JP
 ;shopitems irq
 shopitems_irq:
     jsr PreparePerLineEffect
 
-@loop:
+    @loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #7
-@wait:
+    @wait:
     dey
     bne @wait
 
@@ -379,11 +376,11 @@ shopitems_irq:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+BANK::CHR1400
+    lda current_banks+3
     sta BANKDATA
 
     ldy #8
-@wait2:
+    @wait2:
     dey
     bne @wait2
 
@@ -391,11 +388,11 @@ shopitems_irq:
 
     cpx #6
     bne @useless_jump
-@useless_jump:
+    @useless_jump:
 
     cpx #3
     bne @useless_jump2
-@useless_jump2:
+    @useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -408,25 +405,25 @@ shopitems_irq:
 ;extends from tile 2 to -2
 longwindow_irq:
     jsr PreparePerLineEffect
-@loop:
+    @loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #13
-@wait1:
+    @wait1:
     dey
     bne @wait1
 
     bit UNK_0
 
     ;unload it??? lmao???
-    lda current_banks+BANK::CHR1400
+    lda current_banks+3
     sta BANKDATA
 
     ldy #2
-@wait2:
+    @wait2:
     dey
     bne @wait2
 
@@ -437,11 +434,11 @@ longwindow_irq:
 
     cpx #6
     bne @useless_jump
-@useless_jump:
+    @useless_jump:
 
     cpx #3
     bne @useless_jump2
-@useless_jump2:
+    @useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -529,13 +526,13 @@ eightwindow_irq_jmp:
     nop
     nop
     bit 0
-@loop:
+    @loop:
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #10
-@wait1:
+    @wait1:
     dey
     bne @wait1
 
@@ -545,11 +542,11 @@ eightwindow_irq_jmp:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+BANK::CHR1400
+    lda current_banks+3
     sta BANKDATA
 
     ldy #5
-@wait2:
+    @wait2:
     dey
     bne @wait2
 
@@ -558,57 +555,11 @@ eightwindow_irq_jmp:
 
     cpx #6
     bne @useless_jump
-@useless_jump:
+    @useless_jump:
 
     cpx #3
     bne @useless_jump2
-@useless_jump2:
-
-    ;x--
-    ;if x > 0, loop
-    dex
-    bne @loop
-
-    rts
-
-dialogue_irq_jmp:
-    ldy #3
-@wait1:
-    dey
-    bne @wait1
-
-    nop
-    nop
-
-@loop:
-    ;load the second quarter of ui_gfx
-    lda #$7D
-    sta BANKDATA
-
-    ldy #9
-@wait2:
-    dey
-    bne @wait2
-
-    ;unload it??? lmao???
-    lda current_banks+BANK::CHR1400
-    sta BANKDATA
-
-    ldy #7
-@wait3:
-    dey
-    bne @wait3
-
-    nop
-    nop
-
-    cpx #6
-    bne @useless_jump
-@useless_jump:
-
-    cpx #3
-    bne @useless_jump2
-@useless_jump2:
+    @useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -617,6 +568,60 @@ dialogue_irq_jmp:
 
     rts
 .endif
+
+;dialogue irq
+;extends from 11 to -2
+dialogue_irq:
+    jsr PreparePerLineEffect
+    @loop:
+    ;load the second quarter of ui_gfx
+    lda chr_offset
+    sta BANKDATA
+
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+
+    ;unload it??? lmao???
+    lda current_banks+2
+    sta BANKDATA
+
+    lda #24
+    jsr delay_a_25_clocks
+
+
+    cpx #32
+    beq :+
+    nop
+    nop
+:
+
+    cpx #24
+    beq :+
+    nop
+    nop
+:
+    cpx #16
+    beq :+
+    nop
+    nop
+:
+
+    cpx #8
+    beq :+
+    nop
+    nop
+:
+
+    ;x--
+    ;if x > 0, loop
+    dex
+    bne @loop
+
+    rts
 
 ; MORE CODE!
 B30_026c:
@@ -1835,7 +1840,7 @@ B30_0723:
         lda nmi_queue+1, x
         sta char_count
         sta nmi_queue+1, y
-        lda #$a0
+        lda #' '
         sta nmi_queue+4, y
         clc
         lda nmi_queue+3, x
@@ -2368,8 +2373,18 @@ TILES_print_number:
     tay
     jmp (UNK_7C)
 
+;just write portrait data. dont do anything else
+;or else the cycle gods will smite you. save it for nmi
 TILES_t_nop:
     ldy UNK_7A
+    lda (tilepack_ptr), y
+    sta chr_offset
+    iny
+
+    lda (tilepack_ptr), y
+    sta chr_page
+    iny
+    sty UNK_7A
     jmp (UNK_7C)
 
 ; Calculate Nametable Address
@@ -2608,11 +2623,11 @@ GetTextData:
     bpl @L3CC2F
     inx
     inx
-@L3CC2F:
+    @L3CC2F:
     asl a
     bpl @L3CC33
     inx
-@L3CC33:
+    @L3CC33:
     lda text_id
     and #$1F
     ora #$80
@@ -2668,7 +2683,7 @@ GetTextRowPtr:
     pla
     jsr BANK_SWAP
 
-@B30_0ae1:
+    @B30_0ae1:
     jsr PpuSync
 
     lda #NMI_COMMANDS::PPU_READ_TEXT
@@ -2714,7 +2729,7 @@ GetTextRowPtr:
     sta text_id
     rts
 
-@B30_0b21:
+    @B30_0b21:
     sec
     lda text_id+1
     sbc #$10
@@ -2759,7 +2774,7 @@ PostInit:
     sta sram_mode
 
     ;fade out
-B30_0b57:
+    B30_0b57:
     jsr BANKSET_H13
     jsr OverworldTransitionIntepreter
 
@@ -2775,11 +2790,11 @@ B30_0b57:
     eor #%10000100
     sta UNK_d
 
-B30_0b70:
+    B30_0b70:
     jsr ClearSprites
     jsr STORE_COORDINATES
 
-B30_0b76:
+    B30_0b76:
     jsr B30_1e99
     jsr B31_0ef0
 
@@ -2798,11 +2813,17 @@ B30_0b76:
         and #%00001000
         beq @B30_0b8f
         lda #1
-    @B30_0b8f:
+        @B30_0b8f:
         sta UNK_1F
 
-    @B30_0b91:
+        @B30_0b91:
     .endif
+    ;lda $73ff
+    ;bne @force_run
+    ;lda #1
+    ;sta UNK_1F
+    ; @force_run:
+
     jsr PpuSync
 
     ;if fade_flag != 0, jump
@@ -2826,7 +2847,7 @@ B30_0b76:
     jsr B19_01c6
     bcc @B30_0beb
 
-@am_i_scripted:
+    @am_i_scripted:
 
     jsr BANKSET_H13
 
@@ -2884,7 +2905,7 @@ B30_0b76:
 
 @OpenCommands:
     jsr B19_0178
-@DoNormalFrame:
+    @DoNormalFrame:
 
     jsr BANKSET_H14
     jsr DoWalkingStep
@@ -2918,16 +2939,16 @@ B30_0b76:
     jsr B19_0b53
     lda fade_flag
     bne @whatever_case_this_is
-@isnt_scripted:
+    @isnt_scripted:
     jmp B30_0b70
 
-@whatever_case_this_is:
+    @whatever_case_this_is:
     jmp B30_0b5d
 
-@no_battle:
+    @no_battle:
     jmp B30_0b76
 
-@giegue_battle:
+    @giegue_battle:
     jsr BANKSET_H14
     jsr GiegueIntro
     jsr ENTERBATTLE
@@ -2945,7 +2966,7 @@ B30_0c2b:
 
     jsr B30_105e
     jsr B30_10b1
-@B30_0c3b:
+    @B30_0c3b:
     lda new_animation_timer
     bne @B30_0c3b
 
@@ -2967,7 +2988,7 @@ B30_0c2b:
     sta new_animation_timer
 
     bne @B30_0c83
-@B30_0c5d:
+    @B30_0c5d:
     jsr B30_105e
     jsr B30_10b1
     jsr B30_1232
@@ -2983,7 +3004,7 @@ B30_0c2b:
     cmp #$0f
     bcs @B30_0c83
 
-@B30_0c77:
+    @B30_0c77:
     lda new_animation_timer
     bne @B30_0c77
 
@@ -2991,7 +3012,7 @@ B30_0c2b:
     ror oam_and_300_clear_flag
     jsr B31_0065
     asl oam_and_300_clear_flag
-@B30_0c83:
+    @B30_0c83:
     lda UNK_A0
     lsr a
     bcc @B30_0c96
@@ -3003,11 +3024,11 @@ B30_0c2b:
     lda #$80
     sta new_animation_timer
 
-@B30_0c96:
+    @B30_0c96:
     bit UNK_A0
     bmi @B30_0c9c
     inc step_count
-@B30_0c9c:
+    @B30_0c9c:
     rts
 
 .ifndef VER_JP
@@ -3029,7 +3050,7 @@ GetButtonMode:
     rts
 
     ;prioritize b, then start
-@ButtonPriorityTable:
+    @ButtonPriorityTable:
     .byte 0 ; how
     .byte 1 ; PAD_START
     .byte 2 ; PAD_SELECT
@@ -3058,7 +3079,7 @@ PSITELEPORT_Crash:
 
     ;screenshake
     ldx #8
-@loop:
+    @loop:
     jsr DoHorizontalShake
     dex
     bne @loop
@@ -3090,7 +3111,7 @@ PSITELEPORT_START:
     jsr B30_0d9d
 
     ldx #5
-@B30_0cf0:
+    @B30_0cf0:
     jsr B30_0d8b
     ;if collision??
     lda UNK_A0
@@ -3108,7 +3129,7 @@ PSITELEPORT_START:
     cmp #$04
     beq @B30_0d0c
     stx autowalk_direction
-@B30_0d0c:
+    @B30_0d0c:
     ldx UNK_24+1
     inx
     cpx #$2d
@@ -3116,7 +3137,7 @@ PSITELEPORT_START:
 
     jsr PpuSync
     lda #4*.sizeof(SpriteObject)
-@B30_0d18:
+    @B30_0d18:
     tax
     asl SPRITE_OBJECTS+SpriteObject::x_vel, x
     asl SPRITE_OBJECTS+SpriteObject::y_vel, x
@@ -3124,7 +3145,7 @@ PSITELEPORT_START:
     sbc #.sizeof(SpriteObject)
     bne @B30_0d18
     lda #$0a
-@B30_0d26:
+    @B30_0d26:
     pha
     jsr B30_0c2b
     jsr PpuSync
@@ -3164,13 +3185,13 @@ PSITELEPORT_START:
     jsr STORE_COORDINATES
     jsr B30_0d9d
     ldx #$2c
-@B30_0d70:
+    @B30_0d70:
     jsr B30_0d8b
     ldx UNK_24+1
     dex
     dex
     bpl @B30_0d70
-B30_0d79:
+    B30_0d79:
     ldx #0
     stx autowalk_direction
     stx pad1_forced
@@ -3203,7 +3224,7 @@ B30_0daf:
     sta UNK_1F
     rts
 
-@TeleportSpeeds:
+    @TeleportSpeeds:
     .res 5, 0
     .res 5, 1
     .res 4, 2
@@ -3220,12 +3241,12 @@ B30_0de4:
     jsr PlayMusic
     lda #0
     sta pad1_forced
-@B30_0df1:
+    @B30_0df1:
     bit pad1_forced
     bvs @B30_0dfa
     lda current_music
     bne @B30_0df1
-@B30_0dfa:
+    @B30_0dfa:
     lda #0
     sta pad1_forced
     txa
@@ -3270,7 +3291,7 @@ B30_0e08:
     lda #0
     sta nmi_queue+4+64 ; END
     ldx #times ; Repeat this 32 times (for a total of $800 bytes)
-@loop:
+    @loop:
 
     lda #0
     sta nmi_data_offset
@@ -3283,7 +3304,7 @@ B30_0e08:
     jsr EnablePRGRam
 
     ldy #0
-@copy:
+    @copy:
     lda nmi_queue+4, y
     sta (UNK_60), y
     iny
@@ -3336,7 +3357,7 @@ B30_0e6d:
     lda #$10
     sta UNK_68
 
-@B30_0e81:
+    @B30_0e81:
     lda UNK_60
     ldx UNK_60+1
 
@@ -3418,12 +3439,12 @@ BankswitchCHRFromTable:
     ldx #5 ;stored for the bank index
     ldy #5 ;stored for the iterator
 
-@loop:
+    @loop:
     ;get chr page
     lda (UNK_60), y
     beq @zeroed_page
     jsr BANK_SWAP
-@zeroed_page:
+    @zeroed_page:
 
     ;if x and y < 0, break
     dex
@@ -3467,7 +3488,7 @@ GetScreenMapData:
     jsr PpuSync
 
     ldy #$f
-@add_palette_to_queue:
+    @add_palette_to_queue:
     lda (map_tmp_ptr), y
     bpl @is_positive
     ;fix???
@@ -3476,7 +3497,7 @@ GetScreenMapData:
     ;this doesnt even work half the time...
     ;youd think this would be for map metadata,,, guess not
     jsr GetMetaSaveA
-@is_positive:
+    @is_positive:
     ;put byte into palette queue (relative)
     sta palette_queue, y
     ;y--, loop if y > 0
@@ -3485,7 +3506,7 @@ GetScreenMapData:
 
     ;standard copy the sprite palette
     ldy #$f
-@copy_sprite_palette:
+    @copy_sprite_palette:
     lda Field_Sprite_Palette, y
     sta palette_queue+$10, y
     dey
@@ -3527,7 +3548,7 @@ GetScreenMapData:
     ;UNK_9B = $10
     lda #$10
     sta UNK_9B
-@loop:
+    @loop:
     sec
 
     ;UNK_AA = (player_x & 0xFFC0) - $40
@@ -3561,7 +3582,7 @@ GetScreenMapData:
 
     jmp @loop
 
-@B30_0f92:
+    @B30_0f92:
     jsr B30_109e
     ldy #0
     sty UNK_1c+1
@@ -3613,7 +3634,7 @@ STORE_COORDINATES:
 
     lda #$f
     sta UNK_9B
-@draw_loop:
+    @draw_loop:
 
     clc
 
@@ -3624,7 +3645,7 @@ STORE_COORDINATES:
     bcs @skip
     ;UNK_98+1 += $F0
     adc #$f0
-@skip:
+    @skip:
     sta UNK_98+1
 
     ;UNK_AA = player_x & 0xffc0
@@ -3643,7 +3664,7 @@ STORE_COORDINATES:
     bne @no_load
     ;a = @B30_104f-1[x]
     lda @B30_104f-1, x
-@no_load:
+    @no_load:
     sta UNK_90+3
 
     jsr PpuSync
@@ -3683,7 +3704,7 @@ STORE_COORDINATES:
 
     jmp @draw_loop
 
-@break:
+    @break:
     jsr PpuSync
 
     jsr SwapPatternTables
@@ -3710,7 +3731,7 @@ STORE_COORDINATES:
 
     rts
 
-@B30_104f:
+    @B30_104f:
     .byte $f0, $10
     .byte $10, $10
     .byte $10, $10
@@ -3752,15 +3773,15 @@ B30_105e:
     adc #$20
     bcc @B30_109a
     bcs @B30_109c
-@B30_1094:
+    @B30_1094:
     lda UNK_1c+1
     adc #$f0
     bcs @B30_109c
-@B30_109a:
+    @B30_109a:
     adc #$f0
-@B30_109c:
+    @B30_109c:
     sta UNK_1c+1
-B30_109e:
+    B30_109e:
     lda player_x+1
     and #%00000111
     sta UNK_1c+2
@@ -3771,7 +3792,7 @@ B30_109e:
     lsr UNK_1c+2
     ror a
     sta UNK_1c
-B30_10b0:
+    B30_10b0:
     rts
 
 B30_10b1:
@@ -3782,7 +3803,7 @@ B30_10b1:
     lda UNK_A0
     lsr a
     bcs B30_10c1
-@B30_10c0:
+    @B30_10c0:
     rts
 
 B30_10c1:
@@ -3825,7 +3846,7 @@ B30_10fd:
 
 B30_111d:
     jsr B30_155d ;setup ram a's??????
-Draw_NewChunk:
+    Draw_NewChunk:
     jsr GetCurrentSector
 
     ;get palette
@@ -3838,7 +3859,7 @@ Draw_NewChunk:
     lda map_meta_nullchunk
     jmp @is_null_chunk
 
-@palettes_match:
+    @palettes_match:
     ;get relevant map bank to $8000
     lda UNK_94
     ldx #BANK::PRG8000
@@ -3863,8 +3884,8 @@ Draw_NewChunk:
     ;else, return chunk id of save_ram[chunk_id]
     ;MAP EVENT
     jsr GetMetaSaveA
-@skip_map_event:
-@is_null_chunk:
+    @skip_map_event:
+    @is_null_chunk:
     ;store chunk_probably in x
     tax
 
@@ -3885,7 +3906,7 @@ Draw_NewChunk:
     ;load tileset 2
     lda map_tileset_2_lobits
     .byte $2c ; BIT trick
-@is_zero:
+    @is_zero:
     ;load tileset 1
     lda map_tileset_1_lobits
 
@@ -3928,7 +3949,7 @@ Draw_NewChunk:
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
-Draw_CurrentChunk:
+    Draw_CurrentChunk:
     ;x, y = ((UNK_AA >> 2) | UNK_AC) >> 4
     lda UNK_AA
     lsr a
@@ -4028,7 +4049,7 @@ Draw_CurrentChunk:
 
     jmp Draw_NewChunk
 
-@B30_11f9:
+    @B30_11f9:
     ;on scroll?
     ldx UNK_AE+1
     beq @exit
@@ -4057,11 +4078,11 @@ Draw_CurrentChunk:
     sta UNK_AC+1
 
     jmp Draw_NewChunk
-@skiptocurrentchunk:
+    @skiptocurrentchunk:
     jmp Draw_CurrentChunk
-@skiptonewchunk:
+    @skiptonewchunk:
     jmp Draw_NewChunk
-@exit:
+    @exit:
     rts
 
 B30_121c:
@@ -4076,7 +4097,7 @@ B30_121c:
     tax
     lda B30_1284+7, x
     bpl B30_123f
-B30_122f:
+    B30_122f:
     ldx #0
     rts
 
@@ -4089,7 +4110,7 @@ B30_1232:
     asl a
     asl a
     asl a
-B30_123f:
+    B30_123f:
     tax
     clc
     lda player_x
@@ -4112,7 +4133,7 @@ B30_123f:
     adc UNK_1c+1
     bcs @B30_126c
     adc #$f0
-@B30_126c:
+    @B30_126c:
     sta UNK_98+1
     lda B30_1284+6, x
     bmi @B30_1281
@@ -4120,10 +4141,10 @@ B30_123f:
     and #%00010000
     bne @B30_127c
     lda B30_1284+5, x
-@B30_127c:
+    @B30_127c:
     sta UNK_90+3
     jmp B30_12c4
-@B30_1281:
+    @B30_1281:
     jmp B30_1398
 
 B30_1284:
@@ -4144,7 +4165,7 @@ B30_12c4:
     sta UNK_90+1
 
     ldx #0
-@B30_12cd:
+    @B30_12cd:
     ;[05 (UNK_90+1 << 1) UNK_8C bytes]
     lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue, x
@@ -4168,7 +4189,7 @@ B30_12c4:
     sta nmi_queue+$2a, x
 
     inx
-@B30_12f4:
+    @B30_12f4:
     ;setup map_tmp_ptr
     jsr B30_1537
 
@@ -4245,7 +4266,7 @@ B30_12c4:
 
     jmp @B30_12cd
 
-@B30_1355:
+    @B30_1355:
 
     ;UNK_90+1 = 9
     lda #9
@@ -4263,7 +4284,7 @@ B30_12c4:
     sta nmi_queue, x
 
     inx
-@whatever_this_is:
+    @whatever_this_is:
     jsr B30_1480
 
     dec UNK_90+1
@@ -4306,7 +4327,7 @@ B30_12c4:
 
     jmp @whatever_this_is
 
-@exit:
+    @exit:
     rts
 
 B30_1398:
@@ -4342,7 +4363,7 @@ B30_1398:
     inx
     lda $99
     sta UNK_8C
-@B30_13da:
+    @B30_13da:
     lda UNK_8C
     sec
     sbc #$10
@@ -4351,7 +4372,7 @@ B30_1398:
     lda UNK_A1
     adc #$10
     sta UNK_A1
-@B30_13e9:
+    @B30_13e9:
     jsr B30_1537
 
     ldy #0
@@ -4388,7 +4409,7 @@ B30_1398:
     sta UNK_A1
     jmp @B30_13da
 
-@B30_1425:
+    @B30_1425:
     lda #8
     sta UNK_90+1
     ldx #$44
@@ -4414,12 +4435,12 @@ B30_1398:
     lda #$10
     sta UNK_90+3
     bne @B30_145c
-@B30_1455:
+    @B30_1455:
     lda #$10
     sta UNK_90+3
-@B30_1459:
+    @B30_1459:
     jsr B30_1480
-@B30_145c:
+    @B30_145c:
     dec UNK_90+1
     beq @B30_147e
     clc
@@ -4438,7 +4459,7 @@ B30_1398:
     sbc #$10
     sta UNK_90+2
     jmp @B30_1459
-@B30_147e:
+    @B30_147e:
     rts
 
 B30_147f:
@@ -5800,6 +5821,7 @@ DoLevelUp:
     lda #$84                        ; "HP went up [Num]!"
     jsr TryPrintPointsIncrease
     lda UNK_28
+    ;if char id >= 3, skip pp
     cmp #3
     bcs @B30_1c0f
     ldy #$f
@@ -10709,13 +10731,18 @@ NmiHandler:
     bpl @do_nmi
     rti
 
-@do_nmi:
+    @do_nmi:
     ;store all registers
     pha
     txa
     pha
     tya
     pha
+
+    lda #.BANK(TryPortrait)
+    ldx #.LOBYTE(TryPortrait-1)
+    ldy #.HIBYTE(TryPortrait-1)
+    jsr TempUpperBankswitch
 
     ;Copy in OAM using OAMDMA
     ldx #0
@@ -12310,6 +12337,30 @@ TickDadCallTimer:
     ; fallthrough
 @exit:
     rts
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+; Delays A clocks + overhead
+; Clobbers A. Preserves X,Y.
+; Time: A+25 clocks (including JSR)
+;;;;;;;;;;;;;;;;;;;;;;;;
+                  ;       Cycles              Accumulator         Carry flag
+                  ; 0  1  2  3  4  5  6          (hex)           0 1 2 3 4 5 6
+                  ;
+                  ; 6  6  6  6  6  6  6   00 01 02 03 04 05 06
+:      sbc #7     ; carry set by CMP
+delay_a_25_clocks:
+       cmp #7     ; 2  2  2  2  2  2  2   00 01 02 03 04 05 06   0 0 0 0 0 0 0
+       bcs :-     ; 2  2  2  2  2  2  2   00 01 02 03 04 05 06   0 0 0 0 0 0 0
+       lsr        ; 2  2  2  2  2  2  2   00 00 01 01 02 02 03   0 1 0 1 0 1 0
+       bcs *+2    ; 2  3  2  3  2  3  2   00 00 01 01 02 02 03   0 1 0 1 0 1 0
+       beq :+     ; 3  3  2  2  2  2  2   00 00 01 01 02 02 03   0 1 0 1 0 1 0
+       lsr        ;       2  2  2  2  2         00 00 01 01 01       1 1 0 0 1
+       beq @rts   ;       3  3  2  2  2         00 00 01 01 01       1 1 0 0 1
+       bcc @rts   ;             3  3  2               01 01 01           0 0 1
+:      bne @rts   ; 2  2              3   00 00             01   0 1         0
+@rts:  rts        ; 6  6  6  6  6  6  6   00 00 00 00 01 01 01   0 1 1 1 0 0 1
+; Total cycles:    25 26 27 28 29 30 31
 
 .segment "VECTORS"
 

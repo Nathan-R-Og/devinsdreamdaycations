@@ -71,7 +71,6 @@
 
 .include "us_chr.asm"
 
-.segment "CHR1C": absolute
 .segment "CHR1D": absolute
 .segment "CHR1E": absolute
 .segment "CHR1F": absolute

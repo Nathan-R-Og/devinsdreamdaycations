@@ -7,4 +7,6 @@
 
 .segment        "CHR1B": absolute
     ;the EARTH BOUND logo
-    .incbin "../../split/us/chr/earth_bound_gfx.bin"
+    .incbin "../../edit/title_gfx.bin"
+.segment "CHR1C": absolute
+    .incbin "../../edit/portraits.bin"

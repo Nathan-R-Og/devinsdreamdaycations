@@ -6,19 +6,11 @@
 .segment        "PRG14": absolute
 
 Map_TileProperties:
-    .ifdef VER_JP
-        .incbin "../../split/jp/map_tile_properties.bin"
-    .else
-        .incbin "../../split/us/map_tile_properties.bin"
-    .endif
+    .incbin "../../edit/map_tile_properties.bin"
 ;overworld palettes + map exclusive data
 ;1st and 3rd byte of last palette of each set contains map data
 Map_Palettes:
-    .ifdef VER_JP
-        .incbin "../../split/jp/map_palettes.bin"
-    .else
-        .incbin "../../split/us/map_palettes.bin"
-    .endif
+    .incbin "../../edit/map_palettes.bin"
 
 ;format seems to be $10 per area, though why they sometimes pad with
 ;the same groups is questionable
@@ -2819,17 +2811,7 @@ Title_Screen:
     @escape:
     ldx #0
     stx pad1_forced
-    .ifdef VER_JP
-        jmp OT0_DefaultTransition
-    .else
-        ;do antipiracy check
-        jsr OT0_DefaultTransition
-        lda #.BANK(TITLE_ANTI_PIRACY)
-        ldx #.LOBYTE(TITLE_ANTI_PIRACY-1)
-        ldy #.HIBYTE(TITLE_ANTI_PIRACY-1)
-        jsr TempUpperBankswitch
-        rts
-    .endif
+    jmp OT0_DefaultTransition
 
 
 ;B20_1e2c
@@ -2889,12 +2871,10 @@ AdvanceIfPressStart:
 Title_CHR_Old:
     .byte $42, $72, $7c, $7c, $40, $41
 
-.ifndef VER_JP
 ; $9E69 - CHR bankswitch table
 ; spinning earth - evemisc - bold_font - rTospinning earth - earthbound1 - earthbound2
 Title_CHR:
-    .byte $42, $72, $7c, $41, $d8, $d9
-.endif
+    .byte $42, $72, $7c, $41, $d8, $7c
 
 ; $9E6F
 Title_Palette_Old:
@@ -2909,9 +2889,8 @@ Title_Palette_Old:
     .byte $0f, $21, $30, $12
 
 ; $9E8F
-.ifndef VER_JP
 Title_Palette:
-    .byte $0f, $21, $30, $16
+    .byte $0f, $16, $2C, $24
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
@@ -2920,7 +2899,6 @@ Title_Palette:
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12
-.endif
 
 
 ; $9EAF (transfered to nmi_queue)
@@ -2946,145 +2924,98 @@ B20_1EB5:
     .byte %00000001 ; with $01
     .byte 0
 
-.ifdef VER_JP
-; $9EC4 - Nintendo produce
-produced_by_tiles:
-    ;Nintendo
-    .byte set_pos 13, 11
-    .byte $E3,$E4,$E5,$E6,$E7,$E8
-    .byte newLine
 
-    ;line
-    .byte set_pos 13, 13
-    .byte repeatTile $CC, 19
-    .byte newLine
-
-    ;produce
-    .byte set_pos 13, 15
-    .byte $C8,$C9,$CA,$CB
-    .byte newLine
-    ;tail of p
-    .byte set_pos 13, 16
-    .byte $D8
-    .byte stopText
-
-; $9EEA - SHIGESATO ITOI presents
-presented_by_tiles:
-    ;SHIGESATO ITOI
-    .byte set_pos 8, 11
-    .byte $F3,$F4,$F5,$F6,$F7,$F8,$F9,$FA,$FB,$FC,$FD,$FE,$FF
-    .byte newLine
-
-    ;line
-    .byte set_pos 0, 13
-    .byte repeatTile $CC, 21
-    .byte newLine
-
-    ;presents
-    .byte set_pos 16, 15
-    .byte $D9,$DA,$DB,$DC,$DD
-    .byte newLine
-    ;tail of p
-    .byte set_pos 16, 16
-    .byte $D8
-    .byte stopText
-
-; $9F18 - title screen
-title_screen_tiles:
-    ;MOTHER logo
-    .byte set_pos 7, 9
-    .byte $82,$83,$84,$85,$86,$87,$88,$89,$8A,$8B,$8C,$8D,$8E,$8F,$C0,$C1,$C2,$90,$91,$01,$92,$93,$94,$95,$96,$97,$98,$99,$9A,$9B,$9C,$9D,$9E,$9F,$D0,$D1,$D2
-    .byte newLine
-    .byte $A2,$A3,$A4,$A5,$A6,$A7,$A8,$A9,$AA,$AB,$AC,$AD,$AE,$AF,$E0,$E1,$E2
-    .byte newLine
-    .byte $B2,$B3,$B4,$B5,$B6,$B7,$B8,$B9,$BA,$BB,$BC,$BD,$BE,$BF,$F0,$F1,$F2
-    .byte newLine
-
-    ;c 1989
-    ;SHIGESATO ITOI
-    ;NINTENDO
-    .byte set_pos 7, 22
-    .byte $C3,$C4,$C5,$C6
-    .byte newLine
-    .byte $E9,$EA,$EB,$EC,$ED,$EE,$EF
-    .byte newLine
-    .byte $D3,$D4,$D5,$D6,$D7
-    .byte stopText
-
-.else
 ; $9EC4 - produced by Nintendo
 produced_by_tiles:
     ;produced by
-    .byte set_pos 13, 11
-    .byte $C8,$C9,$CA,$CB,$CD,$CE,$CF
-    .byte 1
+    .byte set_pos 12, 8
+    .byte $C8,$C9,$CA,$CB,$CD,$7f,$CE,$CF
     ;tail of p
-    .byte set_pos 13, 12
+    .byte 1
     .byte $D8
-    .byte 1
     ;tail of y
-    .byte set_pos 19, 12
+    .byte set_pos 19, 9
     .byte $DF
-    .byte 1
 
     ;line
-    .byte set_pos 13, 13
+    .byte set_pos 12, 10
     .byte repeatTile $CC, 19
-    .byte 1
 
     ;Nintendo
-    .byte set_pos 13, 15
+    .byte 1,1
     .byte $E3,$E4,$E5,$E6,$E7,$E8
+
+    ;presented by
+    .byte set_pos 12, 15
+    .byte $D9,$DA,$DB,$DC,$DD,$DE,$CE,$CF
+    ;tail of p
+    .byte 1
+    .byte $D8
+    ;tail of y
+    .byte set_pos 19, 16
+    .byte $DF
+
+    ;line
+    .byte set_pos 0, 17
+    .byte repeatTile $CC, 21
+
+    ;SHIGESATO ITOI
+    .byte set_pos 7, 19
+    .byte $F3,$F4,$F5,$F6,$F7,$F8,$F9,$FA,$FB,$FC,$FD,$FE,$FF
     .byte 0
 
 ; $9EEA - presented by SHIGESATO ITOI
 presented_by_tiles:
-    ;presented by
-    .byte set_pos 13, 11
-    .byte $D9,$DA,$DB,$DC,$DD,$DE,$CE,$CF
-    .byte 1
-    ;tail of p
-    .byte set_pos 13, 12
-    .byte $D8
-    .byte 1
-    ;tail of y
-    .byte set_pos 20, 12
-    .byte $DF
-    .byte 1
+    ;hacked by
+    .byte set_pos 12, 8
+    .byte $f2,$8c,$9b,$cd,$8d,$ce,$cf
+
+    ;tail
+    .byte set_pos 18, 9
+    .byte $df
 
     ;line
-    .byte set_pos 0, 13
-    .byte repeatTile $CC, 21
-    .byte 1
+    .byte set_pos 0, 10
+    .byte repeatTile $CC, 20
 
-    ;SHIGESATO ITOI
-    .byte set_pos 8, 15
-    .byte $F3,$F4,$F5,$F6,$F7,$F8,$F9,$FA,$FB,$FC,$FD,$FE,$FF
+    ;nathan r
+    .byte set_pos 7, 12
+    .byte $9f,$86,$87,$88,$86,$9f,$89,$8a
+
+
+    ;in association with
+    .byte set_pos 12, 15
+    .byte $90,$91,$92,$c9,$93,$94,$95,$96,$97,$98,$99
+
+    ;line
+    .byte 1, 1
+    .byte repeatTile $CC, 20
+
+    ;pk hack
+    .byte 1,1
+    .byte $9a,$ab,$ac,$ad
+    .byte set_pos 11, 20
+    .byte $ae,$af,$bb,$a6,$a7,$a8,$a9,$aa,$b0,$b1,$b2,$b3,$b4
+    .byte 1
+    .byte $b5,$b6,$b7,$b8,$b9,$ba,$c0,$c1,$c2,$d0,$d1,$d2,$e0
+    .byte 1
+    .byte $e1,$e2,$f0,$f1
     .byte 0
 
 ; $9F18 - title screen
 title_screen_tiles:
     ;EARTHBOUND logo
-    .byte set_pos 8, 7
-    .byte $90,$91,$92,$93,$94,$95,$96,$97,$98,$99,$9A,$9B,$9C
-    .byte 1
-    .byte $A0,$A1,$A2,$A3,$A4,$A5,$A6,$A7,$A8,$A9,$AA,$AB,$AC
-    .byte 1
-    .byte $B0,$B1,$B2,$B3,$B4,$B5,$B6,$B7,$B8,$B9,$BA,$BB,$BC,$BD,$BE,$BF
-    .byte 1
-    .byte $C0,$C1,$C2,$C3,$C4,$C5,$C6,$C7,$C8,$C9,$CA,$CB,$CC,$CD,$CE,$CF
-    .byte 1
-    .byte $D0,$D1,$D2,$D3,$D4,$D5,$D6,$D7,$D8,$D9,$DA,$DB,$DC,$DD,$DE
-    .byte 1
-    .byte $E0,$E1,$E2,$E3,$E4,$E5,$E6,$E7,$E8,$E9,$EA,$EB,$EC,$ED,$EE
-    .byte 1
-    .byte $F0,$F1,$F2,$F3,$F4,$F5,$F6,$F7,$F8,$F9,$FA,$FB,$FC,$FD,$FE
-    .byte 1
+    .byte set_pos 8, 8
+    .byte $81,$82,$83,$83,$83,$3F,$84,$85,$86,$87,$88,$89,$8A,$8A,$8A,newLine
+    .byte $8B,$8B,$8C,$8B,$8B,$3F,$8D,$8E,$8F,$90,repeatTile $91, 5,newLine
+    .byte $92,$93,$94,$95,$8b,$3F,$96,$97,$3F,$96,$98,$99,$91,$91,$91,newLine
+    .byte $8B,$8B,$8B,$9A,$8B,$3F,$9B,$9C,$9D,$9B,repeatTile $91, 5,newLine
+    .byte repeatTile $8B, 5,  $3F,$9E,$9F,$A0,$9E,repeatTile $91, 5,newLine
+    .byte repeatTile $A1, 5,  $3F,$A2,$3F,$3F,$A2,$A3,$A3,$A4,$A5,$A6,$A7
 
     ;c 1989/1990
     ;SHIGESATO ITOI / NINTENDO
     .byte set_pos 7, 23
-    .byte $43,$44,$45,$46,$47,$70
+    .byte $43,$44,$45,$46,$47,$A8
     .byte $69,$6A,$6B,$6C,$6D,$6E,$6F,$53,$54,$55,$56,$57
     .byte 0
-.endif

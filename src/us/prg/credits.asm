@@ -272,10 +272,10 @@ credits_cmd_load_tilesets:
 
 credits_cmd_set_metatileprops:
     lda #8
-    bne unconditional_funny
+    bne unconditional_funny2
     credits_cmd_load_bg2map:
     lda #$20
-    unconditional_funny:
+    unconditional_funny2:
     sta UNK_43
     jsr PpuSync
 

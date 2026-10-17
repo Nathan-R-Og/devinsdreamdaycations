@@ -1,11 +1,5 @@
 .segment        "CHR8": absolute
-    ;title screen gfx
-    ;some things were reformatted in the localization
-    .ifdef VER_JP
-        .incbin "../../split/jp/chr/title.bin"
-    .else
-        .incbin "../../split/us/chr/title.bin"
-    .endif
+    .incbin "../../edit/presents_gfx_bin.bin"
 
     ;the only REAL thing that's shared
     ;the globe that spins

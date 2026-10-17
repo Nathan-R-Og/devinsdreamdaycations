@@ -1,302 +1,5 @@
 .segment        "ANTIPIRACY": absolute
 
-;anti-piracy
-;this is ran before transitioning to the save select
-TITLE_ANTI_PIRACY:
-    ;if scroll_y != 0, jump
-    lda scroll_y
-    cmp #0
-    bne @fail
-
-    ;if scroll_x != 0, jump
-    lda scroll_x
-    cmp #0
-    bne @fail
-
-    ;if ram_PPUCTRL != %10001000, jump
-    lda ram_PPUCTRL
-    cmp #%10001000
-    bne @fail
-
-    jsr PpuSync
-
-    ;add nmi queue
-    ;PPU_READ $12 ($2307)
-    lda #NMI_COMMANDS::PPU_READ
-    ldx #$12
-    sta nmi_queue ; PPU_READ
-    stx nmi_queue+1 ; Read $12 values
-    lda #.LOBYTE($2307) ; PPUADDR = $2307
-    ldx #.HIBYTE($2307)
-    stx nmi_queue+2
-    sta nmi_queue+3
-
-    lda #0
-    sta nmi_queue+$16
-
-    ;nmi_data_offset = 0
-    sta nmi_data_offset
-    ;new_animation_timer = 0x80
-    lda #$80
-    sta new_animation_timer
-
-    ;wait for NMI to complete
-    jsr PpuSync
-
-    ;check if nmi_queue[4:$16] == nmi_check_1
-    ;;;this quite literally checks if the
-    ;;;copyright text at the bottom of the title screen
-    ;;;was altered :)
-    ldx #0
-    @check_nmi_queue:
-    lda nmi_queue+4, x
-    cmp nmi_check_1, x
-    bne @fail
-    inx
-    cpx #nmi_check_1_END-nmi_check_1
-    bcc @check_nmi_queue
-
-    ;modify previous nmi command
-    ;[09 10 ($2307)]
-    lda #$10
-    sta nmi_queue+1
-    ;insert end
-    lda #0
-    sta nmi_queue+$14
-
-    ;UNK_60 <- B25_00d8
-    lda #.LOBYTE(nmi_check_2)
-    sta UNK_60
-    lda #.HIBYTE(nmi_check_2)
-    sta UNK_60+1
-
-    ;if not passed, jump
-    lda #$430 >> 4
-    ldx #($480 - $430) >> 4
-    jsr @checkppu
-    bne @fail
-
-    ;if not passed, jump
-    lda #$690 >> 4
-    ldx #($710 - $690) >> 4
-    jsr @checkppu
-    bne @fail
-
-    ;if not passed, jump
-    lda #$530 >> 4
-    ldx #($580 - $530) >> 4
-    jsr @checkppu
-    bne @fail
-
-    ;all checks passed. congratular
-    rts
-
-
-    ;check has failed.
-    ;piracy flag???
-    @fail:
-    lda #$e5
-    sta UNK_6
-    rts
-
-    ;ppu check
-    ;a == ppu addr >> 4
-    ;x == addr length >> 4
-    ;returns zero flag (z) if safe.
-    ;returns !zero flag (z) if pirated(?)
-    @checkppu:
-    ; nmi_queue[2:3] = a << 4
-    pha
-    asl a
-    asl a
-    asl a
-    asl a
-    sta nmi_queue+3
-    pla
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-    sta nmi_queue+2
-
-    ;this loop is ran per x
-    @loop:
-    ;nmi_data_offset = 0
-    lda #0
-    sta nmi_data_offset
-    ;new_animation_timer = 0x80
-    lda #$80
-    sta new_animation_timer
-
-    jsr PpuSync
-
-    ;verify NMI queue
-    ldy #0
-    @check:
-    lda nmi_queue+4, y
-    cmp (UNK_60), y
-    ;return zero flag off
-    bne @exit
-    iny
-    ;tile size ($10 bytes per tile)
-    cpy #$10
-    bcc @check
-
-    ;clear carry
-    clc
-
-    ;UNK_60 += $10
-    ;could be a tya? probably?
-    lda #$10
-    adc UNK_60
-    sta UNK_60
-    lda #0
-    adc UNK_60+1
-    sta UNK_60+1
-
-    dex
-
-    ;exit if x == 0
-    beq @exit
-
-    clc
-
-    ;shift nmi forward to read more bytes
-    ; nmi_queue[2:3] += $10
-    lda #$10
-    adc nmi_queue+3
-    sta nmi_queue+3
-    lda #0
-    adc nmi_queue+2
-    sta nmi_queue+2
-
-    ;if nmi_queue[2:3] overflow, exit
-    ;else, loop
-
-    bcc @loop
-    @exit:
-    rts
-
-;this is taken straight from title.asm
-    ;c 1989/1990
-    ;SHIGESATO ITOI / NINTENDO
-nmi_check_1:
-    .byte $43,$44,$45,$46,$47,$70
-    .byte $69,$6A,$6B,$6C,$6D,$6E,$6F,$53,$54,$55,$56,$57
-nmi_check_1_END:
-
-;the same tiles as ^, just as the actual 2bpp
-nmi_check_2:
-    .incbin "../../split/us/nmi_check_2.bin"
-nmi_check_2_END:
-
-
-;this is checked every time the 'warp to magicant' transition happens
-;namely the onyx hook, shells and gravestone
-ShowAntipiracy:
-    ;fade to black
-    jsr OT0_DefaultTransition
-
-    ;clear everything
-    jsr Refresh_SpriteObjects
-    jsr ClearSprites
-    jsr ClearTilemaps
-
-    ShowAntipiracy_noclear_useless:
-    jsr PpuSync
-
-    ;irq_count = 0
-    ;scroll_x = 0
-    ;scroll_y = 0
-    lda #0
-    sta irq_count
-    sta scroll_x
-    sta scroll_y
-
-    ;stop music
-    lda #$ff
-    jsr PlayMusic
-
-    ShowAntipiracy_nomute_useless:
-    ;swap chr
-    lda #$7e
-    ldx #BANK::CHR1800
-    jsr BANK_SWAP
-    lda #$7f
-    ldx #BANK::CHR1C00
-    jsr BANK_SWAP
-
-    ;load antipiracy message
-    lda #.LOBYTE(UMSG::ANTIPIRACY)
-    sta UNK_73+1
-    lda #.HIBYTE(UMSG::ANTIPIRACY)
-    sta UNK_73
-
-    ;ntbl_x = 2
-    lda #2
-    sta ntbl_x
-    ;ntbl_y = 2
-    lda #2
-    sta ntbl_y
-
-    ;could be
-    ;lda #2
-    ;sta ntbl_x
-    ;sta ntbl_y
-
-    ;UNK_70 = 0
-    ;UNK_71 = 0
-    lda #0
-    sta UNK_70
-    sta UNK_71
-
-    ;load the text manually
-    @B25_0238:
-    jsr GetTextData
-    jsr DrawTilepackClear
-
-    cmp #0
-    beq @B25_024a
-    ldy #0
-    lda (tilepack_ptr), y
-    cmp #0
-    bne @B25_0238
-
-    @B25_024a:
-    jsr PpuSync
-
-    ;load generic palette
-    ldx #$1f
-    @B25_024f:
-    lda ANTIPIRACY_PALETTE, x
-    sta palette_queue, x
-    dex
-    bpl @B25_024f
-
-    lda #NMI_COMMANDS::UPDATE_PALETTE
-    sta nmi_queue ; UPDATE_PALETTE
-
-    lda #0
-    sta nmi_queue+1 ; END
-    sta nmi_data_offset
-
-    lda #$80
-    sta new_animation_timer
-
-    @inf_loop:
-    jmp @inf_loop
-
-ANTIPIRACY_PALETTE:
-    .byte $0f, $00, $30, $10
-    .byte $0f, $00, $30, $10
-    .byte $0f, $00, $30, $10
-    .byte $0f, $00, $30, $10
-
-    .byte $0f, $0f, $00, $30
-    .byte $0f, $0f, $16, $37
-    .byte $0f, $0f, $24, $37
-    .byte $0f, $0f, $12, $37
-
 ;$A28B
 ;loads naming_screen_1
 LoadNamingScreen1:
@@ -658,123 +361,9 @@ SetupMenu_Choices:
 SetupMenu_MessageSpeeds:
     .byte $41, $31, $21, $11, $01
 
-.define UNK_61 UNK_60+1
-.define checksum UNK_61
-ValidateBanks:
-    lda current_banks+6
-
-    pha
-
-    ldx #0
-    @bank_loop:
-    stx UNK_60
-
-    ;get bank number
-    lda Bank_Checksum, x
-    ;if msb, exit
-    bmi @exit
-
-    ;swap to bank in $8000
-    ldx #BANK::PRG8000
-    jsr BANK_SWAP
-
-    ;UNK_64 = $8000
-    lda #.LOBYTE($8000)
-    ldx #.HIBYTE($8000)
-    sta UNK_64
-    stx UNK_64+1
-
-
-    lda #0
-    sta checksum
-    sta checksum+1
-
-    ;loop over $2000 bytes :)
-    ldx #$20
-    @word_loop:
-    ldy #0
-    @byte_loop:
-    clc
-
-    ;get rom byte
-    ;checksum += byte
-    lda (UNK_64), y
-    adc checksum
-    sta checksum
-    lda #0
-    adc checksum+1
-    sta checksum+1
-    iny
-    bne @byte_loop
-
-    inc UNK_64+1
-    dex
-    bne @word_loop
-
-    ;pop checksum id
-    ldx UNK_60
-    inx
-
-    ;get checksum value
-    lda Bank_Checksum, x
-    cmp checksum+1
-    bne @show_antipiracy
-    inx
-    lda Bank_Checksum, x
-    cmp checksum
-    bne @show_antipiracy
-
-    ;passed
-    inx
-    bne @bank_loop
-    @exit:
-
-    ;restore old bank
-    pla
-    ldx #BANK::PRG8000
-    jmp BANK_SWAP
-
-    @show_antipiracy:
-    ;why isnt this just a jmp
-    jsr OT0_DefaultTransition
-    jsr Refresh_SpriteObjects
-    jsr ClearSprites
-    jsr ClearTilemaps
-    jmp ShowAntipiracy_noclear_useless
-
-; $A48F
-; ANTI-TAMPERING MEASURE?
-;  00 -> bank
-;  01 -> checksum (16-bit)
-Bank_Checksum:
-    .byte $13
-    .word $952C
-
-    .byte $14
-    .word $820B
-
-    .byte $17
-    .word $EBED
-
-    .byte $19
-    .word $A8C7
-
-    .byte $1C
-    .word $D5AC
-
-    .byte $1E
-    .word $CF1C
-
-    .byte $1F
-    .word $FA36
-
-    ;null entry
-    .byte $FF
-    .word $3857 ; wtf lol
-
-
-
 RepelRing_Effect:
+    jsr AutoBattleTest
+
     ;if repel_counter == 0, leave
     lda repel_counter
     beq @exit
@@ -846,9 +435,6 @@ Repel_BattleDifficultyTable:
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 
 Tombstone_AntiPiracy:
-    ;checksum
-    jsr ValidateBanks2_Useless
-
     ;UNK_2C = 0
     lda #0
     sta UNK_2C
@@ -866,17 +452,17 @@ Tombstone_AntiPiracy:
 
     jsr PpuSync
 
-    ;move all of sprite objects 4 array indices forward
-    ldx #28*.sizeof(SpriteObject) - 1
+    ;move all sprite objects $20 forward
+    ldx #$df
     @move:
     lda SPRITE_OBJECTS, x
-    sta SPRITE_OBJECTS+4*.sizeof(SpriteObject), x
+    sta SPRITE_OBJECTS+$20, x
     dex
     cpx #$ff
     bne @move
 
     ;write the sparkles
-    ldx #4*.sizeof(SpriteObject) - 1
+    ldx #$1f
     @write:
     lda tombstone_spritedata, x
     sta SPRITE_OBJECTS, x
@@ -933,17 +519,17 @@ Tombstone_AntiPiracy:
 
     ;first four objects.x = UNK_60
     lda UNK_60
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::x_pos
-    sta SPRITE_OBJECTS+(1*.sizeof(SpriteObject))+SpriteObject::x_pos
-    sta SPRITE_OBJECTS+(2*.sizeof(SpriteObject))+SpriteObject::x_pos
-    sta SPRITE_OBJECTS+(3*.sizeof(SpriteObject))+SpriteObject::x_pos
+    sta SPRITE_OBJECTS+(0*8)+2
+    sta SPRITE_OBJECTS+(1*8)+2
+    sta SPRITE_OBJECTS+(2*8)+2
+    sta SPRITE_OBJECTS+(3*8)+2
 
     ;first four objects.y = UNK_64
     lda UNK_64
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::y_pos
-    sta SPRITE_OBJECTS+(1*.sizeof(SpriteObject))+SpriteObject::y_pos
-    sta SPRITE_OBJECTS+(2*.sizeof(SpriteObject))+SpriteObject::y_pos
-    sta SPRITE_OBJECTS+(3*.sizeof(SpriteObject))+SpriteObject::y_pos
+    sta SPRITE_OBJECTS+(0*8)+3
+    sta SPRITE_OBJECTS+(1*8)+3
+    sta SPRITE_OBJECTS+(2*8)+3
+    sta SPRITE_OBJECTS+(3*8)+3
 
     ;new_animation_timer = 90
     ;wait for 90 frames
@@ -958,21 +544,21 @@ Tombstone_AntiPiracy:
 
     ;remove sparkles
     lda #0
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::x_vel
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::y_vel
-    sta SPRITE_OBJECTS+(1*.sizeof(SpriteObject))+SpriteObject::count_flags
-    sta SPRITE_OBJECTS+(2*.sizeof(SpriteObject))+SpriteObject::count_flags
-    sta SPRITE_OBJECTS+(3*.sizeof(SpriteObject))+SpriteObject::count_flags
+    sta SPRITE_OBJECTS+4
+    sta SPRITE_OBJECTS+5
+    sta SPRITE_OBJECTS+(1*8)
+    sta SPRITE_OBJECTS+(2*8)
+    sta SPRITE_OBJECTS+(3*8)
 
     ;place crystal
     lda UNK_60
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::x_pos
+    sta SPRITE_OBJECTS+2
     lda UNK_64
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::y_pos
+    sta SPRITE_OBJECTS+3
     lda #.LOBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::sprite_def_ptr
+    sta SPRITE_OBJECTS+6
     lda #.HIBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
-    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::sprite_def_ptr+1
+    sta SPRITE_OBJECTS+7
 
     ;one frame wait
     lda #1
@@ -986,25 +572,13 @@ Tombstone_AntiPiracy:
 
 ;sparkles :)
 tombstone_spritedata:
-    .byte 4      ; OBJ count
-    .byte 0      ; OAM slot
-    .byte 50, 50 ; x, y position
-    .byte 1,  1  ; x, y velocity
+    .byte 4, 0, 50, 50,  1,  1
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
-    .byte 4      ; OBJ count
-    .byte 0      ; OAM slot
-    .byte 66, 50 ; x, y position
-    .byte 1, -1  ; x, y velocity
+    .byte 4, 0, 66, 50,  1, -1
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
-    .byte 4      ; OBJ count
-    .byte 0      ; OAM slot
-    .byte 50, 66 ; x, y position
-    .byte -1,  1 ; x, y velocity
+    .byte 4, 0, 50, 66, -1,  1
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
-    .byte 4      ; OBJ count
-    .byte 0      ; OAM slot
-    .byte 66, 66 ; x, y position
-    .byte -1, -1 ; x, y velocity
+    .byte 4, 0, 66, 66, -1, -1
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
 
 ;yeah man
@@ -1012,8 +586,6 @@ Rts_Antipiracy:
     rts
 
 Livehouse_Antipiracy:
-    jsr ValidateBanks
-
     jsr Refresh_SpriteObjects
     ;mute music
     lda #$ff
@@ -1116,16 +688,16 @@ LIVEHOUSE_setupParty:
     stx UNK_60+1
 
     ;loop over SPRITE_OBJECTS 1-4 exclusive
-    ldx #(1*.sizeof(SpriteObject))
+    ldx #(1*8)
     @loop:
     jsr LIVEHOUSE_movesprUnk60
 
     lda #$30
     sta new_animation_timer
 
-    jsr LIVEHOUSE_nextSpriteObject
+    jsr LIVEHOUSE_movex8
 
-    cpx #4*.sizeof(SpriteObject)
+    cpx #$20
     bcc @loop
 
     jsr PpuSync
@@ -1135,67 +707,46 @@ LIVEHOUSE_setupParty:
 
     rts
 
-; Offset the pointer of the sprite definition for SPRITE_OBJECT[x] by UNK_60
-; (useful to change the animation frame)
+;move sprite object at SPRITE_OBJECT[x] by UNK_60
 LIVEHOUSE_movesprUnk60:
     jsr PpuSync
 
     ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
     lda UNK_60
-    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
-    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    adc SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+6, x
     lda UNK_60+1
-    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
-    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
+    adc SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+7, x
 
     rts
 
-; Set the velocity to UNK_64 for the current SpriteObject if it's at an index
-; less than 4 (the party?), and 0 for every other SpriteObject (NPCs?)
-; Inputs:
-;     X: the offset of the current SpriteObject
-;     UNK_64:   the new party x velocity
-;     UNK_64+1: the new party y velocity
-; Effects:
-;     Sets x and y velocity for the current SpriteObject
-; Clobbers:
-;     A
+;check if sprite object >= $20, if so zero out the velocity
+;else, set velocity from UNK_64
 LIVEHOUSE_checksetvel:
-    cpx #4*.sizeof(SpriteObject)
+    cpx #$20
     bcs LIVEHOUSE_zerovel
 
     lda UNK_64
-    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+4, x
     lda UNK_64+1
-    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
+    sta SPRITE_OBJECTS+5, x
 
     rts
 
-; Inputs:
-;     X: the offset of the current SpriteObject
-; Effects:
-;     Sets x and y velocity for the current SpriteObject to 0
-; Clobbers:
-;     A
 LIVEHOUSE_zerovel:
     lda #0
-    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
-    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
 
     rts
 
-; Inputs:
-;     X: the offset of the current SpriteObject
-; Outputs:
-;     X: the offset of the next SpriteObject in the array, if any
-;     Carry flag: set if the end of the SPRITE_OBJECTS array has been reached, clear otherwise
-; Clobbers:
-;     A
-LIVEHOUSE_nextSpriteObject:
+;x += 8
+LIVEHOUSE_movex8:
     clc
     txa
-    adc #.sizeof(SpriteObject)
+    adc #8
     tax
 
     rts
@@ -1223,21 +774,21 @@ LIVEHOUSE_domotionStop:
     sta UNK_60
     stx UNK_60+1
 
-    ldx #(1*.sizeof(SpriteObject))
+    ldx #(1*8)
     @loop_all:
     jsr LIVEHOUSE_movesprUnk60
     jsr LIVEHOUSE_checksetvel
-    jsr LIVEHOUSE_nextSpriteObject
+    jsr LIVEHOUSE_movex8
     bcc @loop_all
 
     lda #2
     sta new_animation_timer
 
-    ldx #1*.sizeof(SpriteObject)
+    ldx #8
     @loop_all2:
     jsr PpuSync
     jsr LIVEHOUSE_zerovel
-    jsr LIVEHOUSE_nextSpriteObject
+    jsr LIVEHOUSE_movex8
     bcc @loop_all2
 
     lda #$16
@@ -1248,10 +799,10 @@ LIVEHOUSE_domotionStop:
     sta UNK_60
     stx UNK_60+1
 
-    ldx #1*.sizeof(SpriteObject)
+    ldx #8
     @loop_all3:
     jsr LIVEHOUSE_movesprUnk60
-    jsr LIVEHOUSE_nextSpriteObject
+    jsr LIVEHOUSE_movex8
     bcc @loop_all3
 
     lda #$18
@@ -1275,120 +826,1262 @@ DepleteAttackerPP:
     @exit:
     rts
 
-ValidateBanks2_Useless:
-    lda current_banks+6
+; AutoWinTest:
+;     ;clear all values
+;     lda #0
+;     tax
+;     @cleanar:
+;     sta battle_reward_vars, x
+;     inx
+;     cpx #5
+;     bcc @cleanar
 
+;     lda #$80
+;     @loopah:
+;     tay
+
+;     lda BATTLER_CURR_HP+1, y
+;     and #%00000011
+;     bne @kill
+;     lda BATTLER_CURR_HP, y
+;     beq @nokill
+;     @kill:
+;     jsr MiniKillTargetInY
+;     @nokill:
+;     tya
+;     clc
+;     adc #BATTLER_DATASIZE
+
+;     cmp #0
+;     bne @loopah
+
+;     jsr AutoWin
+;     rts
+
+
+.define scaling 1
+AutoBattleTest:
+    .define player_count $C0
+    .define enemy_count $C1
+
+    .define highest_speed $C0
+    .define lowest_speed $c1
+    .define lowest_offense $c2
+
+    .define players_order $c0
+    .define enemies_order $c4
+
+    lda #0
+    sta attacker_offset
+    sta player_count
+    sta enemy_count
+
+    ;do funny clean
+    tax
+    @clear_loop:
+    sta BATTLER, x
+    inx
+    bne @clear_loop
+
+    ; loop thru all party members to init data
+    tax
+    @InitPlayerBattler:
+    txa
+    pha
+    lda party_members, x
+    beq @EmptyPlayer
     pha
 
-    ldx #0
-    @bank_loop:
-    stx UNK_60
-
-    ;get bank number
-    lda Bank_Checksum_2, x
-    ;if msb, exit
-    bmi @exit
-
-    ;swap to bank in $8000
+    lda #.BANK(BattleMain)
     ldx #BANK::PRG8000
     jsr BANK_SWAP
-
-    ;UNK_64 = $8000
-    lda #.LOBYTE($8000)
-    ldx #.HIBYTE($8000)
-    sta UNK_64
-    stx UNK_64+1
-
-    lda #0
-    sta checksum
-    sta checksum+1
-
-    ;loop over $2000 bytes :)
-    ldx #$20
-    @word_loop:
-    ldy #0
-    @byte_loop:
-    clc
-
-    ;get rom byte
-    ;checksum += byte
-    lda (UNK_64), y
-    adc checksum
-    sta checksum
-    lda #0
-    adc checksum+1
-    sta checksum+1
-    iny
-    bne @byte_loop
-
-    inc UNK_64+1
-    dex
-    bne @word_loop
-
-    ;pop checksum id
-    ldx UNK_60
-    inx
-
-    ;get checksum value
-    lda Bank_Checksum_2, x
-    cmp checksum+1
-    bne @show_antipiracy
-    inx
-    lda Bank_Checksum_2, x
-    cmp checksum
-    bne @show_antipiracy
-
-    ;passed
-    inx
-    bne @bank_loop
-    @exit:
-
-    ;restore old bank
     pla
+    jsr InitializePlayerBattler-$2000
+
+    ;if this player has a status,
+    ldy attacker_offset
+    lda BATTLER_STATUS, y
+    bne @has_status
+    inc player_count
+    @has_status:
+
+    clc
+    lda attacker_offset
+    adc #BATTLER_DATASIZE
+    sta attacker_offset
+    ; skip init if party member ID is 0 (empty)
+    @EmptyPlayer:
+    pla
+    tax
+    inx
+    ; loop thru party members 4 times
+    cpx #4
+    bne @InitPlayerBattler
+
+    ;these are copied straight from BattleMain
+    jsr BANKSWAP_L16
+
+    jsr GetEnemyGroupPointer
+    lda #BATTLER_DATASIZE * 4
+    sta attacker_offset
+
+    ; init enemies
+    .define enemy_pointer battle_wordvar60
+
+    ldy #0
+    @EnemyInitStart:
+    lda (ptr_chara), y
+    sta enemy_pointer
+    iny
+    lda (ptr_chara), y
+    sta enemy_pointer+1
+    iny
+    tya
+    pha
+    lda enemy_pointer
+    cmp #$ff
+    beq @EmptyEnemy
+    tya
+    pha
+    lda #.BANK(CopyEnemy)
+    ldx #.LOBYTE(CopyEnemy-1)
+    ldy #.HIBYTE(CopyEnemy-1)
+    jsr TempUpperBankswitch
+
+    ;if this player has a status,
+    ldy attacker_offset
+    lda BATTLER_MINOR_STATUS, y
+    and #1
+    bne @is_called
+    inc enemy_count
+    @is_called:
+
+    pla
+    tay
+    ; skip init if enemy ID is FF (empty)
+    @EmptyEnemy:
+    clc
+    lda attacker_offset
+    adc #BATTLER_DATASIZE
+    sta attacker_offset
+    pla
+    tay
+    ; there are 8 battler slots total (0-3 players, 4-7 enemies)
+    cpy #8
+    bne @EnemyInitStart
+
+    ;jsr AutoWinTest
+    ;jmp @exit
+
+    ;TODO - fix for 3party??? lol
+    ;if enemy_count > player_count, no win
+    lda enemy_count
+    cmp player_count
+    beq @dont_exit
+    bcc @dont_exit
+
+    jmp @exit
+
+    @dont_exit:
+    ;need
+    ;-offense
+    ;-defense
+    ;-hp
+    ;speed oneoff
+    .define working UNK_580
+    .define hps working
+    .define offenses working+$10
+    .define defenses working+$20
+
+    ;dump data
+    lda #0
+    tax ;guy index
+    tay ;attacker offset
+    sta highest_speed
+    lda #$ff
+    sta lowest_speed
+    sta lowest_offense
+    sta lowest_offense+1
+
+
+    @checker_loop:
+    ;store y
+    tya
+    pha
+
+    ;get hp
+    clc
+    adc #battler_struct::curr_hp
+    tay
+    lda BATTLER, y
+    sta hps, x
+    iny
+    inx
+    lda BATTLER, y
+
+    ;todo : verify if player also has this restriction. probably not
+    cpx #8
+    bcs @enemy_workaround
+    ;is normal player
+    jmp @normal_player
+    @enemy_workaround:
+    and #%00000011
+    @normal_player:
+    sta hps, x
+    iny
+
+    ;get offense
+    iny
+    iny
+    dex
+    lda BATTLER, y
+    sta offenses, x
+    iny
+    inx
+    lda BATTLER, y
+    sta offenses, x
+
+    ;get defense
+    iny
+    dex
+    lda BATTLER, y
+    sta defenses, x
+    iny
+    inx
+    lda BATTLER, y
+    ;todo : verify if player also has this restriction. probably not
+    cpx #8
+    bcs @enemy_workaround2
+    ;is normal player
+    jmp @normal_player2
+    @enemy_workaround2:
+    and #%00000011
+    @normal_player2:
+    sta defenses, x
+
+    ;get speed
+    iny
+    iny
+    lda BATTLER, y
+    cpy #$80
+    bcs @is_enemy
+    ;else, is party
+    ;get lowest speed
+    cmp lowest_speed
+    bcs @otherwise
+    sta lowest_speed
+    bcc @otherwise
+
+    @is_enemy:
+    ;is enemy
+    ;get highest speed
+    cmp highest_speed
+    bcc @otherwise
+    sta highest_speed
+
+    @otherwise:
+    inx
+
+    ;increment
+    pla
+    clc
+    adc #BATTLER_DATASIZE
+    tay
+
+    bcc @checker_loop
+
+    ;rando
+    jsr RNG_BYTE
+    ;32 / 256
+    cmp #$E0
+    ;bcc @black_swirl
+    jmp @green_swirl
+
+    ; @black_swirl:
+
+    ;actually do the check
+    ;if enemy highest_speed > player lowest_speed, no win
+    ; lda highest_speed
+    ; .repeat scaling
+    ; lsr
+    ; .endrepeat
+    ; cmp lowest_speed
+    ; bcs @exit
+
+    ; ;get offense check
+    ; ldx #0
+    ; @do_offense_loop:
+    ; cpx #8
+    ; bcs @is_enemy_offense
+    ; ;else, is party offense
+    ; lda offenses, x
+    ; cmp lowest_offense
+    ; bcs @highbit
+    ; sta lowest_offense
+
+    ; @highbit:
+    ; inx
+    ; lda offenses, x
+    ; cmp lowest_offense+1
+    ; bcs @otherwise_offense
+    ; sta lowest_offense+1
+    ; bcc @otherwise_offense
+
+    ; @is_enemy_offense:
+    ; .define workingword UNK_60
+    ; ;defense[x] + hp[x] = working word
+    ; clc
+    ; lda defenses, x
+    ; adc hps, x
+    ; sta workingword
+    ; inx
+    ; lda defenses, x
+    ; adc hps, x
+    ; sta workingword+1
+    ; inx
+
+    ; lda workingword+1
+    ; .repeat scaling
+    ; lsr
+    ; .endrepeat
+    ; cmp lowest_offense+1
+    ; beq @equals_case
+    ; bcs @exit
+    ; @equals_case:
+    ; lda workingword
+    ; .repeat scaling
+    ; lsr
+    ; .endrepeat
+    ; cmp lowest_offense
+    ; beq @otherwise_offense
+    ; bcs @exit
+
+
+
+    ; @otherwise_offense:
+    ; inx
+    ; cpx #16
+    ; bcc @do_offense_loop
+
+    ; lda #0
+    ; sta enemy_group
+    ; jsr ErrBuzzer
+    ; ;force exit
+    ; bcs @exit
+
+
+    ;green swirl
+    @green_swirl:
+    ;oh boy tons of 16 bit math!
+    ;todo - make this a chance thing???
+
+    ;clear all values
+    ldx #0
+    txa
+    @cleanar:
+    sta players_order, x
+    inx
+    cpx #8
+    bcc @cleanar
+
+    tax
+    @cleanar2:
+    sta UNK_60, x
+    inx
+    cpx #$10
+    bcc @cleanar2
+
+    tax
+    @cleanar3:
+    sta battle_reward_vars, x
+    inx
+    cpx #5
+    bcc @cleanar3
+
+    jsr DoOrderSorting
+
+
+
+    ;exit
+    @exit:
+    lda #.BANK(Title_Screen)
     ldx #BANK::PRG8000
     jmp BANK_SWAP
 
-    @show_antipiracy:
-    ;why isnt this just a jmp
+
+DoOrderSorting:
+    .define highest_offense $60
+    .define highest_hp $68
+    .define groups $C0
+    .define groups2 $C4
+
+    lda #0
+    tay
+    tax
+    ;get the main highest
+    @do_offense_sort_first:
+    lda offenses, x
+    cmp highest_offense
+    bcc @highbit
+    beq @highbit
+    sta highest_offense
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups
+    @highbit:
+    inx
+    lda offenses, x
+    cmp highest_offense+1
+    bcc @otherwise_offense
+    beq @otherwise_offense
+    sta highest_offense+1
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups
+    @otherwise_offense:
+
+    inx
+    cpx #8
+    bcc @do_offense_sort_first
+
+    lda #0
+    tay
+    @main_offense_sort:
+    ldx #0
+    iny
+    iny
+    @do_offense_sort:
+    lda offenses, x
+    ;if equal or higher than the previous, ignore
+    cmp highest_offense-2, y
+    bcs @highbit2
+    ;if less or equal to current, ignore
+    cmp highest_offense, y
+    bcc @highbit2
+    beq @highbit2
+    sta highest_offense, y
+
+    ;nummnerber order
+    tya
+    pha
+    lsr
+    tay
+    lda groups, y
+    bne @no_numb_check
+
+    ;write number of member
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups, y
+
+    @no_numb_check:
+    pla
+    tay
+
+    @highbit2:
+    inx
+    lda offenses, x
+    ;if equal or higher than the previous, ignore
+    cmp highest_offense-1, y
+    bcs @otherwise_offense2
+    ;if less or equal to current, ignore
+    cmp highest_offense+1, y
+    bcc @otherwise_offense2
+    beq @otherwise_offense2
+    sta highest_offense+1, y
+
+
+    ;nummnerber order
+    tya
+    pha
+    lsr
+    tay
+    lda groups, y
+    bne @no_numb_check2
+
+    ;write number of member
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups, y
+
+    @no_numb_check2:
+    pla
+    tay
+    @otherwise_offense2:
+
+    inx
+    cpx #8
+    bcc @do_offense_sort
+
+    cpy #8
+    bcc @main_offense_sort
+
+
+    ;hps sort
+    ldx #8
+    lda #0
+    tay
+    ;get the main highest
+    @do_hp_sort_first:
+    lda hps, x
+    cmp highest_hp
+    bcc @highbit3
+    beq @highbit3
+    sta highest_hp
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups2
+    @highbit3:
+    inx
+    lda hps, x
+    cmp highest_hp+1
+    bcc @otherwise_hp
+    beq @otherwise_hp
+    sta highest_hp+1
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups2
+    @otherwise_hp:
+
+    inx
+    cpx #16
+    bcc @do_hp_sort_first
+
+
+
+    lda #0
+    tay
+    @main_hp_sort:
+    ldx #8
+    iny
+    iny
+    @do_hp_sort:
+    lda hps, x
+    ;if equal or higher than the previous, ignore
+    cmp highest_hp-2, y
+    bcs @highbit4
+    ;if less or equal to current, ignore
+    cmp highest_hp, y
+    bcc @highbit4
+    beq @highbit4
+    sta highest_hp, y
+
+    ;nummnerber order
+    tya
+    pha
+    lsr
+    tay
+    lda groups2, y
+    bne @no_numb_check3
+
+    ;write number of member
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups2, y
+
+    @no_numb_check3:
+    pla
+    tay
+
+    @highbit4:
+    inx
+    lda hps, x
+    ;if equal or higher than the previous, ignore
+    cmp highest_hp-1, y
+    bcs @otherwise_hp2
+    ;if less or equal to current, ignore
+    cmp highest_hp+1, y
+    bcc @otherwise_hp2
+    beq @otherwise_hp2
+    sta highest_hp+1, y
+
+    ;nummnerber order
+    tya
+    pha
+    lsr
+    tay
+    lda groups2, y
+    bne @no_numb_check4
+
+    ;write number of member
+    txa
+    lsr
+    clc
+    adc #1
+    sta groups2, y
+
+    @no_numb_check4:
+    pla
+    tay
+    @otherwise_hp2:
+
+    inx
+    cpx #16
+    bcc @do_hp_sort
+
+    cpy #8
+    bcc @main_hp_sort
+
+
+    ;for each guy in party, use up one turn attacking
+    ;if all enemies die, insta win
+    ;this is the fun part!
+    .define final_working_defense $c8 ;word
+    .define final_working_offense $ca ;word
+    .define final_working_hp $cc ;word
+    .define current_enemy $580 ;byte
+    .define final_working_generic $ce ;word
+    lda #0
+    tay
+    tax
+
+    @cleanar2:
+    sta UNK_60, x
+    inx
+    cpx #$10
+    bcc @cleanar2
+    tax
+
+    sta final_working_hp
+    sta final_working_hp+1
+    lda #3
+    sta current_enemy
+
+    @do_subtraction:
+    ;get usar id
+    lda groups, x
+
+    ;id -= 1 because one index
+    clc
+    sbc #0
+    ;if id high bit, negative. skip
+    bpl @keepgoing1
+    jmp @donextentry
+    @keepgoing1:
+
+    ;id * 2
+    asl
+    tay
+    ;get player offense
+    lda offenses, y
+    sta final_working_offense
+    lda offenses+1, y
+    sta final_working_offense+1
+
+    ;if working_hp == 0
+    ;load next enemy
+    lda final_working_hp
+    bne @whale
+    lda final_working_hp+1
+    bne @whale
+    ;if both checks fail, load in next enemy
+
+    inc current_enemy
+    lda current_enemy
+    ;if current slot is 8, youve done all :)
+    cmp #8
+    bcs AutoWin
+
+    tay
+    ;if no next, finish
+    lda groups, y
+    beq AutoWin
+    ;load next
+    clc
+    sbc #0
+    asl
+    tay
+    lda hps, y
+    sta final_working_hp
+    lda hps+1, y
+    sta final_working_hp+1
+    lda defenses, y
+    sta final_working_defense
+    lda defenses+1, y
+    sta final_working_defense+1
+
+
+    ;else, keep whalin!
+    @whale:
+    ;Normal Attack Damage = AttackerOFF - (DefenderDEF / 2)
+    ;defense >> 1
+    lda final_working_defense+1
+    lsr
+    sta final_working_generic+1
+    lda final_working_defense
+    ror
+    sta final_working_generic
+
+    ;offense - final_working_generic
+    sec
+    lda final_working_offense
+    sbc final_working_generic
+    sta final_working_generic
+    lda final_working_offense+1
+    sbc final_working_generic+1
+    sta final_working_generic+1
+    ;if offense is negative, proper damage will not be output. just ignore atp
+    bmi @donextentry
+
+    ;hp - final_working_generic
+    sec
+    lda final_working_hp
+    sbc final_working_generic
+    sta final_working_hp
+    lda final_working_hp+1
+    sbc final_working_generic+1
+    sta final_working_hp+1
+
+    ;if health is negative, ya killed him !!!
+    bmi @this_guy_is_dead
+    bpl @donextentry
+
+    @this_guy_is_dead:
+    ;reset hp and prepare for next
+    lda current_enemy
+    tay
+    lda groups, y
+    clc
+    sbc #0
+    asl
+    asl
+    asl
+    asl
+    asl
+    tay
+    jsr MiniKillTargetInY
+
+    lda #0
+    sta final_working_hp
+    sta final_working_hp+1
+
+    ;check because god forbid you only attack as much as you can
+    sec
+    lda current_enemy
+    adc #0
+    ;if current slot is 8, youve done all :)
+    cmp #8
+    bcs AutoWin
+
+    tay
+    ;if no next, finish
+    lda groups, y
+    beq AutoWin
+
+    ;BUFF : do new?
+    ;RED = If DEF > OFF, Damage = (3 * AttackerOFF - DefenderDEF ) / 4
+
+
+    @donextentry:
+    inx
+    cpx #4
+    bcs @escape
+    jmp @do_subtraction
+    @escape:
+    rts
+
+AutoWin:
+    lda #0
+    sta enemy_group
+
+    ;lda #Noise_EnemyKilled
+    ;sta soundqueue_noise
+
+    ; lda #PulseG0_StatBoost
+    ; sta soundqueue_pulseg0
+
+    ; lda #.HIBYTE(UMSG::B_YOU_WIN)
+    ; sta text_id
+    ; lda #.LOBYTE(UMSG::B_YOU_WIN)
+    ; sta text_id+1
+
+    ; lda #.BANK(O_PrintText)
+    ; ldx #.LOBYTE(O_PrintText-1)
+    ; ldy #.HIBYTE(O_PrintText-1)
+    ; jsr TempUpperBankswitch
+
+    lda soundactive_track
+    pha
+
+    ;draw stat bar
+    jsr B30_03d5
+
+    jsr RECONFIGURE_PARTY
+
+    jsr WaitNMI
+
+    lda #0
+    ;do funny clean 2
+    tax
+    @clear_loop2:
+    sta nmi_queue, x
+    inx
+    bne @clear_loop2
+    sta nmi_data_offset
+
+
+    lda #.BANK(BattleMain)
+    ldx #.LOBYTE(BattleRewardsRoutine-1)
+    ldy #.HIBYTE(BattleRewardsRoutine-1)
+    jsr TempUpperBankswitch
+
+    ; lda #.BANK(OINST_END)
+    ; ldx #.LOBYTE(OINST_END-1)
+    ; ldy #.HIBYTE(OINST_END-1)
+    ; jsr TempUpperBankswitch
+
+    lda #.BANK(CLEAR_TEXTBOXES_ROUTINE)
+    ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
+    ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
+    jsr TempUpperBankswitch
+
+    jsr B30_1977
+    lda #0
+    sta MIRROR
+    sta irq_count
+    sta UNK_70
+    sta UNK_71
+    sta sram_mode
+    sta post_nmi_callback
+
+    pla
+    cmp soundactive_track
+    beq @isnt_lvlup
+    sta soundqueue_track
+    @isnt_lvlup:
+
+    rts
+
+; kills whoever is in Y (offset)
+MiniKillTargetInY:
+    tya
+    pha
+    lda #$00
+    sta BATTLER_CURR_HP, y
+    sta BATTLER_CURR_HP+1, y
+    lda #UNCON
+    sta BATTLER_STATUS, y
+    tya
+    bpl @exit
+    lda #$00
+    sta BATTLER, y
+    lda BATTLER_FULLDATA_PTR, y
+    sta battle_wordvar60
+    lda BATTLER_FULLDATA_PTR+1, y
+    sta battle_wordvar60+1
+    tya
+    pha
+    clc
+
+    ;add defeated enemy exp
+    ldy #enemy_struct::exp
+    lda (battle_wordvar60), y
+    adc battle_reward_vars
+    sta battle_reward_vars
+    iny
+    lda (battle_wordvar60), y
+    adc battle_reward_vars+1
+    sta battle_reward_vars+1
+    lda #0
+    adc battle_reward_vars+2
+    sta battle_reward_vars+2
+    clc
+
+    ;add defeated enemy money
+    ldy #enemy_struct::money
+    lda (battle_wordvar60), y
+    adc battle_reward_vars+3
+    sta battle_reward_vars+3
+    iny
+    lda (battle_wordvar60), y
+    adc battle_reward_vars+4
+    sta battle_reward_vars+4
+
+    ;get defeated enemy item drop
+    ldy #enemy_struct::item_drop
+    lda (battle_wordvar60), y
+    ;if item drop is 0, skip
+    beq @no_item_to_drop
+    ;else, write to enemy_group
+    sta enemy_group
+    @no_item_to_drop:
+    lda #Noise_EnemyKilled
+    sta soundqueue_noise
+    pla
+    pla
+    tay
+
+    @exit:
+    rts
+
+.define chr_page $5ff
+.define address_start $5fd
+.define chr_offset UNK_6
+.define nametable_address UNK_78
+.define gen_tiles $601
+
+TryPortrait:
+    lda chr_page
+    cmp #$FF
+    bne @no_skip_portrait
+    rts
+    @no_skip_portrait:
+    pha
+
+    ;get screen space addr
+    lda ntbl_x
+    pha
+    lda ntbl_y
+    pha
+
+    lda #3
+    sta ntbl_x
+    lda #20
+    sta ntbl_y
+    jsr CalculateNTAddr
+
+    lda nametable_address
+    sta PPUADDR
+    sta address_start
+    lda nametable_address+1
+    sta PPUADDR
+    sta address_start+1
+
+    lda #4
+    sta chr_page
+
+    lda chr_offset
+
+    ldy #0
+    @loopa:
+    sta PPUDATA
+
+    sec
+    adc #0
+    ; pha
+
+    ; lda nametable_address+1
+    ; and #$1F
+    ; cmp #$1f
+    ; bne @ignoral
+    ; lda nametable_address+1
+    ; and #%11100000
+    ; sta nametable_address+1
+
+    ; lda nametable_address
+    ; eor #%0100
+    ; sta nametable_address
+    ; sta PPUADDR
+    ; lda nametable_address+1
+    ; sta PPUADDR
+
+    ; bne @returnal
+    ; @ignoral:
+    ; inc nametable_address+1
+    ; @returnal:
+
+
+    ; pla
+
+    iny
+    cpy chr_page
+    bne @loopa
+    clc
+    adc #$10-4
+    pha
+    tya
+    pha
+
+    inc ntbl_y
+    jsr CalculateNTAddr
+
+    lda nametable_address
+    sta PPUADDR
+    lda nametable_address+1
+    sta PPUADDR
+
+    ;jsr @yincr
+
+    pla
+    tay
+
+    pla
+    inc chr_page
+    inc chr_page
+    inc chr_page
+    inc chr_page
+    cpy #$10
+    bne @loopa
+
+    lda #$FF
+    sta chr_page
+
+    pla
+    sta ntbl_y
+    pla
+    sta ntbl_x
+
+    ;irq
+    pla
+    sta chr_offset
+
+
+    @skip_portrait:
+    rts
+
+@yincr:
+    lda address_start
+    and #%11
+    cmp #3
+    bne @not_gonna_cross
+    lda nametable_address+1
+    cmp #$a0
+    bcc @not_gonna_cross
+
+    clc
+    lda nametable_address
+    adc #5
+    and #%10
+    sta nametable_address
+
+    lda nametable_address+1
+    and #$1f
+    sta nametable_address+1
+    bne @returnal2
+
+    @not_gonna_cross:
+    clc
+    lda address_start+1
+    adc #$20
+    sta address_start+1
+    sta nametable_address+1
+    lda address_start
+    adc #0
+    sta address_start
+    sta nametable_address
+
+    @returnal2:
+
+    lda nametable_address
+    sta PPUADDR
+    lda nametable_address+1
+    sta PPUADDR
+    rts
+
+;this is checked every time the 'warp to magicant' transition happens
+;namely the onyx hook, shells and gravestone
+ShowScreen:
+    ;fade to black
     jsr OT0_DefaultTransition
+
+    ;clear everything
     jsr Refresh_SpriteObjects
     jsr ClearSprites
     jsr ClearTilemaps
+
     jsr PpuSync
-    lda #$00
+
+    ;irq_count = 0
+    ;scroll_x = 0
+    ;scroll_y = 0
+    lda #0
     sta irq_count
     sta scroll_x
     sta scroll_y
+
+    ;stop music
     lda #$ff
     jsr PlayMusic
-    jmp ShowAntipiracy_nomute_useless
 
-; $A88C
-; ANTI-TAMPERING MEASURE?
-;  00 -> bank
-;  01 -> checksum? (16-bit)
-Bank_Checksum_2:
-    .byte $13
-    .word $952C
+    ;swap chr
+    lda #$7e
+    ldx #BANK::CHR1800
+    jsr BANK_SWAP
+    lda #$7f
+    ldx #BANK::CHR1C00
+    jsr BANK_SWAP
 
-    .byte $14
-    .word $820B
+    ;load antipiracy message
+    lda #.LOBYTE(UMSG::ANTIPIRACY)
+    sta UNK_73+1
+    lda #.HIBYTE(UMSG::ANTIPIRACY)
+    sta UNK_73
 
-    .byte $17
-    .word $EBED
+    ;ntbl_x = 2
+    ;ntbl_y = 2
+    lda #3
+    sta ntbl_x
+    lda #10
+    sta ntbl_y
 
-    .byte $19
-    .word $A8C7
+    ;UNK_70 = 0
+    ;UNK_71 = 0
+    lda #0
+    sta UNK_70
+    sta UNK_71
 
-    .byte $1C
-    .word $D5AC
+    ;load the text manually
+    @B25_0238:
+    jsr GetTextData
+    jsr DrawTilepackClear
 
-    .byte $1E
-    .word $CF1C
+    cmp #0
+    beq @B25_024a
+    ldy #0
+    lda (tilepack_ptr), y
+    cmp #0
+    bne @B25_0238
 
-    .byte $1F
-    .word $FA36
+    @B25_024a:
 
-    ;null entry???
-    .byte $FF
-    .word $3857 ; wtf lol
+    BankswitchCHR_Address ANTIPIRACY_chrs
+
+    lda #.LOBYTE(jj3_tmp-1)
+    sta UNK_40
+    lda #.HIBYTE(jj3_tmp-1)
+    sta UNK_40+1
+    jsr mini_cmd_load_bg2map
+    lda #.LOBYTE(jj3_attr-1)
+    sta UNK_40
+    lda #.HIBYTE(jj3_attr-1)
+    sta UNK_40+1
+    jsr mini_cmd_set_metatileprops
+
+
+    jsr PpuSync
+
+    ;load generic palette
+    ldx #$1f
+    @B25_024f:
+    lda ANTIPIRACY_PALETTE, x
+    sta palette_queue, x
+    dex
+    bpl @B25_024f
+
+    lda #NMI_COMMANDS::UPDATE_PALETTE
+    sta nmi_queue ; UPDATE_PALETTE
+
+    lda #0
+    sta nmi_queue+1 ; END
+    sta nmi_data_offset
+
+    lda #$80
+    sta new_animation_timer
+
+    @inf_loop:
+    jmp @inf_loop
+
+ANTIPIRACY_PALETTE:
+    .byte $0f, $28, $30, $18
+    .byte $0f, $28, $30, $18
+    .byte $0f, $28, $30, $18
+    .byte $0f, $28, $30, $18
+
+    .byte $0f, $0f, $00, $30
+    .byte $0f, $0f, $16, $37
+    .byte $0f, $0f, $24, $37
+    .byte $0f, $0f, $12, $37
+
+ANTIPIRACY_chrs:
+    .byte $00, $00, $00, $d9, $7e, $7f
+
+jj3_tmp:
+.addr $2544+$60
+.byte 24, 4
+    .incbin "../../edit/real_credits_jj3.tilemap"
+    .res 24, $40
+jj3_attr:
+.addr $23D1+$400+$10
+.byte 6, 2
+    .byte %00000101, %00000101, %00000101, %00000101, %00000101, %00000101
+    .byte %01010000, %01010000, %01010000, %01010000, %01010000, %01010000
+
+mini_cmd_set_metatileprops:
+    lda #8
+    bne unconditional_funny
+    mini_cmd_load_bg2map:
+    lda #$20
+    unconditional_funny:
+    sta UNK_43
+    jsr PpuSync
+
+    lda #NMI_COMMANDS::PPU_WRITE
+    sta nmi_queue ; TODO: UNKNOWN NMI COMMAND
+
+    ;height = UNK_40[y]
+    ldy #4
+    lda (UNK_40), y
+    sta UNK_42
+
+    ;count
+    dey
+    lda (UNK_40), y
+    sta nmi_queue+1
+
+    ;write-to pointer
+    dey
+    lda (UNK_40), y
+    sta nmi_queue+2
+    dey
+    lda (UNK_40), y
+    sta nmi_queue+3
+
+    ldy #5
+    @y_loop:
+    ldx #0
+    @x_loop:
+    ;get content byte
+    lda (UNK_40), y
+    sta nmi_queue+4, x
+    iny
+
+    ;if y == 0, UNK_41 += 1
+    bne @not_zero
+    inc UNK_41
+    @not_zero:
+
+    ;if x != count, branch
+    inx
+    cpx nmi_queue+1
+    bne @x_loop
+
+    ;end
+    lda #0
+    sta nmi_queue+4, x
+    sta nmi_data_offset
+
+    ;skip nmi
+    lda #$80
+    sta new_animation_timer
+
+    dec UNK_42
+    beq @exit
+
+    jsr PpuSync
+
+    ;nmi_queue+2 += UNK_43
+    clc
+    lda UNK_43
+    adc nmi_queue+3
+    sta nmi_queue+3
+    lda #0
+    adc nmi_queue+2
+    sta nmi_queue+2
+    jmp @y_loop
+
+    @exit:
+    rts

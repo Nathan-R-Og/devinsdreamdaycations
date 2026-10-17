@@ -615,6 +615,7 @@ MSG_MERRYSVILLE_SCHOOLSIGN:
 .byte   stopText
 
 MSG_MYHOME_SIGN:
+.byte 5, 8, $e1
 .byte   "*",nintenName,"'s house",newLine
 .byte   stopText
 
