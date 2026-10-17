@@ -571,5 +571,22 @@ Note_End_Repeat
 Track_End
 
 mus_mother_earth_noise_t1:
+    Note_Length nl_eighth                           ;Measure 1 bar 1
+    Note_Noise 0, 4
+    Note_Length nl_thirtysecond
     Note_Rest
+    Note_Length nl_sixteenth
+    Note_Noise 0, 4
+    Note_Length nl_thirtysecond
+    Note_Rest 
+
+ Note_Length nl_eighth                           ;bar 2
+    Note_Noise 0, 5
+    Note_Length nl_thirtysecond
+    Note_Rest
+    Note_Length nl_sixteenth
+    Note_Noise 0, 4
+    Note_Length nl_thirtysecond
+    Note_Rest 
+
     Track_End
