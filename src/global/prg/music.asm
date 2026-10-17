@@ -1741,19 +1741,19 @@ incbinRange "../../split/us/music.bin", $9a1, $9a7
 .endmacro
 
 Noise_Instruments:
-.byte $00,$10,$01
-.byte $18,$00,$01
-.byte $38,$00,$03
-.byte $40,$00,$06
-.byte $58,$01,$03
-.byte $40,$02,$04
-.byte $40,$13,$05
-.byte $40,$14,$0A
-.byte $40,$14,$08
-.byte $40,$12,$0E
-.byte $08,$16,$0E
-.byte $28,$16,$0B
-.byte $18
+.byte $00 ; 1
+.byte $10,$01,$18 ; 2
+.byte $00,$01,$38 ; 4
+.byte $00,$03,$40 ; 7
+.byte $00,$06,$58 ; $a
+.byte $01,$03,$40 ; $d
+.byte $02,$04,$40 ; $10
+.byte $0c,$0d,$08 ; $13
+.byte $0f,$0f,$08 ; $16
+.byte $0f,$0f,$08 ; $19
+.byte $05,$0d,$50 ; $1c
+.byte $16,$0E,$28
+.byte $16,$0B,$18
 
 B28_09cc:
     lda soundactive_track
