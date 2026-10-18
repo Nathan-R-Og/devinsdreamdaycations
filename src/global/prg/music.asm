@@ -2740,7 +2740,7 @@ Bein_Friends_header:
 
 Pollyanna_header:
 .byte $00
-.byte NLT_35-Tempo_Lengths
+.byte NLT_43-Tempo_Lengths
 .addr mus_pollyanna_pulse1
 .addr mus_pollyanna_pulse2
 .addr mus_pollyanna_triangle

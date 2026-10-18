@@ -1,13 +1,11 @@
 B29_0FF7:
 .addr B29_1007
-.addr B28_1D42
 .addr -1
 .addr B29_0FF7
 
 B29_0FFF:
 .addr B29_100B
 B29_1001:
-.addr B28_1D42
 .addr -1
 .addr B29_1001
 

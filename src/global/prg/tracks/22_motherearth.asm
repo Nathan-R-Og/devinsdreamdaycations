@@ -215,7 +215,7 @@ Note_Length nl_eighth                           ;Measure 1 bar 1
     Note_Length nl_quarter                          ;ending bar 4 (3 16ths in..)
     Note_C 5 ;4a
     Note_Length nl_sixteenth                        ;Measure 7 Bar 1(after 5 16ths of held quarter note)
-    Note_Rest 
+    ;Note_Rest 
     Note_Length nl_thirtysecond
     Note_Rest                 
     

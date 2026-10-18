@@ -16,36 +16,68 @@ MSG_MYHOME_MINNIE_INVASION:
 .byte   stopText
 
 MSG_MYHOME_MINNIE_INVASION_FIGHT:
-.byte   "*Oh my! Brother,",newLine
-.byte   " our house is",newLine
-.byte   " falling apart!",newLine
+.byte   "Gunshots echo, my face",newLine,newLine
+.byte   "has contorted into an",newLine,newLine
+.byte   "unrecognizable state.",newLine,newLine
+.byte   "Those wicked, palpable",newLine,newLine
+.byte   "officials are in on it,",newLine,newLine
+.byte   "I'm sure of it.",newLine,newLine
+.byte   "...",newLine,newLine
+.byte   "I'm not going to make it",newLine,newLine
+.byte   "out of here. This is",newLine,newLine
+.byte	"where I'll die."
 .byte   stopText
 
 MSG_MYHOME_MINNIE_INVASION_FIGHT_2:
-.byte   "*Boo hoo!",newLine
+.byte   "Something's wrong with",newLine,newLine
+.byte   "my wife. She'd always",newLine,newLine
+.byte   "been so happy, but",newLine,newLine
+.byte   "lately she's lethargic.",newLine,newLine
+.byte   "",newLine,newLine
+.byte   "It's like a switch had",newLine,newLine
+.byte   "flipped in her. She's",newLine,newLine
+.byte   "lashing out, and she",newLine,newLine
+.byte	"drew blood. What's",newLine,newLine
+.byte   "happening to her?!",newLine,newLine
 .byte   stopText
 
 MSG_MYHOME_JUICE:
-.byte   "*Brother, here's",newLine
-.byte   " some juice.",newLine
-.byte   pauseText
-.byte   "*You are thirsty,",newLine
-.byte   " aren't you?",newLine
+.byte   "Dear Diary:",newLine,newLine
+.byte   "I'm looking forward to",newLine,newLine
+.byte   "this vacation. I've had",newLine,newLine
+.byte   "depression for a long",newLine,newLine
+.byte   "time, and seeing the",newLine,newLine
+.byte   "stars at night always",newLine,newLine
+.byte   "brought me back to when",newLine,newLine
+.byte   "I was a kid. Good times.",newLine,newLine
+.byte	"",newLine,newLine
+.byte   "Signed, Roscoe 9/21/9X",newLine,newLine
 .byte   stopText
 
 MSG_MYHOME_MIMMIE_INVASION:
-.byte   "*Spooky!!",newLine
-.byte   " The doll walks",newLine
-.byte   " by itself!",newLine
+.byte   "Dear Diary:",newLine,newLine
+.byte   "This couple living next",newLine,newLine
+.byte   "to me are acting weird.",newLine,newLine
+.byte   "There was a tussle and",newLine,newLine
+.byte   "scream, until it ended.",newLine,newLine
+.byte   "",newLine,newLine
+.byte   "I tried knocking, but",newLine,newLine
+.byte   "no-one replied. Worried.",newLine,newLine
+.byte	"",newLine,newLine
+.byte   "Signed, Roscoe 9/29/9X",newLine,newLine
 .byte   stopText
 
 MSG_MYHOME_MIMMIE_INVASION_FIGHT:
-.byte   "*I was scared to",newLine
-.byte   " death!!",newLine
-.byte   pauseText
-.byte   "*Oh wow! CHECK out",newLine
-.byte   " what's hidden",newLine
-.byte   " inside the doll.",newLine
+.byte   "dEARRR dIARRYYYyy:",newLine,newLine
+.byte   "i'vee been BITTEN!!",newLine,newLine
+.byte   "i cAN'T feEEL my aarm.",newLine,newLine
+.byte   "pUS is leAKKINg ouT of",newLine,newLine
+.byte   "mY eyEYS. im lOOsing",newLine,newLine
+.byte   "conScioUSnesS fASt.",newLine,newLine
+.byte   "i kkILED my aTTAKr,",newLine,newLine
+.byte   "teLL my fAmilY i l|||||",newLine,newLine
+.byte	".|..|./.|.\.|||.|||",newLine,newLine
+.byte   ".|/..|||",newLine,newLine
 .byte   stopText
 
 MSG_MYHOME_MIMMIE:
