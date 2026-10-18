@@ -8,11 +8,11 @@ starting_sram:
 save_checksum: .byte $00,$00
 save_slot: .byte $B0+0
 save_slot_state: .byte $E9
-xpos_music: .word ($21 << 6) | $12
-ypos_direction: .word ($BE << 6) | DIRECTIONS::DOWN
+xpos_music: .word (($b1-8) << 6) | 6
+ypos_direction: .word (($13d-8) << 6) | DIRECTIONS::DOWN
 party_members: .byte 1,0,0,0
-save_coordinates: .word ($21 << 6) | $12
-save_coordinates_y: .word ($BE << 6) | DIRECTIONS::LEFT
+save_coordinates: .word (($b1-8) << 6) | 6
+save_coordinates_y: .word (($13d-8) << 6) | DIRECTIONS::DOWN
 wallet_money: .word 0 ;cash (on hand)
 bank_money: .faraddr 0 ;cash (atm)
 dad_money: .faraddr 0 ;cash (since last call)
@@ -21,11 +21,7 @@ dad_money: .faraddr 0 ;cash (since last call)
 ; message speed - stores no. of frames to lag after printing a battle msg
 ; anything not named speed 5 (1 frame lag) is unbearably slow
 battle_message_speed:
-.ifdef VER_JP
-.byte 25
-.else
-.byte 33
-.endif
+.byte 1
 
 repel_counter: .byte $00
 
@@ -60,5 +56,5 @@ preferences:
 .byte %00001000 ;B button use
 .byte %00100000 ;START button use
 .byte %10000000 ;SELECT button use
-.byte %00100000 ;Fight message speed preset
+.byte %00001000 ;Fight message speed preset
 .endif

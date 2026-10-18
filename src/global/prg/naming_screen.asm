@@ -745,24 +745,14 @@ NS_QuestionSetups:
 ;$80 == letterSetup and $84 == NameCharacters
 letterSetup:
 ;the width and height are array dimensions
-.ifdef VER_JP
-    gridWidth: .byte 25
-    gridHeight: .byte 10
-.else
-    gridWidth: .byte 16
-    gridHeight: .byte 6
-.endif
+gridWidth: .byte 16
+gridHeight: .byte 6
 moveTilesX: .byte 1
 moveTilesY: .byte 2
 controllerBits: .byte PAD_A | PAD_B | PAD_START
 cursorSpriteTile: .byte $01
-.ifdef VER_JP
-    cursorInitX: .byte 4
-    cursorInitY: .byte 6
-.else
-    cursorInitX: .byte 8
-    cursorInitY: .byte 14
-.endif
+cursorInitX: .byte 8
+cursorInitY: .byte 14
 
 ;$80 == finalSetup and $84 == finalChoicers
 finalSetup:
@@ -775,20 +765,6 @@ finalcontrollerBits: .byte PAD_A
 finalcursorSpriteTile: .byte $3A
 finalcursorInitX: .byte 12
 finalcursorInitY: .byte 24
-
-.ifdef VER_JP
-
-.addr speed_choicers_maybe
-.byte 3, 1 ;width, height
-.byte 4, 0 ; X, Y
-.byte PAD_A ; Input mask
-.byte $3A ; Tile
-.byte 10, 24 ;init x, init y
-
-.addr speed_choicers_maybe
-speed_choicers_maybe:
-.byte 1,1,1
-.else
 
 .addr finalChoicers
 ;setting a choicer to 0 makes it unavailable
@@ -806,89 +782,35 @@ B25_0afd:
     .byte $FF ;tile (sent to ppudata)
     .byte 0    ; END
 
-.endif
-
-
-.ifdef VER_JP
 NintenQuestion:
-kanafix "なまえを つけてください",stopText
+.byte   "Who are you?",stopText
 AnaQuestion:
-kanafix "おんなのこの なまえは?",stopText
 LloydQuestion:
-kanafix "ともだちの なまえは? ",stopText
 TeddyQuestion:
-kanafix "もうひとりのともだちは?",stopText
-FoodQuestion:
-kanafix "すきなこんだては なに?",stopText
-ChangeName:
-kanafix "このなまえは つかえない",stopText
-
-;??????
-B25_0afd:
-    .byte 8    ; PPU_FILL
-    .byte $40    ; Fill 64 bytes
-    .byte $23,$C0  ; at $23c0
-    .byte $FF ;tile (sent to ppudata)
-    .byte 0    ; END
-
-.else
-NintenQuestion:
-.byte   "What is this",newLine
-.byte   "boy's name?",stopText
-AnaQuestion:
-.byte   "What is this",newLine
-.byte   "girl's name?",stopText
-LloydQuestion:
-.byte   "This other",newLine
-.byte   "boy's name?",stopText
-TeddyQuestion:
-.byte   "This last",newLine
-.byte   "boy's name?",stopText
 FoodQuestion:
 .byte   "What is your",newLine
-.byte   "favorite food?",stopText
+.byte   "dream?",stopText
 ChangeName:
-.byte   "Please change",newLine
-.byte   "this name.",stopText
+.byte   "This name",newLine
+.byte   "sucks.",stopText
 CharExists:
-.byte   "A character in ",newLine
+.byte   "No character in",newLine
 .byte   "this game has  ",newLine
 .byte   "that name. Try ",newLine
 .byte   "again, and use ",newLine
 .byte   "only capital   ",newLine
 .byte   "letters.       ",stopText
-.endif
-
 
 ExistEntries:
-.ifdef VER_JP
-kanafix "ジョ-ジ??" ;George
-kanafix "マリア???" ;Maria
-kanafix "ミミ-???" ;Mimmie
-kanafix "ミニ-???" ;Minnie
-kanafix "ピッピ???" ;Pippi
-kanafix "ダンカン??" ;Duncan
-kanafix "ロ-ズマリ-" ;Rosemary
-kanafix "バグエラ-?" ;BugError
-kanafix "ス-ジ-??" ;Suzy
-kanafix "アボット??" ;Abbott
-kanafix "ロ-ラ???" ;Laura
-kanafix "ギ-グ???" ;Giegue
-kanafix "ガリクソン?" ;Garrickson
-.byte "      "
-.byte "     ?"
-.byte "    ??"
-.byte "   ???"
-.byte "  ????"
-.byte " ?????"
-.byte "??????"
-.byte stopText
-
-.else
-
 ;newLine decides the end of the entry
 ;the question marks are only needed to prevent an
 ;inclusive search
+.byte   "Ninten?",newLine
+.byte   "Ana?",newLine
+.byte   "Lloyd?",newLine
+.byte   "Teddy?",newLine
+.byte   "Lanyard",newLine
+
 .byte   "Mary?",newLine
 .byte   "Suzy?",newLine
 .byte   "George?",newLine
@@ -908,64 +830,7 @@ kanafix "ガリクソン?" ;Garrickson
 .byte   " ",newLine
 .byte   stopText
 
-.endif
-
-
 NameCharacters:
-.ifdef VER_JP
-kanafix "あいうえお",stopText
-kanafix "アイウエオ",stopText
-kanafix "がぎぐげご",stopText
-.byte "ABCDEF",stopText
-
-kanafix "かきくけこ",stopText
-kanafix "カキクケコ",stopText
-kanafix "ざじずぜぞ",stopText
-.byte "GHIJKL",stopText
-
-kanafix "さしすせそ",stopText
-kanafix "サシスセソ",stopText
-kanafix "だぢづでど",stopText
-.byte "MNOPQR",stopText
-
-kanafix "たちつてと",stopText
-kanafix "タチツテト",stopText
-kanafix "ばびぶべぼ",stopText
-.byte "STUVWX",stopText
-
-kanafix "なにぬねの",stopText
-kanafix "ナニヌネノ",stopText
-kanafix "ぱぴぷぺぽ",stopText
-.byte "YZ.-, ",stopText
-
-kanafix "はひふへほ",stopText
-kanafix "ハヒフヘホ",stopText
-kanafix "ガギグゲゴ",stopText
-kanafix "ぁぃぅぇぉっ",stopText
-
-kanafix "まみむめも",stopText
-kanafix "マミムメモ",stopText
-kanafix "ザジズゼゾ",stopText
-kanafix "ゃゅょャュョ",stopText
-
-kanafix "や ゆ よ",stopText
-kanafix "ヤ ユ ヨ",stopText
-kanafix "ダヂヅデド",stopText
-kanafix "ァィゥェォッ",stopText
-
-kanafix "らりるれろ",stopText
-kanafix "ラリルレロ",stopText
-kanafix "バビブベボ",stopText
-.byte 0,$C1,0,0,0,0 ;choicer
-.byte stopText
-
-kanafix "わ を ん",stopText
-kanafix "ワ ヲ ン",stopText
-kanafix "パピプペポ",stopText
-.byte 0,$C2,0,0,0,0 ;choicer
-.byte stopText
-
-.else
 .byte   "ABCDEFG HIJKLMN",stopText
 .byte   "OPQRSTU VWXYZ.'",stopText
 .byte   "abcdefg hijklmn",stopText
@@ -974,216 +839,62 @@ kanafix "パピプペポ",stopText
 .byte   0,0,$A1,  0,0,0,0,0,0,$A2,0,0,0,0,0,0
 .byte   0,0,  0,$A3,0,0,0,0,0,  0,0,0,0,0,0,0
 
-;LA2A2 in bank c loads everything from $B800 to $FFFF into $6000 in ram to $6800
-;L9AA2 in bank a loads this specifically, in ram at $64D0
 IntroText1:
-.byte   "In the early 1900's, a dark",newLine
-.byte   "shadow covered a small",newLine
-.byte   "country town in rural",newLine
-.byte   "America.  At that time, a",newLine
-.byte   "young married couple",newLine
-.byte   "vanished mysteriously from",newLine
-.byte   "their home.",newLine
+.byte   "You're a villager who was",newLine
+.byte   "promised a tropical getaway",newLine
+.byte   "for the 3-day weekend.",newLine
+.byte   "After all that hard work",newLine
+.byte   "toiling in the sun for",newLine
+.byte   "months, you've earned it.",newLine
 .byte   " ",newLine
-.byte   "The man's name was George,",newLine
-.byte   "the woman's name was Maria.",newLine
+.byte   "Your plane departs your",newLine
+.byte   "comfy village, but you'll",newLine
+.byte   "soon wish it hadn't.",newLine
 .byte   " ",newLine
-.byte   "Two years later, as suddenly",newLine
-.byte   "as he left, George returned.",newLine
-.byte   "He never told anyone where",newLine
-.byte   "he had been or what he had",newLine
-.byte   "done.  But, he began an odd",newLine
-.byte   "study, all by himself.",newLine
-.byte   " ",newLine
-.byte   "As for Maria, his wife...",newLine
-.byte   "She never returned.",stopText
-IntroText2:
-.byte   "80 years have passed",newLine
-.byte   " ",newLine
-.byte   "since then.",stopText
-
-.endif
+.byte   "You arrive in a tourist trap.",newLine
+.byte   "Bountiful food, fun, and",newLine
+.byte   "amusments greet you in an",newLine
+.byte   "unfamiliar place.",newLine
+.byte   "All is well until",newLine
+.byte   "screams echo through the palm",newLine
+.byte   "trees, pleads and cries for",newLine
+.byte   "help swarm you until you're",newLine
+.byte   "knocked unconscious after",newLine
+.byte   "falling from high off of",newLine
+.byte   "your balcony.",newLine,stopText
 
 .segment        "NAMING_SCREEN_2": absolute
-.ifdef VER_JP
 
-;;;;;;NAMING SCREEN
-;question box top
-NS_QuestionBox:
-.byte set_pos 2, 1
-.byte " ",uibox_tl
-.byte repeatTile uibox_t, 14
-.byte uibox_tr
-.byte newLine ;?
-;question box middle
-.byte " ", uibox_l
-.byte repeatTile " ", 14
-.byte uibox_r
-.byte stopText
-;question box bottom
-.byte uibox_tl,uibox_bl
-.byte repeatTile uibox_b, 14
-.byte uibox_br
-.byte stopText
-
-NS_EntryBox:
-;entry box top
-.byte set_pos 19, 1
-.byte uibox_tl
-.byte repeatTile uibox_t, 8
-.byte uibox_tr," "
-.byte newLine
-;entry box middle
-.byte uibox_l
-.byte repeatTile " ", 8
-.byte uibox_r," "
-.byte stopText
-;entry box bottom
-.byte uibox_bl
-.byte repeatTile uibox_b, 8
-.byte uibox_br,uibox_tr
-.byte stopText
-
-;letter box top
-NS_AlphabetBox:
-.byte set_pos 2, 5
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte print_string string_in_question
-.byte newLine
-.byte uibox_l
-.byte repeatTile " ", 26
-.byte uibox_r
-.byte stopText
-
-;letter box bottom
-.byte set_pos 2, 26
-.byte uibox_bl
-.byte repeatTile uibox_b, 26
-.byte uibox_br
-.byte stopText
-
-;letter box sides
-string_in_question:
-.byte uibox_l
-.byte repeatTile " ", 26
-.byte uibox_r
-.byte newLine
-
-;choicers
-NS_AlphabetOptions:
-.byte newLine
-.byte set_pos 23, 22
-kanafix "*もどる",newLine
-kanafix "*おわり"
-.byte stopText
-
-.byte stopText
-NS_Recap_Tiles:
-.byte newLine
-;ninten name
-.byte set_pos 15, 5
-.byte nintenName
-.byte newLine
-;ana name
-.byte set_pos 15, 8
-.byte anaName
-.byte newLine
-;lloyd name
-.byte set_pos 15, 11
-.byte lloydName
-.byte newLine
-;teddy name
-.byte set_pos 15, 14
-.byte teddyName
-.byte newLine
-;favorite food (for the end of the sequence)
-.byte set_pos 9, 17
-kanafix "すきなこんだて ",favFood
-.byte stopText
-.byte stopText
-
-NS_Recap_Confirmation_Tiles:
-string_in_question_2:
-;confirmation box top
-.byte set_pos 8, 20
-.byte uibox_tl
-.byte repeatTile uibox_t, 14
-.byte uibox_tr
-.byte newLine
-;confirmation box side
-kanafix uibox_l," これで よろしいですか  ", uibox_r  ;is this okay?
-.byte newLine
-.byte uibox_l
-.byte repeatTile " ", 4
-kanafix "はい  いいえ   ", uibox_r
-.byte newLine
-string_in_question_3:
-.byte uibox_l
-.byte repeatTile " ", 14
-.byte uibox_r
-.byte stopText
-string_in_question_4:
-;confirmation box bottom
-.byte set_pos 8, 26
-.byte uibox_bl
-.byte repeatTile uibox_b, 14
-.byte uibox_br
-.byte stopText
-
-NS_Recap_Speed_Tiles:
-.byte print_string string_in_question_2
-.byte newLine
-;battle speed confirmation box
-kanafix uibox_l,"  メッセ-ジスピ-ド   ",uibox_r
-.byte newLine
-kanafix uibox_l,"  はやい ふつう おそい ",uibox_r
-.byte newLine
-.byte print_string string_in_question_3
-.byte stopText
-.byte print_string string_in_question_4
-.byte stopText
-
-IntroText1:
-kanafix "1900ねんだいの はじめ",newLine
-kanafix "アメリカのいなかまちに くろくものようなかげがおち",newLine
-kanafix "ひとくみの ふうふが",newLine
-kanafix "ゆくえふめいに なりました。",newLine
-kanafix "おっとのなは ジョ-ジ。 つまのなは マリア。",newLine
-kanafix "2ねんほどして ジョ-ジは いえにもどりましたが",newLine
-kanafix "どこにいっていたのか なにをしていたのかについて",newLine
-kanafix "だれに はなすこともなく",newLine
-kanafix "ふしぎなけんきゅうにぼっとうするようになりました。",newLine
-kanafix "つまの マリアのほうは",newLine
-kanafix "とうとう かえっては きませんでした。",stopText
+IntroText3:
+.byte   "Waking up, the place turns to",newLine
+.byte   "something deeply unpleasant,",newLine
+.byte   "corrupted, and most of all...",newLine
+.byte   "deadly.",newLine
+.byte   " ",newLine
+.byte   "A bite on your forearm marks",newLine
+.byte   "your slow descent into",newLine
+.byte    "sickness and paranoia.",newLine
+.byte   " ",newLine
+.byte   "You have to escape in at",newLine
+.byte   "least 3 days so that help",newLine
+.byte   "arrives and finds a cure,",newLine
+.byte   "or you will join the zombies",newLine
+.byte   "that now surround you.",newLine
+.byte   " ",newLine
+.byte   "The zombies have swarmed the",newLine
+.byte   "local radio tower that can",newLine
+.byte   "broadcast a frequency to",newLine
+.byte   "rescue operatives who can",newLine
+.byte   "dispatch help, and it's your",newLine
+.byte   "job to take it over.",newLine,stopText
 
 IntroText2:
-kanafix "1988ねん マザ-ズデイのまちはずれ",stopText
-kanafix "。。。。。。",stopText
-
-;these are in bank 0 in us
-binclude "../global/item_names.asm"
-binclude "../global/choicer_names.asm"
-binclude "../global/psi_names.asm"
-binclude "../global/status_names.asm"
-
-.else
+.byte   "Previous residents have left",newLine
+.byte   "writings of their previous",newLine
+.byte   "attempts. Make sure to read",newLine
+.byte   "them carefully.",newLine
+.byte   "",newLine
+.byte   "Good luck.",stopText
 
 NS_QuestionBox:
 .byte set_pos 7, 1
@@ -1282,8 +993,8 @@ NS_Recap_Tiles:
 .byte set_pos 15, 14
 .byte teddyName
 .byte newLine
-.byte set_pos 3, 17
-.byte "Favorite food: ",favFood
+.byte set_pos 8, 17
+.byte "Dream: ",favFood
 .byte stopText
 .byte stopText
 .byte newLine
@@ -1294,7 +1005,7 @@ NS_Recap_Confirmation_Tiles:
 .byte repeatTile uibox_t, 16
 .byte uibox_tr
 .byte newLine
-.byte uibox_l,"  Is this OK?   ",uibox_r
+.byte uibox_l," Is this fine?  ",uibox_r
 .byte newLine
 .byte uibox_l,"     Yes No     ",uibox_r
 .byte newLine
@@ -1308,9 +1019,3 @@ NS_Recap_Confirmation_Tiles:
 .byte uibox_br
 .byte stopText
 
-;SUPPOSED to be padding
-.res $102, $FF
-;????????????????????????????????????????????
-.byte 0
-
-.endif

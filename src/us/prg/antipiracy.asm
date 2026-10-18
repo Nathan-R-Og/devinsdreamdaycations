@@ -2001,11 +2001,12 @@ ANTIPIRACY_chrs:
 ANTIPIRACY_chrs2:
     .byte $60, $00, $7c, $7d, $7e, $7f
 
+;should i bother turning this into tile commands
 jj3_tmp:
-.addr $2021
+.addr $2000
 ;width, height
-.byte 30, 28
-    .incbin "../../edit/note.tilemap"
+.byte 32, 30
+    .incbin "../../edit/note_tiles.tilemap"
 
 jj3_attr:
 .addr $23C9
@@ -2086,4 +2087,13 @@ mini_cmd_set_metatileprops:
     jmp @y_loop
 
     @exit:
+    rts
+
+TimeChange:
+    inc dad_call_timer
+    bne @no_more
+    inc dad_call_timer+1
+    bne @no_more
+    inc dad_call_timer+2
+    @no_more:
     rts

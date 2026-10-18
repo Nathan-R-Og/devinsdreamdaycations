@@ -13,7 +13,7 @@ Ninten_Data:
 ;?
 .byte $00
 ;max hp, max pp, offense, defense
-.word 30,8,5,5
+.word 30,0,5,5
 ;fight, speed, wisdom, strength, force
 .byte 5,5,5,5,5
 ;level
@@ -21,7 +21,7 @@ Ninten_Data:
 ;exp
 .faraddr 0 ;far addrs are meant for segments but also i want a 3 byte keyword :)
 ;hp, pp
-.word 30,8
+.word 30,0
 ;name pointer (why exactly?)
 .addr Ninten_Data+party_info::name
 ;?
@@ -51,12 +51,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-.ifdef VER_JP
-;Boy A
-kanafix "しょうねんA",0,stopText
-.else
-.byte 0,0,0,0,0,0,0,stopText
-.endif
+.byte "Denim",0,0,stopText
 
 ;ana
 Ana_Data:

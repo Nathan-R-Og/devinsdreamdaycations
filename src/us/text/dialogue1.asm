@@ -888,109 +888,17 @@ MSG_MAGICANT_EARRINGGIRL:
 .byte   stopText
 
 MSG_MAGICANT_FOUNTAINMAN:
-.byte   "*The mysterious",newLine
-.byte   " sound of the",newLine
-.byte   " fountain soothes.",newLine
-.byte   stopText
-
 MSG_MAGICANT_RESTROOMBOY:
-.byte   "*More to the south.",newLine
-.byte   " Are you lost?",newLine
-.byte   pauseText
-.byte   "*Sorry...I was",newLine
-.byte   " directing you to",newLine
-.byte   " the rest room.",newLine
-.byte   pauseText
-.byte   "*Queen Mary's",newLine
-.byte   " Fountain is west",newLine
-.byte   " of the castle.",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNBOY:
-.byte   "*I bent my spoon",newLine
-.byte   " and it's hard to",newLine
-.byte   " use like this.",newLine
-.byte   pauseText
-.byte   "*Do you think",newLine
-.byte   " somehow you could",newLine
-.byte   " fix it for me?",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNBOY_YES:
-.byte   "*Please fix it",newLine
-.byte   " right away.",newLine
-.byte   pauseText
-.byte   "*(",nintenName," fixed",newLine
-.byte   " the spoon with",newLine
-.byte   " PSI-Power.)",newLine
-.byte   pauseText
-.byte   "*Thanks a million!",newLine
-.byte   " Munch, munch...",newLine
-.byte   pauseText
-.byte   "*Hey, would you",newLine
-.byte   " like to spend",newLine
-.byte   " the night here?",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNBOY_NO:
-.byte   "*Why not? You can",newLine
-.byte   " fix it without any",newLine
-.byte   " physical effort!",newLine
-.byte   stopText
-
 MSG_MAGICANT_STRANGEGIRL:
-.byte   "*You're a strange",newLine
-.byte   " person...",newLine
-.byte   pauseText
-.byte   "*but for some",newLine
-.byte   " reason, I like",newLine
-.byte   " you.",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNBOY_STAY:
-.byte   "*That's good.",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNBOY_NOSTAY:
-.byte   "*Boo hoo hoo... You",newLine
-.byte   " should accept",newLine
-.byte   " kindness graciously.",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNKEEPER1:
-.byte   "*Oh, traveller! Why",newLine
-.byte   " don't you enjoy a",newLine
-.byte   " meal at our house?",newLine
-.byte   pauseText
-.byte   "*Well.... Today's",newLine
-.byte   " special. Can you",newLine
-.byte   " guess what it is?",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNKEEPER1_NO:
-.byte   "*Why not!? You sound",newLine
-.byte   " so suspicious!",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNKEEPER2:
-.byte   "*Yes, it's ",newLine
-.byte   " ",favFood,".",newLine
-.byte   pauseText
-.byte   "*I knew you liked",newLine
-.byte   " ",favFood,". Do you",newLine
-.byte   " want some?",newLine
-.byte   stopText
-
 MSG_MAGICANT_MUSICVENDOR:
-.byte   "*This was to be a",newLine
-.byte   " musical instrument",newLine
-.byte   " store,",newLine
-.byte   pauseText
-.byte   "*but the Ocarina",newLine
-.byte   " that we ordered",newLine
-.byte   " never arrived.",newLine
-.byte   pauseText
-.byte   "*So I've given up.",newLine
 MSG_MAGICANT_INNKEEPER2_NO:
 MSG_MAGICANT_INNKEEPER3:
 .byte   stopText

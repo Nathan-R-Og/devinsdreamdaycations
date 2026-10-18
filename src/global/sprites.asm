@@ -23,14 +23,14 @@ SPRITES:
 
 ;;;;;characters1
 SPRITEDEF_NINTEN:
-spritePointerDef SPRITE_CHARUP1, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARUP2, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARRIGHT1, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARRIGHT2, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARDOWN1, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARDOWN2, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARLEFT1, $0, 1, 3, 1, 0
-spritePointerDef SPRITE_CHARLEFT2, $0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARUP1, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARUP2, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARRIGHT1, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARRIGHT2, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARDOWN1, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARDOWN2, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARLEFT1, $0, 3, 1, 1, 0
+spritePointerDef SPRITE_CHARLEFT2, $0, 3, 1, 1, 0
 
 SPRITEDEF_ANA:
 spritePointerDef SPRITE_CHARUP1, $40, 2, 2, 1, 0

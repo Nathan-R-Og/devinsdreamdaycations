@@ -16,13 +16,8 @@
     ;8 tiles
     ;NOTE- the walking sideways front foot is unchanged. technically only 7 tiles were changed
 
-    .ifdef VER_JP
-        .incbin "../../split/jp/chr/characters1.bin"
-        .incbin "../../split/jp/chr/characters2.bin"
-    .else
-        .incbin "../../split/us/chr/characters1.bin"
-        .incbin "../../split/us/chr/characters2.bin"
-    .endif
+    .incbin "../../edit/characters1.bin"
+    .incbin "../../split/us/chr/characters2.bin"
 
     .incbin "../../split/global/chr/characters3.bin"
     ;priest

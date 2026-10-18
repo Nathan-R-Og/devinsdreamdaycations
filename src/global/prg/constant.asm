@@ -2887,8 +2887,6 @@ PostInit:
         bne @DoButtonRemapCheck
     .endif
 
-    jsr Idle_DadPhonecall
-
     jmp @DoNormalFrame
 
 .ifndef VER_JP
@@ -5828,7 +5826,7 @@ DoLevelUp:
     jsr TryPrintPointsIncrease
     lda UNK_28
     ;if char id >= 3, skip pp
-    cmp #3
+    cmp #0
     bcs @B30_1c0f
     ldy #$f
     lda (UNK_38), y
@@ -10945,8 +10943,6 @@ NMI_Schedule_IRQs:
     ora pad2_forced
     sta pad2_forced
 
-    jsr TickDadCallTimer
-
     lda post_nmi_callback
     beq @dont_jsr
     jsr post_nmi_callback
@@ -12315,35 +12311,6 @@ ReadPads:
     dex
     bpl @loop
     rts
-
-TickDadCallTimer:
-    lda pad1_press
-    bne @pad_is_pressed
-
-    ; if no buttons are being pressed and dad_call_input_timer >= 42 (meaning
-    ; it's been ~42*256 = 10752 frames, just shy of 3 minutes without inputs),
-    ; return and don't increment anything
-    lda dad_call_input_timer
-    cmp #42
-    bcc @less_than_42
-    rts
-
-@pad_is_pressed:
-    ;otherwise, if a button is being newly pressed, reset dad_call_input_timer to 0
-    lda #0
-    sta dad_call_input_timer
-    ; fallthrough
-@less_than_42:
-    inc dad_call_timer
-    bne @exit
-    inc dad_call_input_timer
-    inc dad_call_timer+1
-    bne @exit
-    inc dad_call_timer+2
-    ; fallthrough
-@exit:
-    rts
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ; Delays A clocks + overhead

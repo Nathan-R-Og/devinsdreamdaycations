@@ -568,6 +568,11 @@ DoWalkingStep:
     ;do onstepeffect
     jsr OnStepEffect
 
+    lda #.BANK(TimeChange)
+    ldx #.LOBYTE(TimeChange-1)
+    ldy #.HIBYTE(TimeChange-1)
+    jsr TempUpperBankswitch
+
     ;get areaEncounterDef based on area
     ldx map_area
     lda AREA_ENCOUNTER_LIST, x
@@ -663,15 +668,6 @@ DoWalkingStep:
     ;if battle id == 0, keep rerolling
     beq @battle_roll
 
-    .ifdef VER_JP
-    bne @B20_9595
-    @FrequencyFail:
-    lda #0
-    @B20_9595:
-    sta enemy_group
-    @quick_exit:
-    rts
-    .else
     ;store in ram
     sta enemy_group
 
@@ -679,9 +675,7 @@ DoWalkingStep:
     lda #.BANK(RepelRing_Effect)
     ldx #.LOBYTE(RepelRing_Effect-1)
     ldy #.HIBYTE(RepelRing_Effect-1)
-    jsr TempUpperBankswitch
-    rts
-    .endif
+    jmp TempUpperBankswitch
 
     AREA_FREQ_TABLE:
     ;lookup table for frequencies
@@ -1710,73 +1704,24 @@ GiegueCliff_Sprites:
 NS_NamingSequence:
     jsr B20_1B2A
     ;NameLength = 6
-    .ifdef VER_JP
-        lda #5
-    .else
-        @naming_ninten:
-        lda #6
-    .endif
+    @naming_ninten:
+    lda #6
     sta NameLength
-    .ifdef VER_JP
-        @naming_ninten:
-    .endif
 
     lda #.LOBYTE(ninten_question)
     ldx #.HIBYTE(ninten_question)
     jsr NS_LoadQuestion
 
-    .ifdef VER_JP
-        bcs @naming_ninten
-    .else
-        bcs @exit
-    .endif
-    @naming_ana:
-    .ifndef VER_JP
-        ;NameLength = 6
-        lda #6
-        sta NameLength
-    .endif
+    bcs @exit
 
-    lda #.LOBYTE(ana_question)
-    ldx #.HIBYTE(ana_question)
-    jsr NS_LoadQuestion
-
-    bcs @naming_ninten
-    @naming_lloyd:
-    .ifndef VER_JP
-        ;NameLength = 6
-        lda #6
-        sta NameLength
-    .endif
-
-    lda #.LOBYTE(lloyd_question)
-    ldx #.HIBYTE(lloyd_question)
-    jsr NS_LoadQuestion
-
-    bcs @naming_ana
-    @naming_teddy:
-    .ifndef VER_JP
-        ;NameLength = 6
-        lda #6
-        sta NameLength
-    .endif
-
-    lda #.LOBYTE(teddy_question)
-    ldx #.HIBYTE(teddy_question)
-    jsr NS_LoadQuestion
-
-    bcs @naming_lloyd
-    .ifndef VER_JP
-        ;NameLength = 6
-        lda #10
-        sta NameLength
-    .endif
+    lda #10
+    sta NameLength
 
     lda #.LOBYTE(food_question)
     ldx #.HIBYTE(food_question)
     jsr NS_LoadQuestion
 
-    bcs @naming_teddy
+    bcs @naming_ninten
     jsr B20_1d50 ;transition (dark)
     jsr NS_ShowRecap
     jsr B31_0e30 ;transition (light)
@@ -1788,9 +1733,6 @@ NS_NamingSequence:
     ;else, go back to ninten
     jmp NS_NamingSequence
     @continue:
-    .ifdef VER_JP
-        jsr B20_9bab
-    .endif
 
     jsr B20_1d50 ;transition (dark)
     ;wait 60 frames
@@ -1799,50 +1741,48 @@ NS_NamingSequence:
 
     jsr B31_0e30 ;transition (light)
 
-    .ifdef VER_JP
-        lda #4
-        sta ntbl_x
-    .else
-        ;store 2,3 for x,y
-        lda #2
-        sta ntbl_x
-        lda #3
-    .endif
+    ;store 2,3 for x,y
+    lda #2
+    sta ntbl_x
+    lda #3
     sta ntbl_x+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText1)
     ldy #.HIBYTE(IntroText1)
     jsr do_story_print
+    jsr B31_0e30;transition (light)
+
+    ;store 2,3 for x,y
+    lda #2
+    sta ntbl_x
+    lda #3
+    sta ntbl_x+1
+
+    ;prints each line
+    ldx #.LOBYTE(IntroText3)
+    ldy #.HIBYTE(IntroText3)
+    jsr do_story_print
+    jsr B31_0e30;transition (light)
 
     ;quit music next text
     lda #music::mute
     sta soundqueue_track
 
-    jsr B31_0e30;transition (light)
-
     ;store 6,10 for x,y
-    lda #6
+    lda #2
     sta ntbl_x
-    .ifdef VER_JP
-        lda #14
-    .else
-        lda #10
-    .endif
+    lda #6
     sta ntbl_x+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText2)
     ldy #.HIBYTE(IntroText2)
-    .ifdef VER_JP
-        jmp do_story_print
-    .else
-        jsr do_story_print
+    jsr do_story_print
 
-        clc
-        @exit:
-        rts
-    .endif
+    clc
+    @exit:
+    rts
 
 NS_ShowRecap:
     ;lists off all your answers
@@ -1991,14 +1931,7 @@ do_story_print:
 
     @loop:
     jsr PRINT_STRING
-    .ifdef VER_JP
-        pha
-        ldx #30
-        jsr WaitXFrames
-        pla
-    .else
-        dec ntbl_y
-    .endif
+    dec ntbl_y
     cmp #0
     bne @loop
 
