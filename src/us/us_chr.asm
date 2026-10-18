@@ -8,5 +8,8 @@
 .segment        "CHR1B": absolute
     ;the EARTH BOUND logo
     .incbin "../../edit/title_gfx.bin"
+    .incbin "../../edit/note_gfx.bin"
+    .incbin "../../edit/paperfont.bin"
+
 .segment "CHR1C": absolute
     .incbin "../../edit/portraits.bin"

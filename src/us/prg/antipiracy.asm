@@ -581,10 +581,6 @@ tombstone_spritedata:
     .byte 4, 0, 66, 66, -1, -1
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
 
-;yeah man
-Rts_Antipiracy:
-    rts
-
 Livehouse_Antipiracy:
     jsr Refresh_SpriteObjects
     ;mute music
@@ -1740,20 +1736,27 @@ TryPortrait:
     bne @no_skip_portrait
     rts
     @no_skip_portrait:
+    ;backup chr_page
     pha
 
-    ;get screen space addr
+    ;we are running!
+    lda #NMI_MODE::RUNNING
+    sta nmi_mode
+
+    ;backup screen space addr
     lda ntbl_x
     pha
     lda ntbl_y
     pha
 
+    ;get top left addr
     lda #3
     sta ntbl_x
     lda #20
     sta ntbl_y
     jsr CalculateNTAddr
 
+    ;move to backup + PPUADDR
     lda nametable_address
     sta PPUADDR
     sta address_start
@@ -1761,69 +1764,71 @@ TryPortrait:
     sta PPUADDR
     sta address_start+1
 
+    .define x_limit chr_page
     lda #4
-    sta chr_page
+    sta x_limit
 
+    .define current_tile chr_offset
     lda chr_offset
 
+    ;a == current_tile
     ldy #0
     @loopa:
     sta PPUDATA
 
+    ;current_tile++
     sec
     adc #0
-    ; pha
-
-    ; lda nametable_address+1
-    ; and #$1F
-    ; cmp #$1f
-    ; bne @ignoral
-    ; lda nametable_address+1
-    ; and #%11100000
-    ; sta nametable_address+1
-
-    ; lda nametable_address
-    ; eor #%0100
-    ; sta nametable_address
-    ; sta PPUADDR
-    ; lda nametable_address+1
-    ; sta PPUADDR
-
-    ; bne @returnal
-    ; @ignoral:
-    ; inc nametable_address+1
-    ; @returnal:
-
-
-    ; pla
-
-    iny
-    cpy chr_page
-    bne @loopa
-    clc
-    adc #$10-4
-    pha
-    tya
     pha
 
-    inc ntbl_y
-    jsr CalculateNTAddr
-
+    ;check ntbl horiz overflow
+    lda nametable_address+1
+    and #$1F
+    cmp #$1f
+    bne @ignoral
+    ;lo - coarse x == 0
+    lda nametable_address+1
+    and #~$1F
+    sta nametable_address+1
+    ;hi - switch
     lda nametable_address
+    eor #%0100
+    sta nametable_address
+
     sta PPUADDR
     lda nametable_address+1
     sta PPUADDR
 
-    ;jsr @yincr
+    bne @returnal
+    @ignoral:
+    inc nametable_address+1
+    @returnal:
+
+    ;get current tile
+    pla
+
+    ;check if done with horiz row
+    iny
+    cpy x_limit
+    bne @loopa
+    ;escaped x limit
+
+    ;move current_tile to next row
+    clc
+    adc #$10-4
+    ;store current_tile and x_limit
+    pha
+
+    jsr yincr
+
+    ;x_limit += 4
+    clc
+    lda x_limit
+    adc #4
+    sta x_limit
+
 
     pla
-    tay
-
-    pla
-    inc chr_page
-    inc chr_page
-    inc chr_page
-    inc chr_page
     cpy #$10
     bne @loopa
 
@@ -1843,25 +1848,29 @@ TryPortrait:
     @skip_portrait:
     rts
 
-@yincr:
+yincr:
     lda address_start
     and #%11
     cmp #3
     bne @not_gonna_cross
-    lda nametable_address+1
+    lda address_start+1
     cmp #$a0
     bcc @not_gonna_cross
 
     clc
-    lda nametable_address
+    lda address_start
     adc #5
-    and #%10
+    and #$2C
+    sta address_start
     sta nametable_address
+    sta PPUADDR
 
-    lda nametable_address+1
+    lda address_start+1
     and #$1f
+    sta address_start+1
     sta nametable_address+1
-    bne @returnal2
+    sta PPUADDR
+    rts
 
     @not_gonna_cross:
     clc
@@ -1873,11 +1882,8 @@ TryPortrait:
     adc #0
     sta address_start
     sta nametable_address
-
-    @returnal2:
-
-    lda nametable_address
     sta PPUADDR
+
     lda nametable_address+1
     sta PPUADDR
     rts
@@ -1885,6 +1891,7 @@ TryPortrait:
 ;this is checked every time the 'warp to magicant' transition happens
 ;namely the onyx hook, shells and gravestone
 ShowScreen:
+    jsr PpuSync
     ;fade to black
     jsr OT0_DefaultTransition
 
@@ -1902,51 +1909,8 @@ ShowScreen:
     sta irq_count
     sta scroll_x
     sta scroll_y
-
-    ;stop music
-    lda #$ff
-    jsr PlayMusic
-
-    ;swap chr
-    lda #$7e
-    ldx #BANK::CHR1800
-    jsr BANK_SWAP
-    lda #$7f
-    ldx #BANK::CHR1C00
-    jsr BANK_SWAP
-
-    ;load antipiracy message
-    lda #.LOBYTE(UMSG::ANTIPIRACY)
-    sta UNK_73+1
-    lda #.HIBYTE(UMSG::ANTIPIRACY)
-    sta UNK_73
-
-    ;ntbl_x = 2
-    ;ntbl_y = 2
-    lda #3
-    sta ntbl_x
-    lda #10
-    sta ntbl_y
-
-    ;UNK_70 = 0
-    ;UNK_71 = 0
-    lda #0
     sta UNK_70
     sta UNK_71
-
-    ;load the text manually
-    @B25_0238:
-    jsr GetTextData
-    jsr DrawTilepackClear
-
-    cmp #0
-    beq @B25_024a
-    ldy #0
-    lda (tilepack_ptr), y
-    cmp #0
-    bne @B25_0238
-
-    @B25_024a:
 
     BankswitchCHR_Address ANTIPIRACY_chrs
 
@@ -1962,6 +1926,31 @@ ShowScreen:
     jsr mini_cmd_set_metatileprops
 
 
+    .define no_double UNK_F8
+    lda #1
+    sta no_double
+
+    ;ntbl_x = 2
+    ;ntbl_y = 2
+    lda #4
+    sta ntbl_x
+    sta ntbl_y
+
+    ;load the text manually
+    @B25_0238:
+    jsr GetTextData
+    jsr DrawTilepackClear
+
+
+    cmp #0
+    beq @B25_024a
+    ldy #0
+    lda (tilepack_ptr), y
+    cmp #0
+    bne @B25_0238
+
+    @B25_024a:
+
     jsr PpuSync
 
     ;load generic palette
@@ -1972,6 +1961,19 @@ ShowScreen:
     dex
     bpl @B25_024f
 
+    jsr mini_pal_update
+
+    jsr WAIT_CLOSE_MENU
+
+    lda #0
+    sta no_double
+
+    BankswitchCHR_Address ANTIPIRACY_chrs2
+
+    jsr OT0_DefaultTransition
+    rts
+
+mini_pal_update:
     lda #NMI_COMMANDS::UPDATE_PALETTE
     sta nmi_queue ; UPDATE_PALETTE
 
@@ -1981,34 +1983,34 @@ ShowScreen:
 
     lda #$80
     sta new_animation_timer
-
-    @inf_loop:
-    jmp @inf_loop
+    rts
 
 ANTIPIRACY_PALETTE:
-    .byte $0f, $28, $30, $18
-    .byte $0f, $28, $30, $18
-    .byte $0f, $28, $30, $18
-    .byte $0f, $28, $30, $18
+    .byte $07, $17, $18, $38
+    .byte $07, $0f, $0f, $38
+    .byte $07, $0F, $0F, $0F
+    .byte $07, $0F, $0F, $0F
 
-    .byte $0f, $0f, $00, $30
-    .byte $0f, $0f, $16, $37
-    .byte $0f, $0f, $24, $37
-    .byte $0f, $0f, $12, $37
+    .byte $07, $0F, $0F, $0F
+    .byte $07, $0F, $0F, $0F
+    .byte $07, $0F, $0F, $0F
+    .byte $07, $0F, $0F, $0F
 
 ANTIPIRACY_chrs:
-    .byte $00, $00, $00, $d9, $7e, $7f
+    .byte $00, $00, $d9, $00, $dA, $db
+ANTIPIRACY_chrs2:
+    .byte $60, $00, $7c, $7d, $7e, $7f
 
 jj3_tmp:
-.addr $2544+$60
-.byte 24, 4
-    .incbin "../../edit/real_credits_jj3.tilemap"
-    .res 24, $40
+.addr $2021
+;width, height
+.byte 30, 28
+    .incbin "../../edit/note.tilemap"
+
 jj3_attr:
-.addr $23D1+$400+$10
-.byte 6, 2
-    .byte %00000101, %00000101, %00000101, %00000101, %00000101, %00000101
-    .byte %01010000, %01010000, %01010000, %01010000, %01010000, %01010000
+.addr $23C9
+.byte 6, 5
+    .res 6*5, %01010101
 
 mini_cmd_set_metatileprops:
     lda #8

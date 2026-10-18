@@ -265,6 +265,11 @@ obj_incs = 0
     .word addrOrId
 .endmacro
 
+.macro OBJ_NOTE addrOrId
+    .byte $6B
+    .word addrOrId
+.endmacro
+
 .macro OBJ_MOVE addr
     .byte SCRIPTS::M_MOVE
     .addr addr

@@ -414,15 +414,18 @@ MSG_SNOWMAN_ANA_GOODBYE:
 .byte   stopText
 
 MSG_TALK_NOONE:
+.byte 5, 0, $e1
 .byte   "*Who are you",newLine
 .byte   " talking to?",newLine
 .byte   stopText
 
 MSG_TALK_PARTY:
+.byte 5, 12, $e1
 .byte   "*What?!?",newLine
 .byte   stopText
 
 MSG_CHECK_NOTHING:
+.byte 5, 0, $e1
 .byte   "*No problem.",newLine
 .byte   stopText
 

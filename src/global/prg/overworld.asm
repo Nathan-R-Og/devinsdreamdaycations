@@ -4389,7 +4389,6 @@ OINST_ScreenShake:
     iny
     rts
 
-.ifndef VER_JP
 ; Instruction 6A - George crystal (?)
 OINST_DoTombstone:
     sty object_script_offset
@@ -4404,16 +4403,78 @@ OINST_DoTombstone:
 
 ; Instruction 6B - do literally nothing
 OINST_Useless:
-    sty object_script_offset
-    lda #.BANK(Rts_Antipiracy)
-    ldx #.LOBYTE(Rts_Antipiracy-1)
-    ldy #.HIBYTE(Rts_Antipiracy-1)
-    jsr TempUpperBankswitch
-    jsr B19_0b41
-    ldy object_script_offset
     iny
+    lda (object_data), y
+    sta text_id+1
+    iny
+    lda (object_data), y
+    sta text_id
+    iny
+    sty object_script_offset
+
+    ;store object pointer
+    lda object_pointer
+    pha
+    lda object_pointer+1
+    pha
+
+    ;store object data
+    lda object_data
+    pha
+    lda object_data+1
+    pha
+
+    ;let previous text increment
+    jsr WAIT_CLOSE_MENU
+
+    ;The Money
+    lda #.BANK(ShowScreen)
+    ldx #.LOBYTE(ShowScreen-1)
+    ldy #.HIBYTE(ShowScreen-1)
+    jsr TempUpperBankswitch
+
+    ;????
+    lda #.BANK(GetScreenMapData)
+    ldx #.LOBYTE(GetScreenMapData-1)
+    ldy #.HIBYTE(GetScreenMapData-1)
+    jsr TempUpperBankswitch
+
+    ;???
+    lda #.BANK(STORE_COORDINATES)
+    ldx #.LOBYTE(STORE_COORDINATES-1)
+    ldy #.HIBYTE(STORE_COORDINATES-1)
+    jsr TempUpperBankswitch
+
+    ;reload objects
+    lda map_area
+    jsr SetObjectBank
+    jsr PpuSync
+
+    ;restore object data pointer
+    pla
+    sta object_data+1
+    pla
+    sta object_data
+
+    ;restore object pointer... pointer
+    pla
+    sta object_pointer+1
+    pla
+    sta object_pointer
+
+    lda #0
+    sta oam_and_300_clear_flag
+    sta printing_state
+
+    ;exit instruction loop if completely done
+    ldy object_script_offset
+    lda (object_data), y
+    bne @continue
+    pla
+    pla
+    @continue:
+
     rts
-.endif
 
 B19_1763:
     ldx #.HIBYTE($0219)

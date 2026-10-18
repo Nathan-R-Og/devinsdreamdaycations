@@ -5,9 +5,14 @@ MSG_SYS_SYSERROR:
 .byte   stopText
 
 MSG_MYHOME_MINNIE_INVASION:
-.byte   "*Brother, I'm so",newLine
-.byte   " scared! The lamp",newLine
-.byte   " seems to be alive!",newLine
+.byte   "I don't know how long it",newLine,newLine
+.byte   "has been, but I don't",newLine,newLine
+.byte   "remember getting here.",newLine,newLine
+.byte   "It's been a blur and the",newLine,newLine
+.byte   "people here aren't much",newLine,newLine
+.byte   "help either.",newLine,newLine
+.byte   "If you see this, please",newLine,newLine
+.byte   "send help."
 .byte   stopText
 
 MSG_MYHOME_MINNIE_INVASION_FIGHT:
@@ -954,15 +959,6 @@ MSG_MAGICANT_MUSICVENDOR:
 .byte   " never arrived.",newLine
 .byte   pauseText
 .byte   "*So I've given up.",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNKEEPER2_NO:
-.byte   "*Is that so?",newLine
-.byte   stopText
-
 MSG_MAGICANT_INNKEEPER3:
-.byte   "*Thanks. Your bed",newLine
-.byte   " is ready. Please",newLine
-.byte   " sleep well.",newLine
 .byte   stopText
-

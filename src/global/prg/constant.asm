@@ -2209,7 +2209,11 @@ TILES_restoreptr:
     lda UNK_72
     bpl B30_0901
     ;this is where it does the newLine line height x2
+    lda no_double
+    cmp #1
+    beq @do_no_harm
     inc ntbl_y
+    @do_no_harm:
     rts
 
 B30_0901:
@@ -2375,6 +2379,8 @@ TILES_print_number:
 
 ;just write portrait data. dont do anything else
 ;or else the cycle gods will smite you. save it for nmi
+;nmi command 05 is already being written. we have to inject the portrait
+;somewhere else
 TILES_t_nop:
     ldy UNK_7A
     lda (tilepack_ptr), y

@@ -341,18 +341,11 @@ MSG_REPEL_RING_BREAK:
 .byte   stopText
 
 MSG_ANTIPIRACY:
-.byte   '"This software is an illegal',newLine
-.byte   "copy of a Nintendo game. The",newLine
-.byte   "use, possession or sale of",newLine
-.byte   "this counterfeit cartridge",newLine
-.byte   "is illegal and infringes",newLine
-.byte   'Nintendo copyrights."',newLine
-.byte   "          Nintendo Co., Ltd.",newLine
-.byte   "          Kyoto, Japan /",newLine
-.byte   "          Redmond WA, USA.",newLine
-.byte   '"This illegal copy of',newLine
-.byte   "NES EARTH BOUND will",newLine
-.byte   'no longer function."',newLine
+.byte   "dear mom and dad",newLine
+.byte   "i dropped my ice cream:(",newLine
+.byte   newLine
+.byte   newLine
+.byte   "- little timmy"
 .byte   stopText
 
 .byte   " ",newLine
