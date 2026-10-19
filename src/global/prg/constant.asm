@@ -894,81 +894,48 @@ DrawCurrentWindow:
 DRAW_WINDOW_8ENTRY:
     lda #.LOBYTE(window_8entries)
     ldx #.HIBYTE(window_8entries)
-    .ifdef VER_JP
-    L3C4BB:
-    sta tilepack_ptr
-    stx tilepack_ptr+1
-    jmp B30_02b3
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 DRAW_WINDOW_SHOP:
     lda #.LOBYTE(window_shopitems)
     ldx #.HIBYTE(window_shopitems)
-    .ifdef VER_JP
-    jmp L3C4BB
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 DrawWindowWho:
     lda #.LOBYTE(window_who)
     ldx #.HIBYTE(window_who)
-    .ifdef VER_JP
-    jmp L3C4BB
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 DRAW_WINDOW_ITEMACTIONS:
     lda #.LOBYTE(window_itemactions)
     ldx #.HIBYTE(window_itemactions)
-    .ifdef VER_JP
-    jmp L3C4BB
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 DRAW_WINDOW_CASHBOX:
     lda #.LOBYTE(cash_box_menu)
     ldx #.HIBYTE(cash_box_menu)
-    .ifdef VER_JP
-    jmp L3C4BB
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 B30_03d5:
     jsr SetupPartyUi
     lda #.LOBYTE(window_unk)
     ldx #.HIBYTE(window_unk)
-    .ifdef VER_JP
-    jmp L3C4BB
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 B30_03df:
     lda #.LOBYTE(cash_box_top_2)
     ldx #.HIBYTE(cash_box_top_2)
-    .ifdef VER_JP
-    jmp L3C4BB
-    .else
     jmp DrawCurrentWindow
-    .endif
 
 B30_03e6:
     lda #.LOBYTE(cash_box_middle)
     ldx #.HIBYTE(cash_box_middle)
     jmp DrawCurrentWindow
 
-.ifndef VER_JP
 Draw_SetupMenu:
     lda #.LOBYTE(setup_menu)
     ldx #.HIBYTE(setup_menu)
     jmp DrawCurrentWindow
-.endif
 
 ; runs when overworld menus are being wiped
 CLEAR_TEXTBOXES_ROUTINE:
@@ -2800,6 +2767,14 @@ PostInit:
     jsr ClearSprites
     jsr STORE_COORDINATES
 
+    jsr EnablePRGRam
+    sta has_dimmed
+
+    lda #.BANK(make_sure_dim_level_is_correct)
+    ldx #.LOBYTE(make_sure_dim_level_is_correct-1)
+    ldy #.HIBYTE(make_sure_dim_level_is_correct-1)
+    jsr TempUpperBankswitch
+
     B30_0b76:
     jsr B30_1e99
     jsr B31_0ef0
@@ -3032,6 +3007,11 @@ B30_0c2b:
     bit UNK_A0
     bmi @B30_0c9c
     inc step_count
+
+    lda #.BANK(TimeChange)
+    ldx #.LOBYTE(TimeChange-1)
+    ldy #.HIBYTE(TimeChange-1)
+    jsr TempUpperBankswitch
     @B30_0c9c:
     rts
 

@@ -45,7 +45,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte %01000000, %00000000
+.byte %00000000, %00000000
 .byte %00000000, %00000000
 .byte %00000000, %00000000
 .byte %00000000, %00000000

@@ -2090,10 +2090,196 @@ mini_cmd_set_metatileprops:
     rts
 
 TimeChange:
-    inc dad_call_timer
-    bne @no_more
+    ;step time increment
+    clc
+    lda dad_call_timer
+    adc #150
+    sta dad_call_timer
+    bcc @no_more
     inc dad_call_timer+1
     bne @no_more
     inc dad_call_timer+2
+
     @no_more:
+
+    .define time_min UNK_F8+1
+    .define time_hour UNK_F8+2
+    .define time_days UNK_F8+3
+
+    lda dad_call_timer
+    sta UNK_60
+    lda dad_call_timer+1
+    sta UNK_60+1
+    lda dad_call_timer+2
+    sta UNK_62
+    lda #60
+    sta UNK_64
+    jsr B31_113d
+
+    lda #60
+    sta UNK_64
+    jsr B31_113d
+    sta time_min
+
+    lda #24
+    sta UNK_64
+    jsr B31_113d
+    sta time_hour
+
+    lda temp_vars
+    clc
+    adc #1
+    sta time_days
+
+make_sure_dim_level_is_correct:
+    ;hour // 4
+    lda time_hour
+    sta temp_vars
+    lda #0
+    sta temp_vars+1
+    sta temp_vars+2
+    lda #4
+    sta UNK_64
+    jsr B31_113d
+    ldx temp_vars
+    lda dim_levels, x
+
+.define has_dimmed save_file_current+save_file_structure::unk_95
+
+    cmp has_dimmed
+    bne @do
+    rts
+    @do:
+    pha
+    jsr EnablePRGRam
+    pla
+    pha
+    sta has_dimmed
+
+    jsr reload_palette
+
+    ;backup palette
+    jsr BackupPalette
+
+    pla
+    bne @actually_darken
+    ;force update palette
+    lda #1
+    tax
+    tay
+    jsr B31_0eb5
+    rts
+    @actually_darken:
+
+
+    tay
+    iny ;amount of darkens
+    @do_another:
+    ldx #$1f ;amount of colors - 1
+    @darken:
+    ;set carry to check if toggled
+    sec
+    ;get palette[x]
+    lda palette_queue, x
+    ;-= 16
+    sbc #$10
+    ;skip if still 'carry'
+    bcs @darkest
+    ;if negative, load default black
+    lda #$0f
+    @darkest:
+    ;load back into
+    sta palette_queue, x
+    dex
+    ;if x < 0, break
+    bpl @darken
+
+    tya
+    tax
+    ;force update palette
+    jsr B31_0eb5
+    dey
+    cpy #1
+    bne @do_another
+
+    rts
+
+
+
+dim_levels:
+    ;0-4
+    .byte 2
+    ;4-8
+    .byte 1
+    ;8-12
+    .byte 0
+    ;12-16
+    .byte 0
+    ;16-20
+    .byte 1
+    ;20-24
+    .byte 2
+
+reload_palette:
+    ;[map_tmp_ptr+1] = 0
+    lda #0
+    sta map_tmp_ptr+1
+
+    ;[map_current_palette] <<= 4
+    ;[map_tmp_ptr+1] <<= 2
+    ;move lost bits into map_tmp_ptr+1
+    lda map_current_palette
+    asl a
+    asl a
+    asl a
+    rol map_tmp_ptr+1
+    asl a
+    rol map_tmp_ptr+1
+
+    ;basically, map_tmp_ptr = map_current_palette * 0x10
+
+    ;[map_tmp_ptr] += Map_Palettes
+    adc #.LOBYTE(Map_Palettes)
+    sta map_tmp_ptr
+    lda map_tmp_ptr+1
+    adc #.HIBYTE(Map_Palettes)
+    sta map_tmp_ptr+1
+
+    ;wait for ppu so this doesnt go crazy
+    jsr PpuSync
+
+    lda current_banks+BANK::PRG8000
+    pha
+    lda #.BANK(Map_Palettes)
+    ldx #BANK::PRG8000
+    jsr BANK_SWAP
+
+    ldy #$f
+    @add_palette_to_queue:
+    lda (map_tmp_ptr), y
+    bpl @is_positive
+    @is_positive:
+    ;put byte into palette queue (relative)
+    sta palette_queue, y
+    ;y--, loop if y > 0
+    dey
+    bpl @add_palette_to_queue
+
+    pla
+    ldx #BANK::PRG8000
+    jsr BANK_SWAP
+
+    ;standard copy the sprite palette
+    ldy #$f
+    @copy_sprite_palette:
+    lda Field_Sprite_Palette, y
+    sta palette_queue+$10, y
+    dey
+    bpl @copy_sprite_palette
+
+    lda #$f
+    sta palette_queue+$c
+    lda #$30
+    sta palette_queue+$e
+
     rts

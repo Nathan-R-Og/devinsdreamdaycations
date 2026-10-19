@@ -30,8 +30,14 @@ cash_box_top:
 .byte uibox_l,"$"
 .byte print_number $7410, 2, 5
 .byte c00," ",uibox_r
-.byte stopText
+.byte newLine
 .byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
+.byte uibox_l
+.byte print_number UNK_F8+3, 1, 2,"-"
+.byte print_number UNK_F8+2, 1, 2,":"
+.byte print_number UNK_F8+1, 1, 2,uibox_r
+.byte stopText
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 ;cash box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 8

@@ -568,10 +568,6 @@ DoWalkingStep:
     ;do onstepeffect
     jsr OnStepEffect
 
-    lda #.BANK(TimeChange)
-    ldx #.LOBYTE(TimeChange-1)
-    ldy #.HIBYTE(TimeChange-1)
-    jsr TempUpperBankswitch
 
     ;get areaEncounterDef based on area
     ldx map_area

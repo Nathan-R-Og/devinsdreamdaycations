@@ -7,17 +7,8 @@
     .addr name
 
     ;the levels have to be PASSED to gain the psi, specifically
-    .ifblank nintenLevel
     .byte -1
-    .else
-    .byte nintenLevel
-    .endif
-
-    .ifblank anaLevel
     .byte -1
-    .else
-    .byte anaLevel
-    .endif
 
     .byte overworldEffect, battleEffect, arg5, cost
 .endmacro
