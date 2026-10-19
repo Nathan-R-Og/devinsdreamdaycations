@@ -1925,8 +1925,6 @@ ShowScreen:
     sta UNK_40+1
     jsr mini_cmd_set_metatileprops
 
-
-    .define no_double UNK_F8
     lda #1
     sta no_double
 
@@ -1974,16 +1972,11 @@ ShowScreen:
     rts
 
 mini_pal_update:
-    lda #NMI_COMMANDS::UPDATE_PALETTE
-    sta nmi_queue ; UPDATE_PALETTE
-
-    lda #0
-    sta nmi_queue+1 ; END
-    sta nmi_data_offset
-
-    lda #$80
-    sta new_animation_timer
-    rts
+    lda #1
+    tya
+    tax
+    ;force update palette
+    jmp B31_0eb5
 
 ANTIPIRACY_PALETTE:
     .byte $07, $17, $18, $38
@@ -2102,9 +2095,6 @@ TimeChange:
 
     @no_more:
 
-    .define time_min UNK_F8+1
-    .define time_hour UNK_F8+2
-    .define time_days UNK_F8+3
 
     lda dad_call_timer
     sta UNK_60
@@ -2126,10 +2116,19 @@ TimeChange:
     jsr B31_113d
     sta time_hour
 
+    lda time_days
+    sta temp_vars+1
+
     lda temp_vars
     clc
     adc #1
     sta time_days
+    cmp temp_vars+1
+    bcc make_sure_dim_level_is_correct
+    beq make_sure_dim_level_is_correct
+    cmp #1
+    beq make_sure_dim_level_is_correct
+    jmp ShowNewDay
 
 make_sure_dim_level_is_correct:
     ;hour // 4
@@ -2144,9 +2143,7 @@ make_sure_dim_level_is_correct:
     ldx temp_vars
     lda dim_levels, x
 
-.define has_dimmed save_file_current+save_file_structure::unk_95
-
-    cmp has_dimmed
+    cmp current_light
     bne @do
     rts
     @do:
@@ -2154,7 +2151,7 @@ make_sure_dim_level_is_correct:
     jsr EnablePRGRam
     pla
     pha
-    sta has_dimmed
+    sta current_light
 
     jsr reload_palette
 
@@ -2283,3 +2280,89 @@ reload_palette:
     sta palette_queue+$e
 
     rts
+
+
+;this is checked every time the 'warp to magicant' transition happens
+;namely the onyx hook, shells and gravestone
+ShowNewDay:
+    jsr PpuSync
+    ;fade to black
+    jsr OT0_DefaultTransition
+
+    ;clear everything
+    jsr Refresh_SpriteObjects
+    jsr ClearSprites
+    jsr ClearTilemaps
+
+    jsr PpuSync
+
+    ;irq_count = 0
+    ;scroll_x = 0
+    ;scroll_y = 0
+    lda #0
+    sta irq_count
+    sta scroll_x
+    sta scroll_y
+    sta UNK_70
+    sta UNK_71
+
+    BankswitchCHR_Address NEW_DAY_chrs
+
+    lda #.LOBYTE(a_new_day_tiles)
+    sta tilepack_ptr ;store lo
+    lda #.HIBYTE(a_new_day_tiles)
+    sta tilepack_ptr+1 ;store hi
+
+    @loop:
+    jsr DrawTilepack
+    dec ntbl_y
+    cmp #0
+    bne @loop
+
+    jsr PpuSync
+
+    ;load generic palette
+    ldx #$1f
+    @B25_024f:
+    lda NEW_DAY_PALETTE, x
+    sta palette_queue, x
+    dex
+    bpl @B25_024f
+
+    jsr mini_pal_update
+
+    jsr WAIT_CLOSE_MENU
+
+    jsr OT0_DefaultTransition
+
+    ;???
+    lda #.BANK(STORE_COORDINATES)
+    ldx #.LOBYTE(STORE_COORDINATES-1)
+    ldy #.HIBYTE(STORE_COORDINATES-1)
+    jsr TempUpperBankswitch
+
+    jsr EnablePRGRam
+    sta current_light
+    jmp make_sure_dim_level_is_correct
+
+NEW_DAY_PALETTE:
+    .byte $0F, $0F, $30, $0F
+    .byte $0F, $0F, $30, $0F
+    .byte $0F, $0F, $30, $0F
+    .byte $0F, $0F, $30, $0F
+
+    .byte $0F, $0F, $30, $0F
+    .byte $0F, $0F, $30, $0F
+    .byte $0F, $0F, $30, $0F
+    .byte $0F, $0F, $30, $0F
+
+NEW_DAY_chrs:
+    .byte $60, $00, $7c, $7d, $7e, $7f
+
+a_new_day_tiles:
+    ;produced by
+    .byte set_pos 11, 12
+    .byte "A NEW DAY"
+    .byte set_pos 13, 15
+    .byte "BEGINS"
+    .byte stopText

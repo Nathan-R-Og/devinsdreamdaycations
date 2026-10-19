@@ -890,7 +890,7 @@ IntroText3:
 
 IntroText2:
 .byte   "Previous residents have left",newLine
-.byte   "writings of their previous",newLine
+.byte   "writings of their failed",newLine
 .byte   "attempts. Make sure to read",newLine
 .byte   "them carefully.",newLine
 .byte   "",newLine

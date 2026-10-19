@@ -2768,7 +2768,7 @@ PostInit:
     jsr STORE_COORDINATES
 
     jsr EnablePRGRam
-    sta has_dimmed
+    sta current_light
 
     lda #.BANK(make_sure_dim_level_is_correct)
     ldx #.LOBYTE(make_sure_dim_level_is_correct-1)

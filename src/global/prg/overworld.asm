@@ -4433,16 +4433,18 @@ OINST_Useless:
     ldy #.HIBYTE(ShowScreen-1)
     jsr TempUpperBankswitch
 
-    ;????
-    lda #.BANK(GetScreenMapData)
-    ldx #.LOBYTE(GetScreenMapData-1)
-    ldy #.HIBYTE(GetScreenMapData-1)
-    jsr TempUpperBankswitch
-
     ;???
     lda #.BANK(STORE_COORDINATES)
     ldx #.LOBYTE(STORE_COORDINATES-1)
     ldy #.HIBYTE(STORE_COORDINATES-1)
+    jsr TempUpperBankswitch
+
+    jsr EnablePRGRam
+    sta current_light
+
+    lda #.BANK(make_sure_dim_level_is_correct)
+    ldx #.LOBYTE(make_sure_dim_level_is_correct-1)
+    ldy #.HIBYTE(make_sure_dim_level_is_correct-1)
     jsr TempUpperBankswitch
 
     ;reload objects
