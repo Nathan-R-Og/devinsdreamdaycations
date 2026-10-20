@@ -212,6 +212,12 @@ if __name__ == "__main__":
         help="Build japanese only assets",
         action="store_true",
     )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        help="Build debug",
+        action="store_true",
+    )
 
     parser.add_argument(
         "-kf",
@@ -231,6 +237,9 @@ if __name__ == "__main__":
     if args.japanese:
         dir = "jp"
         addDefine("VER_JP")
+    if args.debug:
+        print("DEBUG MODE !!!")
+        addDefine("DEBUG")
 
     if not os.path.exists(f"split/{dir}"):
         raise Exception(

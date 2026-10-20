@@ -8246,7 +8246,12 @@ OBJTICK_Player:
     jsr B31_03b4 ; TODO: TILE COLLISION
     ;the classic AEOTEOAP cheat nop's this V out for noclip
     ;if your repo shifts this, you can do it through rom! isn't that nice
+    .ifdef DEBUG
+    nop
+    nop
+    .else
     bcs @B31_09a9
+    .endif
     bit movement_direction+1
     bpl @B31_09ad
     bvs @B31_099f

@@ -2740,7 +2740,7 @@ Bein_Friends_header:
 
 Pollyanna_header:
 .byte $00
-.byte NLT_35-Tempo_Lengths
+.byte NLT_18-Tempo_Lengths
 .addr mus_pollyanna_pulse1
 .addr mus_pollyanna_pulse2
 .addr mus_pollyanna_triangle
@@ -2860,7 +2860,7 @@ Fallin_Love_header:
 
 Mother_Earth_header:
 .byte $00   ; Transpose
-.byte NLT_28-Tempo_Lengths   ; Note length table offset
+.byte NLT_18-Tempo_Lengths   ; Note length table offset
 .addr mus_mother_earth_pulse1 ; Pulse1 phrase pointers
 .addr mus_mother_earth_pulse2 ; Pulse2 phrase pointers
 .addr mus_mother_earth_triangle ; Triangle phrase pointers

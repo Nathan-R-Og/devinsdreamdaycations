@@ -2,7 +2,7 @@
 .ifdef VER_JP
 .define mapfile "../../split/jp/map.bin"
 .else
-.define mapfile "../../split/us/map.bin"
+.define mapfile "../../edit/map.bin"
 .endif
 
 .segment        "PRG1": absolute

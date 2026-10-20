@@ -1,6 +1,6 @@
 .segment        "CHR0": absolute
     ;map gfx 1
-    .incbin "../../split/global/chr/tileset1.bin"
+    .incbin "../../edit/tileset1.bin"
 
     ;the steeple was changed to remove the cross
     ;4 tiles
@@ -10,8 +10,8 @@
         .incbin "../../split/us/chr/tileset2.bin"
     .endif
 
-    .incbin "../../split/global/chr/tileset3.bin"
-    .incbin "../../split/global/chr/tileset4.bin"
+    .incbin "../../edit/tileset3.bin"
+    .incbin "../../edit/tileset4.bin"
     .incbin "../../split/global/chr/tileset5.bin"
     .incbin "../../split/global/chr/tileset6.bin"
     .incbin "../../split/global/chr/tileset7.bin"

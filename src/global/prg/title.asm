@@ -315,26 +315,9 @@ SPAWNS_1A:
     .byte BATTLEID BATTLE_2D
     .byte 0,0,0,0,0
 SPAWNS_1B:
-    .repeat 2
-        .byte BATTLEID BATTLE_2A
-        .byte BATTLEID BATTLE_2B
-        .byte BATTLEID BATTLE_2C
-        .byte BATTLEID BATTLE_2D
-        .byte BATTLEID BATTLE_A1
-        .byte 0,0,0
-    .endrepeat
 SPAWNS_1C:
-    .repeat $10
-        .byte BATTLEID BATTLE_MYHOUSE_RAT1
-    .endrepeat
 SPAWNS_1D:
-    .repeat $10
-        .byte BATTLEID BATTLE_MYHOUSE_RAT1
-    .endrepeat
 SPAWNS_1E:
-    .repeat $10
-        .byte BATTLEID BATTLE_MYHOUSE_RAT1
-    .endrepeat
 SPAWNS_1F:
     .repeat $10
         .byte BATTLEID BATTLE_MYHOUSE_RAT1
@@ -665,6 +648,9 @@ DoWalkingStep:
     beq @battle_roll
 
     ;store in ram
+    .ifdef DEBUG
+    lda #0
+    .endif
     sta enemy_group
 
     ;run repel ring to ward off that battle
@@ -2637,21 +2623,15 @@ Title_Screen:
     ldx #.HIBYTE(presented_by_tiles)
     jsr DoIntroTransition
 
-    .ifdef VER_JP
-        ldx #.LOBYTE(B20_1EB5)
-        ldy #.HIBYTE(B20_1EB5)
-        jsr fill_nmi_with_pointer_data
-    .else
-        lda #.LOBYTE(Title_Palette)
-        sta UNK_60
-        lda #.HIBYTE(Title_Palette)
-        sta UNK_60+1
-        jsr LoadPaletteFrom
+    lda #.LOBYTE(Title_Palette)
+    sta UNK_60
+    lda #.HIBYTE(Title_Palette)
+    sta UNK_60+1
+    jsr LoadPaletteFrom
 
-        jsr OT0_DefaultTransition
+    jsr OT0_DefaultTransition
 
-        BankswitchCHR_Address Title_CHR
-    .endif
+    BankswitchCHR_Address Title_CHR
 
     lda #.LOBYTE(title_screen_tiles)
     ldx #.HIBYTE(title_screen_tiles)
@@ -2803,7 +2783,7 @@ Title_CHR_Old:
 ; $9E69 - CHR bankswitch table
 ; spinning earth - evemisc - bold_font - rTospinning earth - earthbound1 - earthbound2
 Title_CHR:
-    .byte $42, $72, $7c, $41, $d8, $7c
+    .byte $42, $72, $7c, $41, $d8, $d9
 
 ; $9E6F
 Title_Palette_Old:
@@ -2819,7 +2799,7 @@ Title_Palette_Old:
 
 ; $9E8F
 Title_Palette:
-    .byte $0f, $16, $2C, $24
+    .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
@@ -2934,17 +2914,23 @@ presented_by_tiles:
 ; $9F18 - title screen
 title_screen_tiles:
     ;EARTHBOUND logo
-    .byte set_pos 8, 8
-    .byte $81,$82,$83,$83,$83,$3F,$84,$85,$86,$87,$88,$89,$8A,$8A,$8A,newLine
-    .byte $8B,$8B,$8C,$8B,$8B,$3F,$8D,$8E,$8F,$90,repeatTile $91, 5,newLine
-    .byte $92,$93,$94,$95,$8b,$3F,$96,$97,$3F,$96,$98,$99,$91,$91,$91,newLine
-    .byte $8B,$8B,$8B,$9A,$8B,$3F,$9B,$9C,$9D,$9B,repeatTile $91, 5,newLine
-    .byte repeatTile $8B, 5,  $3F,$9E,$9F,$A0,$9E,repeatTile $91, 5,newLine
-    .byte repeatTile $A1, 5,  $3F,$A2,$3F,$3F,$A2,$A3,$A3,$A4,$A5,$A6,$A7
+    .byte set_pos 6, 5
+    .byte $80,$81,$82,repeatTile $83, 16,$84,newLine
+    .byte $85,$86,$87,repeatTile $88, 16,$89,newLine
+    .byte $8A,$8B,$8C,$8D,$8D,$8E,$8F,$90,$8D,$91,$8D,$92,$91,$93,$94,$95,$8D,$8D,$8D,$96,newLine
+    .byte $97,$98,$99,$9A,$9A,$9B,$9C,$9D,$9A,$9E,$9A,$9F,$9E,$A0,$9A,$A1,$9A,$9A,$9A,$89,newLine
+    .byte $A2,$A3,$8C,$8D,$8D,$8E,$8F,$A4,$8D,$90,$8D,$A5,$8D,$91,$93,$8D,$A6,$A7,$A8,$96,newLine
+    .byte $A9,$AA,$99,$9A,$9A,$9B,$9C,$9F,$9A,$9D,$9A,$AB,$9A,$9E,$A0,$9A,$9A,$AC,$9A,$89,newLine
+    .byte $8A,$8B,$8C,$8D,$8D,$8E,$AD,$AE,$AF,$B0,$B1,$B2,$B3,$B4,$B5,$91,$B6,$8D,$8D,$96,newLine
+    .byte $97,$98,$99,$9A,$9A,$9B,$B7,$B8,$B9,$BA,$BB,$BC,$BD,$BE,$BF,$9E,$C0,$9A,$9A,$89,newLine
+    .byte $8A,$C1,$8C,repeatTile $C2, 16,$96,newLine
+    .byte $97,$C3,$99,repeatTile $C4, 16,$89,newLine
+    .byte $8A,$8B,$8C,repeatTile $8D, 16,$96,newLine
+    .byte $C5,$C6,$C7,repeatTile $c8, 16,$C9,newLine
 
     ;c 1989/1990
     ;SHIGESATO ITOI / NINTENDO
     .byte set_pos 7, 23
-    .byte $43,$44,$45,$46,$47,$A8
+    .byte $43,$44,$45,$46,$47,$CA
     .byte $69,$6A,$6B,$6C,$6D,$6E,$6F,$53,$54,$55,$56,$57
     .byte 0

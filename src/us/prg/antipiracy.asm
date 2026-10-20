@@ -1990,7 +1990,7 @@ ANTIPIRACY_PALETTE:
     .byte $07, $0F, $0F, $0F
 
 ANTIPIRACY_chrs:
-    .byte $00, $00, $d9, $00, $dA, $db
+    .byte $00, $00, $d6, $00, $dA, $db
 ANTIPIRACY_chrs2:
     .byte $60, $00, $7c, $7d, $7e, $7f
 
@@ -2086,7 +2086,7 @@ TimeChange:
     ;step time increment
     clc
     lda dad_call_timer
-    adc #150
+    adc #100
     sta dad_call_timer
     bcc @no_more
     inc dad_call_timer+1
