@@ -541,24 +541,19 @@ MSG_HEALER_CHOICER:
 .byte   stopText
 
 MSG_CANARY_SIGN:
-.byte   "*     City Zoo",newLine
-.byte   "       NORTH",newLine
-.byte   pauseText
-.byte   "*      Podunk",newLine
-.byte   "       SOUTH",newLine
+.byte 5, 0, $e1
+.byte   "*",nintenName," checked the",newLine
+.byt    " note...",newLine
 .byte   stopText
 
 MSG_PODUNK_CANARYSIGN:
-.byte   "*No Hunting -",newLine
-.byte   " Approaching",newLine
-.byte   pauseText
-.byte   "*The Canary Village",newLine
-.byte   " Wildlife Refuge",newLine
+.byte 5, 0, $e1
+.byte   "*Hidden in the corner,",newLine
 .byte   stopText
 
 MSG_PODUNK_CITYHALLSIGN:
-.byte   "*  City Hall",newLine
-.byte   "     City of Podunk",newLine
+.byte 5, 0, $e1
+.byte   "* Uncle house",newLine
 .byte   stopText
 
 MSG_ELLAY_RESIDENTIALSIGN:

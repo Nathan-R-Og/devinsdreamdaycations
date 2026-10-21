@@ -8,11 +8,11 @@ starting_sram:
 save_checksum: .byte $00,$00
 save_slot: .byte $B0+0
 save_slot_state: .byte $E9
-xpos_music: .word (($b1-8) << 6) | 6
-ypos_direction: .word (($13d-8) << 6) | DIRECTIONS::DOWN
+xpos_music: .word ((193-8) << 6) | 6
+ypos_direction: .word ((196-7) << 6) | DIRECTIONS::DOWN
 party_members: .byte 1,0,0,0
-save_coordinates: .word (($b1-8) << 6) | 6
-save_coordinates_y: .word (($13d-8) << 6) | DIRECTIONS::DOWN
+save_coordinates: .word ((193-8) << 6) | 6
+save_coordinates_y: .word ((196-7) << 6) | DIRECTIONS::DOWN
 wallet_money: .word 0 ;cash (on hand)
 bank_money: .faraddr 0 ;cash (atm)
 dad_money: .faraddr 0 ;cash (since last call)

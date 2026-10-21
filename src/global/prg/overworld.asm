@@ -4403,6 +4403,16 @@ OINST_DoTombstone:
 
 ; Instruction 6B - do literally nothing
 OINST_Useless:
+    dey
+    dey
+    dey
+    lda (object_data), y
+    tax
+    iny
+    iny
+    iny
+
+
     iny
     lda (object_data), y
     sta text_id+1
@@ -4424,8 +4434,14 @@ OINST_Useless:
     lda object_data+1
     pha
 
+    ;if the previous instruction was dialogue, pause
+    ; TODO: make not suck
+    txa
+    cmp #8
+    bne @wasnt_dialogue
     ;let previous text increment
     jsr WAIT_CLOSE_MENU
+    @wasnt_dialogue:
 
     ;The Money
     lda #.BANK(ShowScreen)

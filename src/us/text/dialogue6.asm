@@ -865,7 +865,7 @@ MSG_EVE_EVECHECK:
 .byte   stopText
 
 MSG_PHONE_EXPLVL:
-.byte   "*",price," for",newLine
+.byte   "*",price," FOR",newLine
 .byte   " ",result,".",newLine
 .byte   stopText
 

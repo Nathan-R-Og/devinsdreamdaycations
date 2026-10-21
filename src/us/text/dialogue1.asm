@@ -115,9 +115,7 @@ MSG_MYHOME_MOM_HURT:
 .byte   stopText
 
 MSG_PHONE_NEXTLVL:
-.byte   "*Well, the next",newLine
-.byte   " level",newLine
-.byte   " requires...",newLine
+.byte   "*TO NEXT",newLine
 .byte   stopText
 
 MSG_MYHOME_MOM_EAT:
@@ -186,22 +184,15 @@ MSG_PHONE_END:
 .byte   stopText
 
 MSG_PHONE_INTRO:
-.byte   "*This is your Dad.",newLine
+.byte   "*HELLO.",newLine
 .byte   stopText
 
 MSG_PHONE_NEWMONEY:
-.byte   "*I've transferred",newLine
 .byte   " $",cashDeposit,newLine
-.byte   " into your account.",newLine
+.byte   " ADDED.",newLine
 .byte   pauseText
-.byte   "*After the amount",newLine
-.byte   " you've spent,",newLine
-.byte   pauseText
-.byte   "*the balance is",newLine
+.byte   "*REMAINING:",newLine
 .byte   " $",currentCash,".",newLine
-.byte   pauseText
-.byte   "*Spend your money",newLine
-.byte   " wisely.",newLine
 .byte   stopText
 
 MSG_PHONE_RESETPROMPT:
@@ -223,14 +214,7 @@ MSG_PHONE_SAVE_NO:
 .byte   stopText
 
 MSG_PHONE_SAVED_RESETPROMPT:
-.byte   "*OK...But, I was",newLine
-.byte   " thinking of going",newLine
-.byte   " to sleep now.",newLine
-.byte   pauseText
-.byte   "*I've SAVEd your",newLine
-.byte   " progress, so far.",newLine
-.byte   pauseText
-.byte   "*Good night.",newLine
+.byte   "*RESET?",newLine
 .byte   stopText
 
 MSG_PHONE_RESET_YES:
@@ -253,12 +237,11 @@ MSG_PHONE_RESET_NO:
 .byte   stopText
 
 MSG_PHONE_SAVEPROMPT:
-.byte   "*By the way, do",newLine
-.byte   " you want to SAVE?",newLine
+.byte   "*SAVE?",newLine
 .byte   stopText
 
 MSG_PHONE_GOODLUCK:
-.byte   "*Good luck.",newLine
+.byte   "*BYE.",newLine
 .byte   stopText
 
 MSG_PODUNK_PIPPIMOM_THANKS:

@@ -1,8 +1,3 @@
-;BATTLEID is a conscious decision to make id's dependant on offset
-;(since it's basically an array, anyways)
-;specifically to aid in shifting and general reordering.
-.define BATTLEID(ta) .LOBYTE((ta-BATTLES_START)/$A)
-
 .segment        "PRG14": absolute
 
 Map_TileProperties:

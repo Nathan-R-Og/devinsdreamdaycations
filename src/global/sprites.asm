@@ -163,6 +163,9 @@ spritePointerDef SPRITE_60, $6C, 0, 0, 0, 0
 SPRITEDEF_SIGN:
 spritePointerDef SPRITE_60, $6E, 1, 1, 0, 0
 
+SPRITEDEF_NOTE:
+spritePointerDef SPRITE_60, $66, 1, 1, 0, 0
+
 ;unused?
 spritePointerDef SPRITE_66, $3C, 1, 1, 0, 0
 spritePointerDef SPRITE_67, $3C, 1, 1, 0, 0
