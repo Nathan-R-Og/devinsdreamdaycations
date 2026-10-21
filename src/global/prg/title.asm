@@ -324,6 +324,9 @@ SPAWNS_1F:
     .endrepeat
 
 intro:
+    lda #0
+    sta dad_call_input_timer
+
     ;use bank $13 as lower half
     jsr BANKSET_H13
 
@@ -1727,7 +1730,7 @@ NS_NamingSequence:
     lda #2
     sta ntbl_x
     lda #3
-    sta ntbl_x+1
+    sta ntbl_y
 
     ;prints each line
     ldx #.LOBYTE(IntroText1)
@@ -1739,7 +1742,7 @@ NS_NamingSequence:
     lda #2
     sta ntbl_x
     lda #3
-    sta ntbl_x+1
+    sta ntbl_y
 
     ;prints each line
     ldx #.LOBYTE(IntroText3)
@@ -1751,11 +1754,11 @@ NS_NamingSequence:
     lda #music::mute
     sta soundqueue_track
 
-    ;store 6,10 for x,y
+    ;store 2,6 for x,y
     lda #2
     sta ntbl_x
     lda #6
-    sta ntbl_x+1
+    sta ntbl_y
 
     ;prints each line
     ldx #.LOBYTE(IntroText2)
@@ -2645,7 +2648,7 @@ Title_Screen:
     ;7 = ?
     ;6 = ?
     ;tiles = 16
-    lda #16
+    lda #28
     sta earth_oam+0
 
     ;blank out
@@ -2657,20 +2660,18 @@ Title_Screen:
     sta earth_oam+5
 
     ;set x
-    .ifdef VER_JP
-        lda #80
-    .else
-        lda #88
-    .endif
+    lda #188
     sta earth_oam+2
 
     ;set y
-    .ifdef VER_JP
-        lda #79
-    .else
-        lda #87
-    .endif
+    lda #2
     sta earth_oam+3
+
+
+    lda #.LOBYTE(SPRITEDEF_EARTH)
+    sta earth_oam+6
+    lda #.HIBYTE(SPRITEDEF_EARTH)
+    sta earth_oam+7
 
     ;reset input?
     lda #0
@@ -2681,29 +2682,21 @@ Title_Screen:
     clc
 
     ;get current frame
-    lda UNK_60
-    ;+= .LOBYTE(SPRITEDEF_EARTH)
-    adc #.LOBYTE(SPRITEDEF_EARTH)
-    sta earth_oam+6
-    ;why isnt this just a lda #.HIBYTE(SPRITEDEF_EARTH)????
-    lda #0
-    adc #.HIBYTE(SPRITEDEF_EARTH)
-    sta earth_oam+7
+    lda earth_oam+2
+    eor #1
+    sta earth_oam+2
 
-    lda #10
+    lda earth_oam+3
+    eor #1
+    sta earth_oam+3
+
+
+    jsr RNG_BYTE
+    and #$f
+    clc
+    adc #4
     sta new_animation_timer
     clc
-
-    ;tiles += 4
-    lda UNK_60
-    adc #4
-
-    ;if UNK_60 is at 1c it should be 0. set accordingly
-    cmp #$1c
-    bne @skip_reset
-    lda #0
-    @skip_reset:
-    sta UNK_60
 
     @wait_for_start:
     ;check if start pressed at title
@@ -2778,12 +2771,12 @@ AdvanceIfPressStart:
 ; $9E63 - CHR bankswitch table
 ; spinning earth - evemisc - bold_font - bold_font - mother_title - rTospinning earth
 Title_CHR_Old:
-    .byte $42, $72, $7c, $7c, $40, $41
+    .byte $D0, $72, $7c, $7c, $40, $41
 
 ; $9E69 - CHR bankswitch table
 ; spinning earth - evemisc - bold_font - rTospinning earth - earthbound1 - earthbound2
 Title_CHR:
-    .byte $42, $72, $7c, $41, $d8, $d9
+    .byte $D0, $72, $7c, $41, $d8, $d9
 
 ; $9E6F
 Title_Palette_Old:
@@ -2804,7 +2797,7 @@ Title_Palette:
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
 
-    .byte $0f, $21, $30, $12
+    .byte $0f, $0f, $27, $37
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12

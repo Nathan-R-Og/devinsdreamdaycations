@@ -1860,7 +1860,8 @@ NextChar:
     .endif
     sta nmi_data_offset
 
-    lda #$80
+    lda dad_call_input_timer
+    ora #$80
     sta new_animation_timer
 
     jsr PpuSync

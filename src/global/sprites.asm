@@ -1994,31 +1994,40 @@ spriteTile $10, $28, 0, 1, 0, 1, 0, $85
 spriteTile $18, $28, 0, 1, 0, 0, 0, $85
 
 SPRITEDEF_EARTH:
-spritePointerDef SPRITE_EARTH, 4, 0, 0, 0, 0
-spritePointerDef SPRITE_EARTH, 8, 0, 0, 0, 0
-spritePointerDef SPRITE_EARTH, $c, 0, 0, 0, 0
-spritePointerDef SPRITE_EARTH, $40, 0, 0, 0, 0
-spritePointerDef SPRITE_EARTH, $44, 0, 0, 0, 0
-spritePointerDef SPRITE_EARTH, $48, 0, 0, 0, 0
-spritePointerDef SPRITE_EARTH, $4c, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, 0, 0, 0, 0, 0
 
 SPRITE_EARTH:
-spriteTile $00, $00, 0, 1, 0, 0, 0, $00
-spriteTile $08, $00, 0, 1, 0, 0, 0, $01
-spriteTile $10, $00, 0, 1, 0, 0, 0, $02
-spriteTile $18, $00, 0, 1, 0, 0, 0, $03
-spriteTile $00, $08, 0, 1, 0, 0, 0, $10
-spriteTile $08, $08, 0, 1, 0, 0, 0, $11
-spriteTile $10, $08, 0, 1, 0, 0, 0, $12
-spriteTile $18, $08, 0, 1, 0, 0, 0, $13
-spriteTile $00, $10, 0, 1, 0, 0, 0, $20
-spriteTile $08, $10, 0, 1, 0, 0, 0, $21
-spriteTile $10, $10, 0, 1, 0, 0, 0, $22
-spriteTile $18, $10, 0, 1, 0, 0, 0, $23
-spriteTile $00, $18, 0, 1, 0, 0, 0, $30
-spriteTile $08, $18, 0, 1, 0, 0, 0, $31
-spriteTile $10, $18, 0, 1, 0, 0, 0, $32
-spriteTile $18, $18, 0, 1, 0, 0, 0, $33
+spriteTile 2*8, 0*8, 0, 1, 0, 0, 0, $07
+spriteTile 3*8, 0*8, 0, 1, 0, 0, 0, $08
+spriteTile 4*8, 0*8, 0, 1, 0, 0, 0, $09
+spriteTile 2*8, 1*8, 0, 1, 0, 0, 0, $17
+spriteTile 3*8, 1*8, 0, 1, 0, 0, 0, $18
+spriteTile 4*8, 1*8, 0, 1, 0, 0, 0, $19
+spriteTile 1*8, 2*8, 0, 1, 0, 0, 0, $26
+spriteTile 2*8, 2*8, 0, 1, 0, 0, 0, $27
+spriteTile 3*8, 2*8, 0, 1, 0, 0, 0, $28
+
+spriteTile 1*8, 3*8, 0, 1, 0, 0, 0, $07
+spriteTile 2*8, 3*8, 0, 1, 0, 0, 0, $08
+spriteTile 3*8, 3*8, 0, 1, 0, 0, 0, $09
+spriteTile 1*8, 4*8, 0, 1, 0, 0, 0, $17
+spriteTile 2*8, 4*8, 0, 1, 0, 0, 0, $18
+spriteTile 3*8, 4*8, 0, 1, 0, 0, 0, $19
+spriteTile 0*8, 5*8, 0, 1, 0, 0, 0, $26
+spriteTile 1*8, 5*8, 0, 1, 0, 0, 0, $27
+spriteTile 2*8, 5*8, 0, 1, 0, 0, 0, $28
+
+spriteTile 0*8, 6*8, 0, 1, 0, 0, 0, $07
+spriteTile 1*8, 6*8, 0, 1, 0, 0, 0, $08
+spriteTile 2*8, 6*8, 0, 1, 0, 0, 0, $09
+spriteTile 0*8, 7*8, 0, 1, 0, 0, 0, $17
+spriteTile 1*8, 7*8, 0, 1, 0, 0, 0, $18
+spriteTile 2*8, 7*8, 0, 1, 0, 0, 0, $19
+
+spriteTile 0*8, 8*8, 0, 1, 0, 0, 0, $0a
+spriteTile 1*8, 8*8, 0, 1, 0, 0, 0, $0b
+spriteTile 0*8, 9*8, 0, 1, 0, 0, 0, $1a
+spriteTile 1*8, 9*8, 0, 1, 0, 0, 0, $1b
 
 SPRITEDEF_STAT_WOUNDED:
 spritePointerDef SPRITE_STAT_BG, $6D, 0, 0, 0, 0
@@ -2257,337 +2266,27 @@ spriteTile $08, $28, 0, 1, 0, 0, 0, $7D
 spriteTile $10, $28, 0, 1, 0, 0, 0, $7E
 spriteTile $18, $28, 0, 1, 0, 0, 0, $7F
 
-;are these tiles or pointers?
-.ifndef VER_JP
-SPRITEDEF_TOMBSTONE_SPARKLE:
-spritePointerDef SPRITE_CREDITS_UNK0, $F8, 0, 0, 0, 0
+SPRITEDEF_C_HELICOPTER:
+spritePointerDef SPRITE_C_HELI1, $0, 1, 1, 1, 0
 
-SPRITEDEF_TOMBSTONE_CRYSTAL:
-spritePointerDef SPRITE_60, $EA, 0, 0, 0, 0
+SPRITEDEF_C_HELICOPTER_THING:
+spritePointerDef SPRITE_C_HELITHING, $0, 3, 3, 3, 0
+spritePointerDef SPRITE_C_HELITHING, $10, 3, 3, 3, 0
+spritePointerDef SPRITE_C_HELITHING, $20, 3, 3, 3, 0
 
-SPRITEDEF_CREDITS_UNK2:
-spritePointerDef SPRITE_CHARUP1, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK3:
-spritePointerDef SPRITE_CHARUP2, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK4:
-spritePointerDef SPRITE_CHARRIGHT1, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK5:
-spritePointerDef SPRITE_CHARRIGHT2, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK6:
-spritePointerDef SPRITE_CHARDOWN1, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK7:
-spritePointerDef SPRITE_CHARDOWN2, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK8:
-spritePointerDef SPRITE_CHARLEFT1, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK9:
-spritePointerDef SPRITE_CHARLEFT2, $60, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK10:
-spritePointerDef SPRITE_60, $8, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK11:
-spritePointerDef SPRITE_60, $28, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK12:
-spritePointerDef SPRITE_60, $A, 1, 3, 0, 0
-SPRITEDEF_CREDITS_UNK13:
-spritePointerDef SPRITE_60, $2A, 1, 3, 0, 0
-SPRITEDEF_CREDITS_UNK14:
-spritePointerDef SPRITE_60, $C, 3, 1, 0, 0
-SPRITEDEF_CREDITS_UNK15:
-spritePointerDef SPRITE_60, $2C, 3, 1, 0, 0
-SPRITEDEF_CREDITS_UNK16:
-spritePointerDef SPRITE_60, $E, 3, 1, 0, 0
-SPRITEDEF_CREDITS_UNK17:
-spritePointerDef SPRITE_60, $2E, 3, 1, 0, 0
-SPRITEDEF_CREDITS_UNK18:
-spritePointerDef SPRITE_60, $48, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK19:
-spritePointerDef SPRITE_60, $68, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK20:
-spritePointerDef SPRITE_60, $4A, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK21:
-spritePointerDef SPRITE_60, $6A, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK22:
-spritePointerDef SPRITE_60, $4E, 3, 0, 0, 0
-SPRITEDEF_CREDITS_UNK23:
-spritePointerDef SPRITE_60, $6E, 3, 0, 0, 0
-SPRITEDEF_CREDITS_UNK24:
-spritePointerDef SPRITE_60, $4C, 2, 0, 0, 0
-SPRITEDEF_CREDITS_UNK25:
-spritePointerDef SPRITE_66, $6C, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK26:
-spritePointerDef SPRITE_CHARUP1, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK27:
-spritePointerDef SPRITE_CHARUP2, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK28:
-spritePointerDef SPRITE_CHARRIGHT1, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK29:
-spritePointerDef SPRITE_CHARRIGHT2, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK30:
-spritePointerDef SPRITE_CHARDOWN1, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK31:
-spritePointerDef SPRITE_CHARDOWN2, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK32:
-spritePointerDef SPRITE_CHARLEFT1, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK33:
-spritePointerDef SPRITE_CHARLEFT2, $80, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK34:
-spritePointerDef SPRITE_CHARUP1, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK35:
-spritePointerDef SPRITE_CHARUP2, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK36:
-spritePointerDef SPRITE_CHARRIGHT1, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK37:
-spritePointerDef SPRITE_CHARRIGHT2, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK38:
-spritePointerDef SPRITE_CHARDOWN1, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK39:
-spritePointerDef SPRITE_CHARDOWN2, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK40:
-spritePointerDef SPRITE_CHARLEFT1, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK41:
-spritePointerDef SPRITE_CHARLEFT2, $88, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK42:
-spritePointerDef SPRITE_60, $A6, 2, 0, 0, 0
-SPRITEDEF_CREDITS_UNK43:
-spritePointerDef SPRITE_60, $C6, 2, 0, 0, 0
-SPRITEDEF_CREDITS_UNK44:
-spritePointerDef SPRITE_60, $AE, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK45:
-spritePointerDef SPRITE_CREDITS_UNK4, $A0, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK46:
-spritePointerDef SPRITE_CREDITS_UNK44, $A8, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK47:
-spritePointerDef SPRITE_CREDITS_UNK44, $D8, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK48:
-spritePointerDef SPRITE_CREDITS_UNK53, $A8, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK49:
-spritePointerDef SPRITE_CREDITS_UNK53, $D8, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK50:
-spritePointerDef SPRITE_CREDITS_UNK44, $AB, 1, 0, 0, 0
-SPRITEDEF_CREDITS_UNK51:
-spritePointerDef SPRITE_CHARUP1, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK52:
-spritePointerDef SPRITE_CHARUP2, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK53:
-spritePointerDef SPRITE_CHARRIGHT1, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK54:
-spritePointerDef SPRITE_CHARRIGHT2, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK55:
-spritePointerDef SPRITE_CHARDOWN1, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK56:
-spritePointerDef SPRITE_CHARDOWN2, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK57:
-spritePointerDef SPRITE_CHARLEFT1, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK58:
-spritePointerDef SPRITE_CHARLEFT2, $80, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK59:
-spritePointerDef SPRITE_CHARUP1, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK60:
-spritePointerDef SPRITE_CHARUP2, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK61:
-spritePointerDef SPRITE_CHARRIGHT1, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK62:
-spritePointerDef SPRITE_CHARRIGHT2, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK63:
-spritePointerDef SPRITE_CHARDOWN1, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK64:
-spritePointerDef SPRITE_CHARDOWN2, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK65:
-spritePointerDef SPRITE_CHARLEFT1, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK66:
-spritePointerDef SPRITE_CHARLEFT2, $C0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK67:
-spritePointerDef SPRITE_CHARUP1, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK68:
-spritePointerDef SPRITE_CHARUP2, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK69:
-spritePointerDef SPRITE_CHARRIGHT1, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK70:
-spritePointerDef SPRITE_CHARRIGHT2, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK71:
-spritePointerDef SPRITE_CHARDOWN1, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK72:
-spritePointerDef SPRITE_CHARDOWN2, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK73:
-spritePointerDef SPRITE_CHARLEFT1, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK74:
-spritePointerDef SPRITE_CHARLEFT2, $E0, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK75:
-spritePointerDef SPRITE_CHARUP1, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK76:
-spritePointerDef SPRITE_CHARUP2, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK77:
-spritePointerDef SPRITE_CHARRIGHT1, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK78:
-spritePointerDef SPRITE_CHARRIGHT2, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK79:
-spritePointerDef SPRITE_CHARDOWN1, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK80:
-spritePointerDef SPRITE_CHARDOWN2, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK81:
-spritePointerDef SPRITE_CHARLEFT1, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK82:
-spritePointerDef SPRITE_CHARLEFT2, $88, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK83:
-spritePointerDef SPRITE_CHARUP1, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK84:
-spritePointerDef SPRITE_CHARUP2, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK85:
-spritePointerDef SPRITE_CHARRIGHT1, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK86:
-spritePointerDef SPRITE_CHARRIGHT2, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK87:
-spritePointerDef SPRITE_CHARDOWN1, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK88:
-spritePointerDef SPRITE_CHARDOWN2, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK89:
-spritePointerDef SPRITE_CHARLEFT1, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK90:
-spritePointerDef SPRITE_CHARLEFT2, $A0, 2, 1, 0, 0
-SPRITEDEF_CREDITS_UNK91:
-spritePointerDef SPRITE_CHARUP1, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK92:
-spritePointerDef SPRITE_CHARUP2, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK93:
-spritePointerDef SPRITE_CHARRIGHT1, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK94:
-spritePointerDef SPRITE_CHARRIGHT2, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK95:
-spritePointerDef SPRITE_CHARDOWN1, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK96:
-spritePointerDef SPRITE_CHARDOWN2, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK97:
-spritePointerDef SPRITE_CHARLEFT1, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK98:
-spritePointerDef SPRITE_CHARLEFT2, $A8, 1, 1, 0, 0
-SPRITEDEF_CREDITS_UNK99:
-spritePointerDef SPRITE_CHARUP1, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK100:
-spritePointerDef SPRITE_CHARUP2, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK101:
-spritePointerDef SPRITE_CHARRIGHT1, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK102:
-spritePointerDef SPRITE_CHARRIGHT2, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK103:
-spritePointerDef SPRITE_CHARDOWN1, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK104:
-spritePointerDef SPRITE_CHARDOWN2, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK105:
-spritePointerDef SPRITE_CHARLEFT1, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK106:
-spritePointerDef SPRITE_CHARLEFT2, $C8, 2, 2, 0, 0
-SPRITEDEF_CREDITS_UNK107:
-spritePointerDef SPRITE_CHARUP1, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK108:
-spritePointerDef SPRITE_CHARUP2, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK109:
-spritePointerDef SPRITE_CHARRIGHT1, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK110:
-spritePointerDef SPRITE_CHARRIGHT2, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK111:
-spritePointerDef SPRITE_CHARDOWN1, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK112:
-spritePointerDef SPRITE_CHARDOWN2, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK113:
-spritePointerDef SPRITE_CHARLEFT1, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK114:
-spritePointerDef SPRITE_CHARLEFT2, $E8, 3, 3, 0, 0
-SPRITEDEF_CREDITS_UNK115:
-spritePointerDef SPRITE_18, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK116:
-spritePointerDef SPRITE_19, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK117:
-spritePointerDef SPRITE_1A, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK118:
-spritePointerDef SPRITE_1B, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK119:
-spritePointerDef SPRITE_1C, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK120:
-spritePointerDef SPRITE_1D, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK121:
-spritePointerDef SPRITE_1E, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK122:
-spritePointerDef SPRITE_1F, $E0, 1, 1, 1, 0
-SPRITEDEF_CREDITS_UNK123:
-spritePointerDef SPRITE_CHARUP1, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK124:
-spritePointerDef SPRITE_CHARUP2, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK125:
-spritePointerDef SPRITE_CHARRIGHT1, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK126:
-spritePointerDef SPRITE_CHARRIGHT2, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK127:
-spritePointerDef SPRITE_CHARDOWN1, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK128:
-spritePointerDef SPRITE_CHARDOWN2, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK129:
-spritePointerDef SPRITE_CHARLEFT1, $88, 1, 2, 1, 0
-SPRITEDEF_CREDITS_UNK130:
-spritePointerDef SPRITE_CHARLEFT2, $88, 1, 2, 1, 0
+SPRITE_C_HELI1:
+spriteTile $00, $8, 0, 1, 0, 0, 0, $0
+spriteTile $8, $8, 0, 1, 0, 0, 0, $1
+spriteTile $10, $8, 0, 1, 0, 0, 0, $2
+spriteTile $00, $10, 0, 1, 0, 0, 0, $10
+spriteTile $8, $10, 0, 1, 0, 0, 0, $11
+spriteTile $10, $10, 0, 1, 0, 0, 0, $12
+spriteTile $00, $18, 0, 1, 0, 0, 0, $20
+spriteTile $8, $18, 0, 1, 0, 0, 0, $21
+spriteTile $10, $18, 0, 1, 0, 0, 0, $22
 
-SPRITE_CREDITS_UNK0:
-spriteTile $10, $20, 0, 1, 0, 0, 0, $00
-spriteTile $18, $20, 0, 1, 0, 1, 0, $00
-spriteTile $10, $28, 0, 1, 0, 0, 1, $00
-spriteTile $18, $28, 0, 1, 0, 1, 1, $00
-SPRITE_CREDITS_UNK4:
-spriteTile $00, $00, 0, 1, 0, 0, 0, $00
-spriteTile $08, $00, 0, 1, 0, 0, 0, $01
-spriteTile $10, $00, 0, 1, 0, 0, 0, $02
-spriteTile $18, $00, 0, 1, 0, 0, 0, $03
-spriteTile $20, $00, 0, 1, 0, 0, 0, $04
-spriteTile $28, $00, 0, 1, 0, 0, 0, $05
-spriteTile $00, $08, 0, 1, 0, 0, 0, $10
-spriteTile $08, $08, 0, 1, 0, 0, 0, $11
-spriteTile $10, $08, 0, 1, 0, 0, 0, $12
-spriteTile $18, $08, 0, 1, 0, 0, 0, $13
-spriteTile $20, $08, 0, 1, 0, 0, 0, $14
-spriteTile $28, $08, 0, 1, 0, 0, 0, $15
-spriteTile $00, $10, 0, 1, 0, 0, 0, $20
-spriteTile $08, $10, 0, 1, 0, 0, 0, $21
-spriteTile $10, $10, 0, 1, 0, 0, 0, $22
-spriteTile $18, $10, 0, 1, 0, 0, 0, $23
-spriteTile $20, $10, 0, 1, 0, 0, 0, $24
-spriteTile $28, $10, 0, 1, 0, 0, 0, $25
-spriteTile $00, $18, 0, 1, 0, 0, 0, $30
-spriteTile $08, $18, 0, 1, 0, 0, 0, $31
-spriteTile $10, $18, 0, 1, 0, 0, 0, $32
-spriteTile $18, $18, 0, 1, 0, 0, 0, $33
-spriteTile $20, $18, 0, 1, 0, 0, 0, $34
-spriteTile $28, $18, 0, 1, 0, 0, 0, $35
-spriteTile $00, $20, 0, 1, 0, 0, 0, $40
-spriteTile $08, $20, 0, 1, 0, 0, 0, $41
-spriteTile $10, $20, 0, 1, 0, 0, 0, $42
-spriteTile $18, $20, 0, 1, 0, 0, 0, $43
-spriteTile $20, $20, 0, 1, 0, 0, 0, $44
-spriteTile $28, $20, 0, 1, 0, 0, 0, $45
-spriteTile $00, $28, 0, 1, 0, 0, 0, $50
-spriteTile $08, $28, 0, 1, 0, 0, 0, $51
-spriteTile $10, $28, 0, 1, 0, 0, 0, $52
-spriteTile $18, $28, 0, 1, 0, 0, 0, $53
-spriteTile $20, $28, 0, 1, 0, 0, 0, $54
-spriteTile $28, $28, 0, 1, 0, 0, 0, $55
-spriteTile $08, $30, 0, 1, 0, 0, 0, $46
-spriteTile $10, $30, 0, 1, 0, 0, 0, $47
-spriteTile $00, $38, 0, 1, 0, 0, 0, $56
-spriteTile $08, $38, 0, 1, 0, 0, 0, $57
-SPRITE_CREDITS_UNK44:
-spriteTile $0C, $18, 0, 1, 0, 0, 0, $00
-spriteTile $14, $18, 0, 1, 0, 0, 0, $01
-spriteTile $1C, $18, 0, 1, 0, 0, 0, $02
-spriteTile $0C, $20, 0, 1, 0, 0, 0, $10
-spriteTile $14, $20, 0, 1, 0, 0, 0, $11
-spriteTile $1C, $20, 0, 1, 0, 0, 0, $12
-spriteTile $0C, $28, 0, 1, 0, 0, 0, $20
-spriteTile $14, $28, 0, 1, 0, 0, 0, $21
-spriteTile $1C, $28, 0, 1, 0, 0, 0, $22
-SPRITE_CREDITS_UNK53:
-spriteTile $0C, $18, 0, 1, 0, 1, 0, $02
-spriteTile $14, $18, 0, 1, 0, 1, 0, $01
-spriteTile $1C, $18, 0, 1, 0, 1, 0, $00
-spriteTile $0C, $20, 0, 1, 0, 1, 0, $12
-spriteTile $14, $20, 0, 1, 0, 1, 0, $11
-spriteTile $1C, $20, 0, 1, 0, 1, 0, $10
-spriteTile $0C, $28, 0, 1, 0, 1, 0, $22
-spriteTile $14, $28, 0, 1, 0, 1, 0, $21
-spriteTile $1C, $28, 0, 1, 0, 1, 0, $20
-.endif
+SPRITE_C_HELITHING:
+spriteTile 0, 0, 0, 1, 0, 0, 0, $3
+spriteTile 8, 0, 0, 1, 0, 0, 0, $4
+spriteTile $10, 0, 0, 1, 0, 0, 0, $5
+

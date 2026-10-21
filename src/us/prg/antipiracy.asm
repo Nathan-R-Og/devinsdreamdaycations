@@ -555,9 +555,9 @@ Tombstone_AntiPiracy:
     sta SPRITE_OBJECTS+2
     lda UNK_64
     sta SPRITE_OBJECTS+3
-    lda #.LOBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
+    lda #.LOBYTE(0)
     sta SPRITE_OBJECTS+6
-    lda #.HIBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
+    lda #.HIBYTE(0)
     sta SPRITE_OBJECTS+7
 
     ;one frame wait
@@ -573,13 +573,13 @@ Tombstone_AntiPiracy:
 ;sparkles :)
 tombstone_spritedata:
     .byte 4, 0, 50, 50,  1,  1
-    .addr SPRITEDEF_TOMBSTONE_SPARKLE
+    .addr 0
     .byte 4, 0, 66, 50,  1, -1
-    .addr SPRITEDEF_TOMBSTONE_SPARKLE
+    .addr 0
     .byte 4, 0, 50, 66, -1,  1
-    .addr SPRITEDEF_TOMBSTONE_SPARKLE
+    .addr 0
     .byte 4, 0, 66, 66, -1, -1
-    .addr SPRITEDEF_TOMBSTONE_SPARKLE
+    .addr 0
 
 Livehouse_Antipiracy:
     jsr Refresh_SpriteObjects

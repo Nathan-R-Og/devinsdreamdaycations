@@ -1,8 +1,9 @@
 .segment        "CHR1A": absolute
     ;ending scenes gfx
-    .incbin "../../split/us/chr/credits_characters1.bin"
-    .incbin "../../split/us/chr/credits_characters2.bin"
-    .incbin "../../split/us/chr/credits_characters3.bin"
+    .incbin "../../edit/ending_a_spr.bin"
+    .incbin "../../edit/ending_gfx.bin"
+    .incbin "../../edit/jj4.bin"
+    .res $400
     .incbin "../../edit/note_gfx.bin"
 
 .segment        "CHR1B": absolute
