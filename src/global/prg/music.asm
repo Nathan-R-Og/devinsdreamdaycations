@@ -2811,12 +2811,12 @@ Humoresque_Of_A_Little_Dog_header:
 .addr mus_humoresque_of_a_little_dog_noise
 
 Poltergeist_header:
-.byte $87   ; Transpose
+.byte $00   ; Transpose
 .byte NLT_18-Tempo_Lengths   ; Note length table offset
-.addr mus_poltergeist_pulse1 ; Pulse1 phrase pointers
-.addr mus_poltergeist_pulse2 ; Pulse2 phrase pointers
-.addr mus_poltergeist_triangle ; Triangle phrase pointers
-.addr mus_poltergeist_noise ; Noise phrase pointers
+.addr mus_mother_earth_pulse1 ; Pulse1 phrase pointers
+.addr mus_mother_earth_pulse2 ; Pulse2 phrase pointers
+.addr mus_mother_earth_triangle ; Triangle phrase pointers
+.addr mus_mother_earth_noise ; Noise phrase pointers
 
 Underground_BGM_header:
 .byte $00
@@ -2859,12 +2859,12 @@ Fallin_Love_header:
 .addr mus_fallin_love_noise
 
 Mother_Earth_header:
-.byte $00   ; Transpose
+.byte $87   ; Transpose
 .byte NLT_18-Tempo_Lengths   ; Note length table offset
-.addr mus_mother_earth_pulse1 ; Pulse1 phrase pointers
-.addr mus_mother_earth_pulse2 ; Pulse2 phrase pointers
-.addr mus_mother_earth_triangle ; Triangle phrase pointers
-.addr mus_mother_earth_noise ; Noise phrase pointers
+.addr mus_poltergeist_pulse1 ; Pulse1 phrase pointers
+.addr mus_poltergeist_pulse2 ; Pulse2 phrase pointers
+.addr mus_poltergeist_triangle ; Triangle phrase pointers
+.addr mus_poltergeist_noise ; Noise phrase pointers
 
 Tank_BGM_header:
 .byte $00
@@ -3123,7 +3123,7 @@ Path_To_Giegue_BGM_header:
     .include "./tracks/07_beinfriends.asm"
 
 ;song 16 ($10) - poltergeist
-    .include "./tracks/16_poltergeist.asm"
+    .include "./tracks/22_motherearth.asm"
 
 ;song 9 - magicant
     .include "./tracks/09_magicant.asm"
@@ -3226,7 +3226,7 @@ Path_To_Giegue_BGM_header:
     .endif
 
 ;song 22 ($16) - mother earth
-    .include "./tracks/22_motherearth.asm"
+    .include "./tracks/16_poltergeist.asm"
 
 ;song 20 ($14) - paradise line
     .include "./tracks/20_paradiseline.asm"
