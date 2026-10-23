@@ -2293,3 +2293,76 @@ spriteTile 0, 0, 0, 1, 0, 0, 0, $3
 spriteTile 8, 0, 0, 1, 0, 0, 0, $4
 spriteTile $10, 0, 0, 1, 0, 0, 0, $5
 
+SPRITEDEF_NATHAN1:
+spritePointerDef SPRITE_NATHAN1UP1, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_NATHAN1UP2, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARRIGHT1, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARRIGHT2, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_NATHAN1DOWN1, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_NATHAN1DOWN2, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARLEFT1, $a0, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARLEFT2, $a0, 1, 1, 1, 0
+
+
+SPRITE_NATHAN1UP1:
+spriteTile $10, $20, 0, 1, 0, 0, 0, $04
+spriteTile $18, $20, 0, 1, 0, 0, 0, $05
+spriteTile $10, $28, 1, 1, 0, 0, 0, $12
+spriteTile $18, $28, 1, 1, 0, 0, 0, $13
+SPRITE_NATHAN1UP2:
+spriteTile $10, $20-1, 0, 1, 0, 1, 0, $05
+spriteTile $18, $20-1, 0, 1, 0, 1, 0, $04
+spriteTile $10, $28-1, 1, 1, 0, 1, 0, $13
+spriteTile $18, $28-1, 1, 1, 0, 1, 0, $12
+SPRITE_NATHAN1DOWN1:
+spriteTile $10, $20, 0, 1, 0, 0, 0, $02
+spriteTile $18, $20, 0, 1, 0, 0, 0, $03
+spriteTile $10, $28, 1, 1, 0, 0, 0, $10
+spriteTile $18, $28, 1, 1, 0, 0, 0, $11
+SPRITE_NATHAN1DOWN2:
+spriteTile $10, $20-1, 0, 1, 0, 1, 0, $03
+spriteTile $18, $20-1, 0, 1, 0, 1, 0, $02
+spriteTile $10, $28-1, 1, 1, 0, 1, 0, $11
+spriteTile $18, $28-1, 1, 1, 0, 1, 0, $10
+
+SPRITEDEF_NATHAN2:
+spritePointerDef SPRITE_10, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_11, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_12, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_13, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_14, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_15, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_16, $80, 1, 1, 1, 0
+spritePointerDef SPRITE_17, $80, 1, 1, 1, 0
+
+SPRITEDEF_DARKUS1:
+spritePointerDef SPRITE_CHARUP1, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_DARKUS1UP2, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARRIGHT1, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARRIGHT2, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARDOWN1, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_DARKUS1DOWN2, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARLEFT1, $a8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARLEFT2, $a8, 0, 0, 0, 0
+
+SPRITE_DARKUS1UP2:
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $04
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $05
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
+
+SPRITE_DARKUS1DOWN2:
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $02
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $03
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
+
+SPRITEDEF_DARKUS2:
+spritePointerDef SPRITE_CHARUP1, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARUP2, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARRIGHT1, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARRIGHT2, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARDOWN1, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARDOWN2, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARLEFT1, $88, 3, 1, 0, 0
+spritePointerDef SPRITE_CHARLEFT2, $88, 3, 1, 0, 0

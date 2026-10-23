@@ -4826,7 +4826,7 @@ SwapPatternTables:
 ;divide by 2 and multiply by $400 to get distance from start
 ;of chr rom
 AREA_CHR_TABLE:
-    .byte $00,$68,$62,$62,$62,$62,$64,$62
+    .byte $00,$68,$66,$62,$62,$62,$64,$62
     .byte $74,$64,$6A,$62,$66,$6C,$62,$00
     .byte $00,$00,$00,$00,$66,$00,$6A,$66
     .byte $62,$68,$64,$68,$6E,$66,$66,$66
@@ -5645,10 +5645,7 @@ BattleRewardsRoutine:
     bne @RewardsEnd
     jsr EnablePRGRam
 
-    ldx #bank_money-starting_sram
-    jsr StoreRewardMoney
-
-    ldx #dad_money-starting_sram
+    ldx #wallet_money-starting_sram
     jsr StoreRewardMoney
 
     ;get rollable item from enemy_group

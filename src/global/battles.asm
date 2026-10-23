@@ -161,28 +161,28 @@ battlebyte8 2, 0
 battlebyte9 12, MUSIC::BATTLE_FLIPPANT
 
 BATTLE_2:
-.byte ENEMIES::RAT,$01
-.byte ENEMIES::RAT,$02
+.byte ENEMIES::ZOMBIE,$01
+.byte ENEMIES::ZOMBIE,$02
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
 battlebyte8 7, 0
-battlebyte9 12, MUSIC::BATTLE_FLIPPANT
+battlebyte9 12, MUSIC::BATTLE_DANGEROUS
 
 BATTLE_3:
-.byte ENEMIES::CROW,$00
+.byte ENEMIES::ZOMBIE,$00
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
-battlebyte8 2, 0
-battlebyte9 11, MUSIC::BATTLE_FLIPPANT
+battlebyte8 0, 0
+battlebyte9 12, MUSIC::BATTLE_DANGEROUS
 
 BATTLE_4:
-.byte ENEMIES::CROW,$01
-.byte ENEMIES::CROW,$02
+.byte ENEMIES::ZOMBIE,$01
+.byte ENEMIES::ZOMBIE,$02
+.byte ENEMIES::ZOMBIE,$03
 .byte ENEMIES::NONE,$00
-.byte ENEMIES::NONE,$00
-battlebyte8 7, 0
-battlebyte9 11, MUSIC::BATTLE_FLIPPANT
+battlebyte8 11, 0
+battlebyte9 12, MUSIC::BATTLE_DANGEROUS
 
 BATTLE_5:
 .byte ENEMIES::CENTIPEDE,$00

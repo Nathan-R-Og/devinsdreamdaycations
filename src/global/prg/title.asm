@@ -18,13 +18,10 @@ SPAWNS_0:
         .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_1:
-    .repeat 2
+    .repeat 4
+        .byte BATTLEID BATTLE_2
         .byte BATTLEID BATTLE_3
-        .byte BATTLEID BATTLE_5
-        .byte BATTLEID BATTLE_7
-        .byte BATTLEID BATTLE_8
-        .byte BATTLEID BATTLE_9
-        .byte BATTLEID BATTLE_B
+        .byte BATTLEID BATTLE_4
         .byte 0,0
     .endrepeat
 SPAWNS_2:
@@ -539,6 +536,8 @@ DoWalkingStep:
     ora is_tank
     ora UNK_24+1
     bne @quick_exit
+    lda current_light
+    beq @quick_exit
 
     ;UNK_A0 is a kind of movement direction
     ;'if stepping' in other words
@@ -559,15 +558,11 @@ DoWalkingStep:
     bne @EncounterDefExists
     ;else, write 0
     sta UNK_24
-    .ifdef VER_JP
-        beq @B20_9595
-    .else
-        @FrequencyFail:
-        lda #0
-        sta enemy_group
-        @quick_exit:
-        rts
-    .endif
+    @FrequencyFail:
+    lda #0
+    sta enemy_group
+    @quick_exit:
+    rts
     @EncounterDefExists:
     ;store areaEncounterDef in y
     tay
@@ -595,8 +590,16 @@ DoWalkingStep:
     bcc @NoForceCap
     lda #8
     @NoForceCap:
-    ;move frequency to x
+
+    ;soften frequency by double if not quite night
     tax
+    lda current_light
+    cmp #1
+    bne @no_soften
+    txa
+    lsr
+    tax
+    @no_soften:
 
     ;get a random value
     jsr RNG_BYTE
@@ -666,14 +669,14 @@ DoWalkingStep:
 
     AREA_ENCOUNTER_LIST:
     .byte 0 ; 0
-    .byte 0 ; 1
-    .byte 0 ; 2
-    .byte 0 ; 3
-    .byte 0 ; 4
-    .byte 0 ; 5
-    .byte 0 ; 6
-    .byte 0 ; 7
-    .byte 0 ; 8
+    areaEncounterDef 6, 1 ; 1
+    areaEncounterDef 6, 1 ; 2
+    areaEncounterDef 6, 1 ; 3
+    areaEncounterDef 6, 1 ; 4
+    areaEncounterDef 6, 1 ; 5
+    areaEncounterDef 6, 1 ; 6
+    areaEncounterDef 6, 1 ; 7
+    areaEncounterDef 6, 1 ; 8
     .byte 0 ; 9
     .byte 0 ; A
     areaEncounterDef 4, 1 ; B

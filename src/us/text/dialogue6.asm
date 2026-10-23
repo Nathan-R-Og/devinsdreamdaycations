@@ -530,6 +530,7 @@ MSG_TWINKLE_GAMEKID:
 .byte   stopText
 
 MSG_DRUGSVENDOR_WELCOME:
+.byte 5, 12, $e4
 .byte   "*Welcome!",newLine
 .byte   " What can I sell",newLine
 .byte   " you?",newLine
@@ -547,6 +548,7 @@ MSG_BURGERSHOP_NO_BUY:
 .byte   stopText
 
 MSG_BURGERSHOP_GOODBYE:
+.byte 5, 12, $e4
 .byte   "*Thank you very",newLine
 .byte   " much. Please",newLine
 .byte   " visit us again.",newLine

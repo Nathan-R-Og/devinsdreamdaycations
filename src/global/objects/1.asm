@@ -38,8 +38,7 @@ OBJ_BANK_0:
 .include "1/bank5.asm"
 .include "1/bank6.asm"
 .include "1/bank7.asm"
-OBJ_BANK_8:
-.addr 0
+.include "1/bank8.asm"
 OBJ_BANK_9:
 .addr 0
 OBJ_BANK_A:

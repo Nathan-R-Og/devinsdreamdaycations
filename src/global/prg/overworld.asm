@@ -900,16 +900,16 @@ OA_LIFEUP_GAMMA:
     jsr SetInputVar1000
     jmp DoLifeupRoutine
 OA_JUICE:
-    lda #10
+    lda #5
     jmp OA_Drink
 OA_FRIES:
-    lda #20
+    lda #10
     jmp OA_Eat
 OA_HERB:
     lda #30
     jmp OA_Eat
 OA_BURGER:
-    lda #60
+    lda #30
     jmp OA_Eat
 OA_SPORTS_DRINK:
     lda #100

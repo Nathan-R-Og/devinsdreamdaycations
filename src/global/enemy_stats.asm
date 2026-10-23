@@ -3514,25 +3514,25 @@ STATS_ZOMBIE:
     ;init status
     .byte $0
     ;flags
-    .byte ENEMY_FLAGS::GOD
+    .byte 0
     ;health, subpal, gtile
-    ething1 70, 2, 8
+    ething1 20, 2, 8
     ;pp, gfx
-    ething2 50, 0
+    ething2 0, 0
     ;offense, finalAction, altitude
-    ething3 50, 0, 0
+    ething3 8, 0, 0
     ;defense, messageDefeat, unkParam
-    ething4 80, 4, 0
+    ething4 4, 4, 0
     ;fight, speed, wisdom, strength, force
-    .byte 45, 48, 80, 60, 15
+    .byte 3, 2, 1, 4, 4
     ;battle actions
-    .byte $42,$42,$42,$4C,$4C,$4C,$4C,$01
+    .byte $04,$03,$05,$04,$03,$05,$05,$05
     ;name pointer
     .addr ENAME_ZOMBIE
     ;exp
-    .word 48
+    .word 24
     ;money
-    .word 43
+    .word 24
     ;item
     .byte $00
     ;graphic

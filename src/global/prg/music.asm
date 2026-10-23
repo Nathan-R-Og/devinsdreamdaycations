@@ -2859,12 +2859,12 @@ Fallin_Love_header:
 .addr mus_fallin_love_noise
 
 Mother_Earth_header:
-.byte $87   ; Transpose
+.byte $00   ; Transpose
 .byte NLT_18-Tempo_Lengths   ; Note length table offset
-.addr mus_poltergeist_pulse1 ; Pulse1 phrase pointers
-.addr mus_poltergeist_pulse2 ; Pulse2 phrase pointers
-.addr mus_poltergeist_triangle ; Triangle phrase pointers
-.addr mus_poltergeist_noise ; Noise phrase pointers
+.addr mus_mother_earth_pulse1 ; Pulse1 phrase pointers
+.addr mus_mother_earth_pulse2 ; Pulse2 phrase pointers
+.addr mus_mother_earth_triangle ; Triangle phrase pointers
+.addr mus_mother_earth_noise ; Noise phrase pointers
 
 Tank_BGM_header:
 .byte $00

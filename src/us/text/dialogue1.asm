@@ -835,39 +835,37 @@ MSG_MAGICANT_CANNOTPARTMAN:
 .byte   stopText
 
 MSG_MAGICANT_CANNOTPARTMAN_YES:
-.byte   "*I tend to think",newLine
-.byte   " the same way, too.",newLine
+.byte 5, 12, $e4
+.byte   "*Thanks!",newLine
 .byte   stopText
 
 MSG_MAGICANT_CANNOTPARTMAN_NO:
-.byte   "*You should meet",newLine
-.byte   " him.",newLine
+.byte 5, 0, $e6
+.byte   "*quack bark bark",newLine
 .byte   stopText
 
 MSG_MAGICANT_STRENGTHMAN:
-.byte   "*I regained my",newLine
-.byte   " strength at Queen",newLine
-.byte   " Mary's fountain.",newLine
+.byte 5, 8, $e1
+.byte   "*Pika Pika!",newLine,pauseText
+.byte 5, 0, $e1
+.byte   "*You can't understand",newLine
+.byte   " it.",newLine
 .byte   stopText
 
-MSG_110:
-.byte   "*The bad thing",newLine
-.byte   " about Queen Mary's",newLine
-.byte   " fountain is...",newLine
-.byte   pauseText
-.byte   "*that it is so far",newLine
-.byte   " away, and so hard",newLine
-.byte   " to find.",newLine
+MSG_DARKUS_1:
+.byte 5, 4, $e1
+.byte   "*",newLine,pauseText
+.byte 5, 0, $e1
+.byte   "*Spooky...",newLine
 .byte   stopText
 
 MSG_MAGICANT_EARRINGGIRL:
-.byte   "*I am taking this",newLine
-.byte   " broken earring to",newLine
-.byte   " the fountain.",newLine
-.byte   pauseText
-.byte   "*I'll bet it'll",newLine
-.byte   " change into a",newLine
-.byte   " magic earring.",newLine
+.byte 5, 12, $e5
+.byte   "*Thank god I got my",newLine
+.byte   " unintelligible",newLine
+.byte   " homunculus to speak",newLine
+.byte   " on my behalf.",newLine,pauseText
+.byte   "*Isn't life so easy?",newLine
 .byte   stopText
 
 MSG_MAGICANT_FOUNTAINMAN:

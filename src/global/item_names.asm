@@ -332,9 +332,9 @@ INAME_BOMB:
 INAME_SUPER_BOMB:
 .byte "Super Bomb",stopText
 INAME_LASER_BEAM:
-.byte "Laser Beam",stopText
+.byte "Pistol",stopText
 INAME_PLASMA_BEAM:
-.byte "Plasma Beam",stopText
+.byte "SUPRSHOTGUN!",stopText
 INAME_UNKITEM27:
 INAME_ROPE:
 .byte "Rope",stopText

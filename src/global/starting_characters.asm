@@ -13,15 +13,15 @@ Ninten_Data:
 ;?
 .byte $00
 ;max hp, max pp, offense, defense
-.word 30,0,5,5
+.word 50,0,5+7,10
 ;fight, speed, wisdom, strength, force
-.byte 5,5,5,5,5
+.byte 5,10,10,5,5
 ;level
 .byte 1
 ;exp
 .faraddr 0 ;far addrs are meant for segments but also i want a 3 byte keyword :)
 ;hp, pp
-.word 30,0
+.word 35,0
 ;name pointer (why exactly?)
 .addr Ninten_Data+party_info::name
 ;?
@@ -33,9 +33,9 @@ Ninten_Data:
 ;sprite
 .addr SPRITEDEF_NINTEN
 ;items
-.byte $6E,$00,$00,$00,$00,$00,$00,$00
+.byte $6E,$25,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
-.byte $00,$00,$00,$00
+.byte $17,$00,$00,$00
 
 ;breadcrumb coords
 .ifdef VER_JP

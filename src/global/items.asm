@@ -8,19 +8,15 @@
     .endif
     .ifblank key
         .ifblank food
-            .ifblank users
-                .byte 0
-            .else
-                .byte users
-            .endif
+            .byte %111111
         .else
-            .byte (food << 6) | users
+            .byte (food << 6) | %111111
         .endif
     .else
         .ifblank food
-            .byte (key << 7) | users
+            .byte (key << 7) | %111111
         .else
-            .byte (key << 7) | (food << 6) | users
+            .byte (key << 7) | (food << 6) | %111111
         .endif
     .endif
     ; data
@@ -134,10 +130,10 @@ ItemTable:
     ItemEntry INAME_UNKITEM39       ,  ,  ,        ,       ,                  ,                  ,
     ItemEntry INAME_UNKITEM3A       ,  ,  ,        ,       ,                  ,                  ,
     ItemEntry INAME_UNKITEM3B       ,  ,  ,        ,       ,                  ,                  ,
-    ItemEntry INAME_ORANGEJUICE     ,  , 1, %111111,       ,               $0a,               $71,    5
-    ItemEntry INAME_FRENCHFRIES     ,  , 1, %111111,       ,               $0b,               $72,   15
-    ItemEntry INAME_MAGIC_HERB      ,  , 1, %111111,       ,               $0c,               $73,   30
-    ItemEntry INAME_HAMBURGER       ,  , 1, %111111,       ,               $0d,               $7a,   25
+    ItemEntry INAME_ORANGEJUICE     ,  , 1, %111111,       ,               $0a,               $71,   20
+    ItemEntry INAME_FRENCHFRIES     ,  , 1, %111111,       ,               $0b,               $72,   30
+    ItemEntry INAME_MAGIC_HERB      ,  , 1, %111111,       ,               $0c,               $73,   50
+    ItemEntry INAME_HAMBURGER       ,  , 1, %111111,       ,               $0d,               $7a,   100
     ; 40 - 47
     ItemEntry INAME_SPORTSDRINK     ,  , 1, %111111,       ,               $0e,               $74,   75
     ItemEntry INAME_LIFEUPCREAM     ,  ,  , %111111,       ,               $0f,               $7b,  194
