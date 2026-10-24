@@ -179,6 +179,7 @@ MSG_MYHOME_PHONE:
 .byte stopText
 
 MSG_PHONE_END:
+.byte   5, 12, $e2
 .byte   "*Y'know, My Uncle",newLine
 .byte   " has a Secret",newLine
 .byte   pauseText
@@ -205,6 +206,7 @@ MSG_PHONE_NEWMONEY:
 .byte   stopText
 
 MSG_PHONE_RESETPROMPT:
+.byte   5, 8, $e4
 .byte   "*According to top",newLine
 .byte   " rated electrical",newLine
 .byte   " engineers,",newLine
@@ -236,9 +238,7 @@ MSG_PHONE_SAVE_YES:
 .byte stopText
 
 MSG_PHONE_SAVE_NO:
-.byte   "*I see.",newLine
-.byte   " I know, the Earth",newLine
-.byte   " faces a crisis.",newLine
+.byte   "*GRARG!!!",newLine
 .byte   stopText
 
 MSG_PHONE_SAVED_RESETPROMPT:
@@ -246,22 +246,11 @@ MSG_PHONE_SAVED_RESETPROMPT:
 .byte   stopText
 
 MSG_PHONE_RESET_YES:
-.byte   "*See you later!",newLine
-.byte   pauseText
-.byte   "*Remember, push in",newLine
-.byte   " and hold RESET,",newLine
-.byte   pauseText
-.byte   "*while turning the",newLine
-.byte   " POWER off. OK?",newLine
+.byte   "*HAHAHAHAHA!",newLine
 .byte   stopText
 
 MSG_PHONE_RESET_NO:
-.byte   "*Just like your",newLine
-.byte   " Mom, you never",newLine
-.byte   " want to stop.",newLine
-.byte   pauseText
-.byte   "*Please don't push",newLine
-.byte   " yourself so hard.",newLine
+.byte   "*KILL! KILL!",newLine
 .byte   stopText
 
 MSG_PHONE_SAVEPROMPT:
@@ -273,50 +262,46 @@ MSG_PHONE_GOODLUCK:
 .byte   stopText
 
 MSG_PODUNK_PIPPIMOM_THANKS:
-.byte   "*I want to thank",newLine
-.byte   " you again for your",newLine
-.byte   " help.",newLine
-.byte   pauseText
-.byte   "*Pippi is",newLine
-.byte   " fine now.",newLine
+.byte   "*FALL TO OUR HAND!",newLine
 .byte   stopText
 
 MSG_PODUNK_CEMETERYGUY1:
-.byte   "*Don't tell me",newLine
-.byte   " you've been south",newLine
-.byte   " to the cemetery!",newLine
+.byte   "*",partyLead," put",newLine
+.byte   " ",item,".",newLine
 .byte   stopText
 
 MSG_PODUNK_CEMETERYGUY2:
-.byte   "*You are terrific.",newLine
+.byte   "*The tower sprung",newLine
+.byte   " to life!",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY1:
-.byte   "*Be honest,",newLine
-.byte   " you're a zombie.",newLine
-.byte   pauseText
-.byte   "*Aren't you?",newLine
+.byte 5, 4, $e3
+.byte   "*What'cha want?",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY2:
-.byte   "*There is no cure",newLine
-.byte   " for zombies!",newLine
-.byte   " AAAAAAAHHH!",newLine
+.byte 5, 4, $e3
+.byte   "*Take it.",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY3:
-.byte   "*Are you really",newLine
-.byte   " a human?",newLine
+.byte 5, 4, $e3
+.byte   "*You're broke.",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY4:
-.byte   "*It's amazing",newLine
-.byte   " you came here.",newLine
+.byte 5, 4, $e3
+.byte   "*Whadd'ya want me",newLine
+.byte   " to do, carry it",newLine
+.byte   " for ya? Buzz off.",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY5:
-.byte   "*You see...",newLine
+.byte 5, 4, $e3
+.byte   "*Bye.",newLine
 .byte   stopText
+
 
 MSG_PODUNK_SCAREDGUY6:
 .byte   "*Don't tell anyone,",newLine

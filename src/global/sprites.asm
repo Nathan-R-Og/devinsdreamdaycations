@@ -2293,6 +2293,46 @@ spriteTile 0, 0, 0, 1, 0, 0, 0, $3
 spriteTile 8, 0, 0, 1, 0, 0, 0, $4
 spriteTile $10, 0, 0, 1, 0, 0, 0, $5
 
+SPRITEDEF_RAT:
+spritePointerDef SPRITE_NATHAN1UP1, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_NATHAN1UP2, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_CHARRIGHT1, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_CHARRIGHT2, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_NATHAN1DOWN1, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_NATHAN1DOWN2, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_CHARLEFT1, $c0, 1, 0, 1, 0
+spritePointerDef SPRITE_CHARLEFT2, $c0, 1, 0, 1, 0
+
+SPRITEDEF_ZPENGUIN:
+spritePointerDef SPRITE_CHARUP1, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARUP2, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARRIGHT1, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARRIGHT2, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARDOWN1, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARDOWN2, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARLEFT1, $e0, 1, 3, 1, 0
+spritePointerDef SPRITE_CHARLEFT2, $e0, 1, 3, 1, 0
+
+SPRITEDEF_ZCOP:
+spritePointerDef SPRITE_CHARUP1, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARUP2, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARRIGHT1, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARRIGHT2, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARDOWN1, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARDOWN2, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARLEFT1, $e8, 0, 0, 1, 0
+spritePointerDef SPRITE_CHARLEFT2, $e8, 0, 0, 1, 0
+
+SPRITEDEF_ZBOSS:
+spritePointerDef SPRITE_CHARUP1, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARUP2, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARRIGHT1, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARRIGHT2, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARDOWN1, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARDOWN2, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARLEFT1, $c8, 1, 1, 1, 0
+spritePointerDef SPRITE_CHARLEFT2, $c8, 1, 1, 1, 0
+
 SPRITEDEF_NATHAN1:
 spritePointerDef SPRITE_NATHAN1UP1, $a0, 1, 1, 1, 0
 spritePointerDef SPRITE_NATHAN1UP2, $a0, 1, 1, 1, 0
@@ -2366,3 +2406,23 @@ spritePointerDef SPRITE_CHARDOWN1, $88, 3, 1, 0, 0
 spritePointerDef SPRITE_CHARDOWN2, $88, 3, 1, 0, 0
 spritePointerDef SPRITE_CHARLEFT1, $88, 3, 1, 0, 0
 spritePointerDef SPRITE_CHARLEFT2, $88, 3, 1, 0, 0
+
+SPRITEDEF_MAY:
+spritePointerDef SPRITE_CHARUP1, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARUP2, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARRIGHT1, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARRIGHT2, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARDOWN1, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARDOWN2, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARLEFT1, $c8, 0, 0, 0, 0
+spritePointerDef SPRITE_CHARLEFT2, $c8, 0, 0, 0, 0
+
+SPRITEDEF_TOM:
+spritePointerDef SPRITE_CHARUP1, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARUP2, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARRIGHT1, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARRIGHT2, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARDOWN1, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARDOWN2, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARLEFT1, $A0, 1, 3, 0, 0
+spritePointerDef SPRITE_CHARLEFT2, $A0, 1, 3, 0, 0
