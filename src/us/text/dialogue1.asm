@@ -81,106 +81,115 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   stopText
 
 MSG_MYHOME_MIMMIE:
-.byte   "*No, I'm Mimmie,",newLine
-.byte   " don't confuse me",newLine
-.byte   " with Minnie.",newLine
+.byte   "I've done it. I figured",newLine
+.byte   "out how to leave.",newLine
+.byte   "They broke the radio",newLine
+.byte   "tower, but thankfully",newLine
+.byte   "I'm an engineer.",newLine
+.byte   "As long as you have",newLine
+.byte   "a Battery, a Wrench",newLine
+.byte   "and a Transmitter,",newLine
+.byte   "you can call the outside",newLine
+.byte   "world. But where can I",newLine
+.byte   "get a Wrench...?",newLine
 .byte   stopText
 
 MSG_MYHOME_MOM_INVASION:
-.byte   "*",nintenName,".",newLine
-.byte   " Are you alright?",newLine
-.byte   pauseText
-.byte   "*Egad!",newLine
-.byte   " What is happening",newLine
-.byte   " to our house?",newLine
-.byte   pauseText
-.byte   "*I wish your Dad",newLine
-.byte   " were here now.",newLine
-.byte   " Maybe...",newLine
-.byte   stopText
+.byte "The flagrant abuse of",newLine
+.byte "power in the resort is",newLine
+.byte "out of control. They",newLine
+.byte "think they own",newLine
+.byte "everybody's credit card",newLine
+.byte "information, regardless",newLine
+.byte "if you got here for",newLine
+.byte "free???",newLine,newLine
+.byte "What is this, Netflix",newLine
+.byte "Island? This is going",newLine
+.byte "in the report for sure.",newLine
+.byte "",newLine
+.byte "- John Newsman",newLine
+.byte stopText
 
 MSG_MYHOME_MOM:
-.byte   "*Son of mine,",newLine
-.byte   " you are braver",newLine
-.byte   " than I thought.",newLine
-.byte   pauseText
-.byte   "*I can't let you",newLine
-.byte   " go on a journey",newLine
-.byte   " so famished.",newLine
-.byte   stopText
+.byte "This Linking Book goes",newLine
+.byte "somewhere.... peculiar.",newLine
+.byte "",newLine
+.byte "This age is clearly",newLine
+.byte "wrought with destruction",newLine
+.byte "and yet I can only help",newLine
+.byte "but feel bad for it.",newLine
+.byte "It seems there was no",newLine
+.byte "man, woman or child that",newLine
+.byte "could've forseen the",newLine
+.byte "consequences on display.",newLine
+.byte newLine
+.byte "I write in hopes that a",newLine
+.byte "fellow wanderer can",newLine
+.byte "find this page and give",newLine
+.byte "these people the",newLine
+.byte "salvation they need.",newLine
+.byte "I must attend to my",newLine
+.byte "duties. Farewell.",newLine
+.byte newLine
+.byte "- Atrus",newLine
+.byte stopText
 
 MSG_MYHOME_MOM_HURT:
-.byte   "*Oh, you have been",newLine
-.byte   " wounded.",newLine
-.byte   stopText
+.byte "UNCLE TIPS 101",newLine,newLine
+.byte "Never share your",newLine,newLine
+.byte "secrets!",newLine,newLine
+.byte "If theres a pesky",newLine,newLine
+.byte "nephew tryn ta stir the",newLine,newLine
+.byte "pot, give em a piece of",newLine,newLine
+.byte "their own medicine!",newLine,newLine
+.byte "Take the closest",newLine,newLine
+.byte "Battery and flick it",newLine,newLine
+.byte "into that suckers' eyes.",newLine,newLine
+.byte "The look on his face",newLine,newLine
+.byte "will be priceless!",newLine,newLine
+.byte stopText
 
 MSG_PHONE_NEXTLVL:
 .byte   "*TO NEXT",newLine
 .byte   stopText
 
 MSG_MYHOME_MOM_EAT:
-.byte   "*When you want to",newLine
-.byte   " eat ",favFood,newLine
-.byte   " again, just come",newLine
-.byte   " back here.",newLine
-.byte   stopText
+.byte "My third cousin removed",newLine,newLine
+.byte "told me to come here.",newLine,newLine
+.byte "These houses suck,",newLine,newLine
+.byte "theres not even anyone",newLine,newLine
+.byte "here. Except Zombies.",newLine,newLine
+.byte "My cousin sucks.",newLine,newLine
+.byte "Or was it my Uncle?",newLine,newLine
+.byte "My Daddy? My Grandpa?",newLine,newLine
+.byte "i forgot",newLine,newLine
+.byte stopText
 
 MSG_MYHOME_PHONE:
-.byte   "*Well...",newLine
-.byte   " It seems like a",newLine
-.byte   " poltergeist.",newLine
-.byte   pauseText
-.byte   "*I'm not exactly",newLine
-.byte   " sure how to...",newLine
-.byte   pauseText
-.byte   "*But, your great-",newLine
-.byte   " grand-father",newLine
-.byte   " studied PSI.",newLine
-.byte   pauseText
-.byte   "*You might find",newLine
-.byte   " something in the",newLine
-.byte   " basement to help.",newLine
-.byte   pauseText
-.byte   "*But, I left the",newLine
-.byte   " Basement Key",newLine
-.byte   " someplace...",newLine
-.byte   pauseText
-.byte   "*...can't remember",newLine
-.byte   " exactly where...",newLine
-.byte   pauseText
-.byte   "*Anyhow, son, you",newLine
-.byte   " are my only hope.",newLine
-.byte   pauseText
-.byte   "*It's time for you",newLine
-.byte   " to go on a little",newLine
-.byte   " adventure,",newLine
-.byte   pauseText
-.byte   "*and explore the",newLine
-.byte   " potential of your",newLine
-.byte   " powers.",newLine
-.byte   pauseText
-.byte   "*Powers not be taken",newLine
-.byte   " lightly.",newLine
-.byte   pauseText
-.byte   "*",nintenName,", go",newLine
-.byte   " for it!!",newLine
-.byte   pauseText
-.byte   "*But remember to come",newLine
-.byte   " back and check on",newLine
-.byte   " our family.",newLine
-.byte   pauseText
-.byte   "*Bye.",newLine
-.byte   pauseText
-.byte   "*Oh... phone me,",newLine
-.byte   " and I will SAVE",newLine
-.byte   " your progress.",newLine
-.byte   pauseText
-.byte   "*Call me whenever",newLine
-.byte   " you want.",newLine
-.byte   stopText
+.byte "Here's a mantra I've",newLine,newLine
+.byte "always followed",$Ab,newLine,newLine
+.byte "When you're feeling DOWN,",newLine,newLine
+.byte "at your BOTTOM,",newLine,newLine
+.byte "get RIGHT back up and",newLine,newLine
+.byte "get a reality CHECK.",newLine,newLine
+.byte "",newLine,newLine
+.byte "My aunt used to tell",newLine,newLine
+.byte "me that.",newLine,newLine
+.byte "- Phillip",newLine,newLine
+.byte stopText
 
 MSG_PHONE_END:
-.byte   "*Slam.",newLine
+.byte   "*Y'know, My Uncle",newLine
+.byte   " has a Secret",newLine
+.byte   pauseText
+.byte   "*One of those",newLine
+.byte   " 'uncle secrets'",newLine
+.byte   pauseText
+.byte   "*Apparently he can",newLine
+.byte   " do a mean ass",newLine
+.byte   " kickflip.",newLine
+.byte   pauseText
+.byte   "*TELL NO ONE.",newLine
 .byte   stopText
 
 MSG_PHONE_INTRO:
@@ -196,16 +205,35 @@ MSG_PHONE_NEWMONEY:
 .byte   stopText
 
 MSG_PHONE_RESETPROMPT:
-.byte   "*Now son, it's not",newLine
-.byte   " my business, but",newLine
-.byte   " why not rest?",newLine
+.byte   "*According to top",newLine
+.byte   " rated electrical",newLine
+.byte   " engineers,",newLine
+.byte   pauseText
+.byte   "*You need 'power'",newLine
+.byte   " to use a 'machine'.",newLine
+.byte   pauseText
+.byte   "*What a load of",newLine
+.byte   " baloney. I just use",newLine
+.byte   " Battery's.",newLine
 .byte   stopText
 
 MSG_PHONE_SAVE_YES:
-.byte   "*I see. ",newLine
-.byte   " I'll SAVE your",newLine
-.byte   " progress.",newLine
-.byte   stopText
+.byte "BOUNDLESS SPACE",newLine
+.byte "   BOUNDLESS TIME",newLine
+.byte newLine
+.byte "IN EACH OF THESE",newLine
+.byte "WORDS",newLine
+.byte "   I PUT A RHYME",newLine
+.byte newLine
+.byte "WHEN LIFE REACHES",newLine
+.byte "END",newLine
+.byte "   THERE'S NOTHING",newLine
+.byte "   TO FRAME",newLine
+.byte newLine
+.byte "DO WHAT YOU WANT",newLine
+.byte "   AND DON'T TAKE",newLine
+.byte "   THE BLAME",newLine
+.byte stopText
 
 MSG_PHONE_SAVE_NO:
 .byte   "*I see.",newLine
@@ -792,47 +820,6 @@ MSG_MAGICANT_NICKNAMEMAN_AFTER_YES:
 .byte   " cool, doesn't it?",newLine
 .byte   stopText
 
-MSG_TRAIN_DECLINE:
-.byte   "*Is that right?",newLine
-.byte   " That's too bad.",newLine
-.byte   stopText
-
-MSG_MAGICANT_NICKNAMEMAN_QUEST:
-.byte   "*Hello, there!",newLine
-.byte   " Noodlenoggin",newLine
-.byte   " ",partyLead,".",newLine
-.byte   stopText
-
-MSG_MAGICANT_PHILOSOPHYMAN:
-.byte   "*Have you ever met",newLine
-.byte   " the man who practices",newLine
-.byte   " philosophy?",newLine
-.byte   stopText
-
-MSG_MAGICANT_PHILOSOPHYMAN_YES:
-.byte   "*He is so good at",newLine
-.byte   " nicknaming.",newLine
-.byte   pauseText
-.byte   "*He uses such...",newLine
-.byte   " good taste in it.",newLine
-.byte   stopText
-
-MSG_MAGICANT_PHILOSOPHYMAN_NO:
-.byte   "*In the first",newLine
-.byte   " place, if we",newLine
-.byte   " have not met",newLine
-.byte   pauseText
-.byte   "*we cannot part!",newLine
-.byte   stopText
-
-MSG_MAGICANT_CANNOTPARTMAN:
-.byte   "*Have you met a man",newLine
-.byte   " who says, that you",newLine
-.byte   " cannot part,",newLine
-.byte   pauseText
-.byte   "*with someone you",newLine
-.byte   " have not met?",newLine
-.byte   stopText
 
 MSG_MAGICANT_CANNOTPARTMAN_YES:
 .byte 5, 12, $e4
@@ -868,6 +855,12 @@ MSG_MAGICANT_EARRINGGIRL:
 .byte   "*Isn't life so easy?",newLine
 .byte   stopText
 
+MSG_TRAIN_DECLINE:
+MSG_MAGICANT_NICKNAMEMAN_QUEST:
+MSG_MAGICANT_PHILOSOPHYMAN:
+MSG_MAGICANT_PHILOSOPHYMAN_YES:
+MSG_MAGICANT_PHILOSOPHYMAN_NO:
+MSG_MAGICANT_CANNOTPARTMAN:
 MSG_MAGICANT_FOUNTAINMAN:
 MSG_MAGICANT_RESTROOMBOY:
 MSG_MAGICANT_INNBOY:

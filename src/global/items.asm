@@ -91,20 +91,11 @@ ItemTable:
     ; 20 - 27
     ItemEntry INAME_STONEORIGIN     ,  ,  , %111111,       ,                  ,               $3e,     0
     ItemEntry INAME_POISNNEEDLE     ,  ,  , %111111,       ,                  ,               $3d,     0
-    ItemEntry INAME_FL_THROWER      ,  ,  ,  %00100,       ,                  ,               $67,     0
-
-    ;these items had no price originally
-    .ifdef VER_JP
-    ItemEntry INAME_BOMB            ,  ,  ,  %00100,       ,                  ,               $10,     0
-    ItemEntry INAME_SUPER_BOMB      ,  ,  ,  %00100,       ,                  ,               $11,     0
-    ItemEntry INAME_LASER_BEAM      ,  ,  ,  %00100,       ,                  ,               $69,     0
-    ItemEntry INAME_PLASMA_BEAM     ,  ,  ,  %00100,       ,                  ,               $6a,     0
-    .else
-    ItemEntry INAME_BOMB            ,  ,  ,  %00100,       ,                  ,               $10,   280
+    ItemEntry INAME_FL_THROWER      ,  ,  ,  %00100,       ,                  ,               $67,   200
+    ItemEntry INAME_BOMB            ,  ,  ,  %00100,       ,                  ,               $10,   100
     ItemEntry INAME_SUPER_BOMB      ,  ,  ,  %00100,       ,                  ,               $11,  1800
     ItemEntry INAME_LASER_BEAM      ,  ,  ,  %00100,       ,                  ,               $69,   760
     ItemEntry INAME_PLASMA_BEAM     ,  ,  ,  %00100,       ,                  ,               $6a,  1300
-    .endif
 
     ItemEntry INAME_UNKITEM27       ,  ,  ,        ,       ,                  ,                  ,
     ; 28 - 2f
@@ -173,9 +164,9 @@ ItemTable:
     ; 60 - 67
     ItemEntry INAME_UNKITEM60       ,  ,  ,        ,       ,                  ,                  ,
     ItemEntry INAME_BOTTLROCKET     ,  ,  ,  %00100,       ,                  ,               $7d,    0
-    ItemEntry INAME_HAT             , 1,  , %111111,       ,               $01,                  ,    0
-    ItemEntry INAME_DENTURES        , 1,  , %111111,       ,               $01,                  ,    0
-    ItemEntry INAME_TICKET_STUB     ,  ,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_HAT             , 1,  , %111111,       ,               $01,                  ,    500
+    ItemEntry INAME_DENTURES        , 1,  , %111111,       ,               $01,                  ,    500
+    ItemEntry INAME_TICKET_STUB     , 1,  , %111111,       ,               $01,                  ,    500
     ItemEntry INAME_IC_CHIP         , 1,  ,  %00100,       ,               $01,                  ,    0
     ItemEntry INAME_OCARINA         , 1,  , %111111,       ,               $23,                  ,    0
     ItemEntry INAME_UNKITEM67       ,  ,  ,        ,       ,                  ,                  ,

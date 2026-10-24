@@ -794,7 +794,7 @@ MSG_MENU_YES_NO:
 .byte   "  Yes      No"
 .byte   stopText
 MSG_MENU_CONTINUE_REST:
-.byte   "  Continue Rest"
+.byte   "  Continue Reset"
 .byte   stopText
 
 MSG_PHONE_GRAB:

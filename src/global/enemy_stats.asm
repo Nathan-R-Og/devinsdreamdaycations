@@ -136,120 +136,124 @@ STATS_UNKENEMY0:
     .byte 0
 
 STATS_BIGWOODOH:
-    .byte $00
-    ;init status
-    .byte $00
-    ;flags
-    .byte ENEMY_FLAGS::R_DEFDOWN_CONFSLEEP | ENEMY_FLAGS::R_PK_FREEZE
-    ;health, subpal, gtile
-    ething1 70, 1, 1
-    ;pp, gfx
-    ething2 0, 3
-    ;offense, finalAction, altitude
-    ething3 18, 2, 0
-    ;defense, messageDefeat, unkParam
-    ething4 50, 2, 0
-    ;fight, speed, wisdom, strength, force
-    .byte 20, 23, 60, 60, 18
-    ;battle actions
-    .byte $01,$34,$41,$41,$01,$01,$01,$01
-    ;name pointer
-    .addr ENAME_BIGWOODOH
-    ;exp
-    .word 100
-    ;money
-    .word 140
-    ;item
-    .byte $48
-    ;graphic
-    .byte ENEMY_GRAPHICS::BIGWOODOH
-
-STATS_DRAGON:
+;zombie rat
     .byte $0
     ;init status
     .byte $0
     ;flags
-    .byte ENEMY_FLAGS::R_PK_BEAM | ENEMY_FLAGS::R_DEFDOWN_CONFSLEEP | ENEMY_FLAGS::UNK | ENEMY_FLAGS::R_PK_THUNDER | ENEMY_FLAGS::R_PK_FREEZE | ENEMY_FLAGS::R_PK_FIRE | ENEMY_FLAGS::GOD
+    .byte 0
     ;health, subpal, gtile
-    ething1 650, 0, 1
-    ;pp, gfx
-    ething2 200, 0
-    ;offense, finalAction, altitude
-    ething3 180, 0, 0
-    ;defense, messageDefeat, unkParam
-    ething4 200, 1, 0
-    ;fight, speed, wisdom, strength, force
-    .byte 60, 60, 20, 100, 60
-    ;battle actions
-    .byte $6C,$0A,$6C,$01,$0A,$01,$01,$83
-    ;name pointer
-    .addr ENAME_DRAGON
-    ;exp
-    .word 500
-    ;money
-    .word 1200
-    ;item
-    .byte $00
-    ;graphic
-    .byte ENEMY_GRAPHICS::DRAGON
-
-STATS_R7038:
-    .byte $0
-    ;init status
-    .byte $0
-    ;flags
-    .byte ENEMY_FLAGS::R_PK_BEAM | ENEMY_FLAGS::R_DEFDOWN_CONFSLEEP | ENEMY_FLAGS::R_PK_THUNDER | ENEMY_FLAGS::R_PK_FREEZE | ENEMY_FLAGS::R_PK_FIRE | ENEMY_FLAGS::GOD
-    ;health, subpal, gtile
-    ething1 1000, 1, 1
-    ;pp, gfx
-    ething2 0, 5
-    ;offense, finalAction, altitude
-    ething3 600, 0, 0
-    ;defense, messageDefeat, unkParam
-    ething4 1000, 3, 0
-    ;fight, speed, wisdom, strength, force
-    .byte 40, 50, 60, 100, 100
-    ;battle actions
-    .byte $01,$01,$01,$01,$01,$01,$01,$01
-    ;name pointer
-    .addr ENAME_R7038
-    ;exp
-    .word 430
-    ;money
-    .word 101
-    ;item
-    .byte $00
-    ;graphic
-    .byte ENEMY_GRAPHICS::R703
-
-STATS_ELEPHANT:
-    .byte $0
-    ;init status
-    .byte $0
-    ;flags
-    .byte ENEMY_FLAGS::NONE
-    ;health, subpal, gtile
-    ething1 70, 2, 1
+    ething1 15, 0, 0
     ;pp, gfx
     ething2 0, 0
     ;offense, finalAction, altitude
-    ething3 20, 0, 0
+    ething3 8, 0, 0
     ;defense, messageDefeat, unkParam
-    ething4 34, 1, 0
+    ething4 4, 4, 0
     ;fight, speed, wisdom, strength, force
-    .byte 30, 10, 5, 30, 8
+    .byte 2, 2, 1, 4, 4
     ;battle actions
-    .byte $05,$05,$05,$01,$01,$01,$01,$01
+    .byte $04,$03,$05,$04,$03,$05,$05,$05
     ;name pointer
-    .addr ENAME_ELEPHANT
+    .addr ENAME_ZOMBIE
     ;exp
-    .word 60
+    .word 10
     ;money
-    .word 99
+    .word 24
     ;item
     .byte $00
     ;graphic
-    .byte ENEMY_GRAPHICS::ELEPHANT
+    .byte $20
+
+STATS_DRAGON:
+;zombie duck
+    .byte $0
+    ;init status
+    .byte $0
+    ;flags
+    .byte 0
+    ;health, subpal, gtile
+    ething1 20, 1, 0
+    ;pp, gfx
+    ething2 0, 0
+    ;offense, finalAction, altitude
+    ething3 8, 0, 0
+    ;defense, messageDefeat, unkParam
+    ething4 4, 4, 0
+    ;fight, speed, wisdom, strength, force
+    .byte 3, 2, 1, 4, 4
+    ;battle actions
+    .byte $04,$03,$05,$04,$03,$05,$05,$05
+    ;name pointer
+    .addr ENAME_ZOMBIE
+    ;exp
+    .word 20
+    ;money
+    .word 24
+    ;item
+    .byte $00
+    ;graphic
+    .byte $21
+
+STATS_R7038:
+;zombie cop
+    .byte $0
+    ;init status
+    .byte $0
+    ;flags
+    .byte 0
+    ;health, subpal, gtile
+    ething1 40, 0, 0
+    ;pp, gfx
+    ething2 0, 0
+    ;offense, finalAction, altitude
+    ething3 10, 0, 0
+    ;defense, messageDefeat, unkParam
+    ething4 4, 4, 0
+    ;fight, speed, wisdom, strength, force
+    .byte 3, 2, 1, 4, 4
+    ;battle actions
+    .byte $04,$03,$05,$04,$03,$05,$05,$05
+    ;name pointer
+    .addr ENAME_ZOMBIE
+    ;exp
+    .word 40
+    ;money
+    .word 40
+    ;item
+    .byte $00
+    ;graphic
+    .byte $22
+
+STATS_ELEPHANT:
+;zombie boss
+    .byte $0
+    ;init status
+    .byte $0
+    ;flags
+    .byte 0
+    ;health, subpal, gtile
+    ething1 100, 2, 0
+    ;pp, gfx
+    ething2 0, 0
+    ;offense, finalAction, altitude
+    ething3 30, 0, 0
+    ;defense, messageDefeat, unkParam
+    ething4 20, 4, 0
+    ;fight, speed, wisdom, strength, force
+    .byte 5, 4, 1, 8, 4
+    ;battle actions
+    .byte $04,$03,$05,$04,$03,$05,$05,$05
+    ;name pointer
+    .addr ENAME_ZOMBIE
+    ;exp
+    .word 100
+    ;money
+    .word 100
+    ;item
+    .byte $00
+    ;graphic
+    .byte $23
 
 STATS_BEAR:
     .byte $0

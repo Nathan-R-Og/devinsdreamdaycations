@@ -2039,10 +2039,8 @@ OverworldScriptLUT:
     .addr OINST_DarkenPalettes-1 ; 67 - Darken palette
     .addr OINST_DoLandmine-1 ; 68
     .addr OINST_ScreenShake-1 ; 69
-    .ifndef VER_JP
-        .addr OINST_DoTombstone-1 ; 6A
-        .addr OINST_Useless-1 ; 6B
-    .endif
+    .addr OINST_DoTombstone-1 ; 6A
+    .addr OINST_Useless-1 ; 6B
 
 ; Instructions 07, 0E and 5E (infinite loop)
 OINST_InfiniteLoop:
@@ -4391,15 +4389,24 @@ OINST_ScreenShake:
 
 ; Instruction 6A - George crystal (?)
 OINST_DoTombstone:
-    sty object_script_offset
-    lda #.BANK(Tombstone_AntiPiracy)
-    ldx #.LOBYTE(Tombstone_AntiPiracy-1)
-    ldy #.HIBYTE(Tombstone_AntiPiracy-1)
-    jsr TempUpperBankswitch
-    jsr B19_0b41
-    ldy object_script_offset
-    iny
-    rts
+    ldx #$FF
+    txs
+
+    lda #.HIBYTE(Credits_Entry)
+    pha
+    lda #.LOBYTE(Credits_Entry)
+    pha
+
+    lda #0
+    sta dad_call_input_timer
+
+    lda #$c0
+    sta sram_mode
+
+    ;run the intro
+    lda #.BANK(Credits_Entry)
+    ldx #BANK::PRGA000
+    jmp BANK_SWAP
 
 ; Instruction 6B - do literally nothing
 OINST_Useless:
@@ -4447,20 +4454,6 @@ OINST_Useless:
     lda #.BANK(ShowScreen)
     ldx #.LOBYTE(ShowScreen-1)
     ldy #.HIBYTE(ShowScreen-1)
-    jsr TempUpperBankswitch
-
-    ;???
-    lda #.BANK(STORE_COORDINATES)
-    ldx #.LOBYTE(STORE_COORDINATES-1)
-    ldy #.HIBYTE(STORE_COORDINATES-1)
-    jsr TempUpperBankswitch
-
-    jsr EnablePRGRam
-    sta current_light
-
-    lda #.BANK(make_sure_dim_level_is_correct)
-    ldx #.LOBYTE(make_sure_dim_level_is_correct-1)
-    ldy #.HIBYTE(make_sure_dim_level_is_correct-1)
     jsr TempUpperBankswitch
 
     ;reload objects

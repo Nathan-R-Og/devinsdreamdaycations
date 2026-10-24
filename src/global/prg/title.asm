@@ -18,12 +18,19 @@ SPAWNS_0:
         .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_1:
-    .repeat 4
+        .byte BATTLEID BATTLE_2
+        .byte BATTLEID BATTLE_2
+        .byte BATTLEID BATTLE_6
+        .byte BATTLEID BATTLE_2
+        .byte BATTLEID BATTLE_6
         .byte BATTLEID BATTLE_2
         .byte BATTLEID BATTLE_3
+        .byte BATTLEID BATTLE_3
+        .byte BATTLEID BATTLE_3
         .byte BATTLEID BATTLE_4
-        .byte 0,0
-    .endrepeat
+        .byte BATTLEID BATTLE_4
+        .byte BATTLEID BATTLE_4
+        .byte 0,0,0,0,0,0,0,0
 SPAWNS_2:
     .repeat 2
         .byte BATTLEID BATTLE_C
@@ -590,8 +597,14 @@ DoWalkingStep:
     bcc @NoForceCap
     lda #8
     @NoForceCap:
+    tax
+
+    ;get a random value
+    jsr RNG_BYTE
+    sta UNK_C0
 
     ;soften frequency by double if not quite night
+    lda AREA_FREQ_TABLE-1, x
     tax
     lda current_light
     cmp #1
@@ -600,12 +613,11 @@ DoWalkingStep:
     lsr
     tax
     @no_soften:
-
-    ;get a random value
-    jsr RNG_BYTE
+    lda UNK_C0
+    stx UNK_C0
 
     ;get the frequency value
-    cmp AREA_FREQ_TABLE-1, x
+    cmp UNK_C0
     ;if random value >= area_freq_table[x], leave
     bcs @FrequencyFail
     ;else, pick an enemy
@@ -677,28 +689,28 @@ DoWalkingStep:
     areaEncounterDef 6, 1 ; 6
     areaEncounterDef 6, 1 ; 7
     areaEncounterDef 6, 1 ; 8
-    .byte 0 ; 9
+    areaEncounterDef 6, 1 ; 9
     .byte 0 ; A
-    areaEncounterDef 4, 1 ; B
-    areaEncounterDef 1, 2 ; C
-    areaEncounterDef 0, $1D ; D
-    areaEncounterDef 6, 4 ; E
-    areaEncounterDef 5, 5 ; F
-    areaEncounterDef 4, 6 ; 10
-    areaEncounterDef 5, 7 ; 11
-    areaEncounterDef 3, 8 ; 12
-    areaEncounterDef 5, 9 ; 13
-    areaEncounterDef 5, $A ; 14
-    areaEncounterDef 5, $B ; 15
-    areaEncounterDef 5, $C ; 16
+    .byte 0 ; B
+    .byte 0 ; C
+    .byte 0 ; D
+    .byte 0 ; E
+    .byte 0 ; F
+    .byte 0 ; 10
+    .byte 0 ; 11
+    .byte 0 ; 12
+    .byte 0 ; 13
+    .byte 0 ; 14
+    .byte 0 ; 15
+    .byte 0 ; 16
     .byte 0 ; 17
     .byte 0 ; 18
     .byte 0 ; 19
     .byte 0 ; 1A
     .byte 0 ; 1B
-    areaEncounterDef 4, $D ; 1C
-    areaEncounterDef 4, $E ; 1D
-    areaEncounterDef 4, $F ; 1E
+    .byte 0 ; 1C
+    .byte 0 ; 1D
+    .byte 0 ; 1E
     .byte 0 ; 1F
     .byte 0 ; 20
     .byte 0 ; 21
@@ -709,28 +721,28 @@ DoWalkingStep:
     .byte 0 ; 26
     .byte 0 ; 27
     .byte 0 ; 28
-    areaEncounterDef 0, $1C ; 29
+    .byte 0 ; 29
     .byte 0 ; 2A
     .byte 0 ; 2B
-    areaEncounterDef 5, $11 ; 2C
-    areaEncounterDef 5, $12 ; 2D
-    areaEncounterDef 4, $13 ; 2E
-    areaEncounterDef 7, $14 ; 2F
+    .byte 0 ; 2C
+    .byte 0 ; 2D
+    .byte 0 ; 2E
+    .byte 0 ; 2F
     .byte 0 ; 30
-    areaEncounterDef 5, $15 ; 31
+    .byte 0 ; 31
     .byte 0 ; 32
     .byte 0 ; 33
-    areaEncounterDef 5, $16 ; 34
-    areaEncounterDef 5, $17 ; 35
-    areaEncounterDef 5, $18 ; 36
-    areaEncounterDef 5, $19 ; 37
+    .byte 0 ; 34
+    .byte 0 ; 35
+    .byte 0 ; 36
+    .byte 0 ; 37
     .byte 0 ; 38
     .byte 0 ; 39
-    areaEncounterDef 6, $1A ; 3A
+    .byte 0 ; 3A
     .byte 0 ; 3B
     .byte 0 ; 3C
     .byte 0 ; 3D
-    areaEncounterDef 4, $1B ; 3E
+    .byte 0 ; 3E
     .byte 0 ; 3F
 
 ; $95D3

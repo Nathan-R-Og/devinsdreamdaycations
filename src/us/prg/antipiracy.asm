@@ -1902,15 +1902,15 @@ ShowScreen:
 
     jsr PpuSync
 
-    ;irq_count = 0
-    ;scroll_x = 0
-    ;scroll_y = 0
     lda #0
     sta irq_count
     sta scroll_x
     sta scroll_y
     sta UNK_70
     sta UNK_71
+    lda ram_PPUCTRL
+    and #~3
+    sta ram_PPUCTRL
 
     BankswitchCHR_Address ANTIPIRACY_chrs
 
@@ -1968,8 +1968,18 @@ ShowScreen:
 
     BankswitchCHR_Address ANTIPIRACY_chrs2
 
+    ;fallthrough
+do_screen_leave:
     jsr OT0_DefaultTransition
-    rts
+
+    lda #.BANK(STORE_COORDINATES)
+    ldx #.LOBYTE(STORE_COORDINATES-1)
+    ldy #.HIBYTE(STORE_COORDINATES-1)
+    jsr TempUpperBankswitch
+
+    jsr EnablePRGRam
+    sta current_light
+    jmp make_sure_dim_level_is_correct
 
 mini_pal_update:
     lda #1
@@ -2084,23 +2094,24 @@ mini_cmd_set_metatileprops:
 
 TimeChange:
     ;step time increment
+    jsr EnablePRGRam
     clc
-    lda dad_call_timer
+    lda time_steps
     adc #100
-    sta dad_call_timer
+    sta time_steps
     bcc @no_more
-    inc dad_call_timer+1
+    inc time_steps+1
     bne @no_more
-    inc dad_call_timer+2
+    inc time_steps+2
 
     @no_more:
 
 
-    lda dad_call_timer
+    lda time_steps
     sta UNK_60
-    lda dad_call_timer+1
+    lda time_steps+1
     sta UNK_60+1
-    lda dad_call_timer+2
+    lda time_steps+2
     sta UNK_62
     lda #60
     sta UNK_64
@@ -2308,9 +2319,19 @@ ShowNewDay:
 
     BankswitchCHR_Address NEW_DAY_chrs
 
+    lda time_days
+    cmp #4
+    beq @itsover
+
     lda #.LOBYTE(a_new_day_tiles)
     sta tilepack_ptr ;store lo
     lda #.HIBYTE(a_new_day_tiles)
+    sta tilepack_ptr+1 ;store hi
+    bne @loop
+    @itsover:
+    lda #.LOBYTE(BAD_END_TILES)
+    sta tilepack_ptr ;store lo
+    lda #.HIBYTE(BAD_END_TILES)
     sta tilepack_ptr+1 ;store hi
 
     @loop:
@@ -2333,17 +2354,13 @@ ShowNewDay:
 
     jsr WAIT_CLOSE_MENU
 
-    jsr OT0_DefaultTransition
+    lda time_days
+    cmp #4
+    beq @itsover2
 
-    ;???
-    lda #.BANK(STORE_COORDINATES)
-    ldx #.LOBYTE(STORE_COORDINATES-1)
-    ldy #.HIBYTE(STORE_COORDINATES-1)
-    jsr TempUpperBankswitch
-
-    jsr EnablePRGRam
-    sta current_light
-    jmp make_sure_dim_level_is_correct
+    jmp do_screen_leave
+    @itsover2:
+    jmp BAD_END
 
 NEW_DAY_PALETTE:
     .byte $0F, $0F, $30, $0F
@@ -2366,3 +2383,31 @@ a_new_day_tiles:
     .byte set_pos 13, 15
     .byte "BEGINS"
     .byte stopText
+
+BAD_END_TILES:
+    ;produced by
+    .byte set_pos 11, 12
+    .byte "RECKONING"
+    .byte set_pos 12, 15
+    .byte "HAS COME"
+    .byte stopText
+
+BAD_END:
+    ldx #$FF
+    txs
+
+    lda #.HIBYTE(Credits_Entry_bad)
+    pha
+    lda #.LOBYTE(Credits_Entry_bad)
+    pha
+
+    lda #0
+    sta dad_call_input_timer
+
+    lda #$c0
+    sta sram_mode
+
+    ;run the intro
+    lda #.BANK(Credits_Entry_bad)
+    ldx #BANK::PRGA000
+    jmp BANK_SWAP

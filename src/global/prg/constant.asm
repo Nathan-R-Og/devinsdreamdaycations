@@ -4826,8 +4826,8 @@ SwapPatternTables:
 ;divide by 2 and multiply by $400 to get distance from start
 ;of chr rom
 AREA_CHR_TABLE:
-    .byte $00,$68,$66,$62,$62,$62,$64,$62
-    .byte $74,$64,$6A,$62,$66,$6C,$62,$00
+    .byte $00,$64,$66,$64,$64,$64,$64,$64
+    .byte $64,$64,$64,$62,$66,$6C,$62,$00
     .byte $00,$00,$00,$00,$66,$00,$6A,$66
     .byte $62,$68,$64,$68,$6E,$66,$66,$66
     .byte $62,$62,$62,$66,$64,$6E,$62,$64
@@ -5353,63 +5353,22 @@ RECONFIGURE_PARTY:
 ; Runs when party is defeated
 ; $37 : no. alive party members = 0
 GAME_OVER:
-    jsr REMOVE_NPCS_FROM_PARTY
-    jsr EnablePRGRam
-    ; set status to healthy
-    lda #0
-    sta Ninten_Data + Status_Offset
-    ; set power to 0
-    sta Ninten_Data + CurrPP_Offset
-    sta Ninten_Data + CurrPP_Offset+1
-    ; set hp to max
-    lda Ninten_Data + HP_Offset
-    sta Ninten_Data + CurrHP_Offset
-    lda Ninten_Data + HP_Offset+1
-    sta Ninten_Data + CurrHP_Offset+1
-    ; divide cash by 2
-    lda wallet_money
-    lsr wallet_money+1
-    ror a
-    adc #0
-    sta wallet_money
-    lda wallet_money+1
-    adc #0
-    sta wallet_money+1
-    lda #1
-    sta UNK_37
-    lda #0
-    sta is_scripted
-    sta is_tank
-    ldx UNK_47
-    ldy B30_196b, x
-    .ifdef VER_JP
-    GAME_OVER_looper:
-    .endif
-    ldx #3
-    @loop:
-    lda B30_196f, y
-    sta xpos_music, x
-    dey
-    dex
-    bpl @loop
-    lda ypos_direction
-    and #%00001111
-    ora #$20
-    sta fade_flag
-    eor #$60
-    sta autowalk_direction
-    sec
-    jmp WriteProtectPRGRam
+    lda #4
+    sta time_days
 
-; what the fuck lmao
-B30_196b:
-    .byte 3, 3, 3, 7
-B30_196f:
-    doorArgDef $1C, $37d, DIRECTIONS::UP, $90
-    doorArgDef $B, $37e, DIRECTIONS::UP, $36d
-    .ifdef VER_JP
-    doorArgDef $1a, $33, DIRECTIONS::LEFT, $21e
-    .endif
+    ldx #$FF
+    txs
+
+    lda #.HIBYTE(ShowNewDay)
+    pha
+    lda #.LOBYTE(ShowNewDay)
+    pha
+
+    lda #.BANK(ShowNewDay)
+    ldx #BANK::PRGA000
+    jmp BANK_SWAP
+
+
 
 B30_1977:
     dec UNK_36

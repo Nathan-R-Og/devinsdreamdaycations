@@ -7,7 +7,7 @@ CharacterRates:
 ;????/null
 .byte 200,$00,0,4,4,4,4,4
 ;ninten
-.byte 200,$00,0,1,8,1,15,3
+.byte 200,$00,0,1,8,1,12,3
 ;ana
 .byte 203,$00,3,0,2,6,2,7
 ;lloyd

@@ -161,44 +161,44 @@ battlebyte8 2, 0
 battlebyte9 12, MUSIC::BATTLE_FLIPPANT
 
 BATTLE_2:
-.byte ENEMIES::ZOMBIE,$01
-.byte ENEMIES::ZOMBIE,$02
+.byte $01,$01
+.byte $01,$02
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
 battlebyte8 7, 0
-battlebyte9 12, MUSIC::BATTLE_DANGEROUS
+battlebyte9 0, MUSIC::BATTLE_DANGEROUS
 
 BATTLE_3:
-.byte ENEMIES::ZOMBIE,$00
-.byte ENEMIES::NONE,$00
-.byte ENEMIES::NONE,$00
-.byte ENEMIES::NONE,$00
-battlebyte8 0, 0
-battlebyte9 12, MUSIC::BATTLE_DANGEROUS
-
-BATTLE_4:
-.byte ENEMIES::ZOMBIE,$01
-.byte ENEMIES::ZOMBIE,$02
-.byte ENEMIES::ZOMBIE,$03
-.byte ENEMIES::NONE,$00
-battlebyte8 11, 0
-battlebyte9 12, MUSIC::BATTLE_DANGEROUS
-
-BATTLE_5:
-.byte ENEMIES::CENTIPEDE,$00
+.byte $02,$00
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
 battlebyte8 2, 0
-battlebyte9 11, MUSIC::BATTLE_FLIPPANT
+battlebyte9 0, MUSIC::BATTLE_DANGEROUS
+
+BATTLE_4:
+.byte $01,$01
+.byte $02,$02
+.byte $03,$03
+.byte ENEMIES::NONE,$00
+battlebyte8 11, 0
+battlebyte9 0, MUSIC::BATTLE_DANGEROUS
+
+BATTLE_5:
+.byte $04,$00
+.byte ENEMIES::NONE,$00
+.byte ENEMIES::NONE,$00
+.byte ENEMIES::NONE,$00
+battlebyte8 2, 0
+battlebyte9 0, MUSIC::BATTLE_DANGEROUS
 
 BATTLE_6:
-.byte ENEMIES::CENTIPEDE,$01
-.byte ENEMIES::CENTIPEDE,$02
+.byte $01,$00
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
-battlebyte8 7, 0
-battlebyte9 11, MUSIC::BATTLE_FLIPPANT
+.byte ENEMIES::NONE,$00
+battlebyte8 0, 0
+battlebyte9 0, MUSIC::BATTLE_DANGEROUS
 
 BATTLE_7:
 .byte ENEMIES::STRAY_DOG,$00

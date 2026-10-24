@@ -557,9 +557,10 @@ MSG_PODUNK_CITYHALLSIGN:
 .byte   stopText
 
 MSG_ELLAY_RESIDENTIALSIGN:
-.byte   "*  Look-Out Tower",newLine
-.byte   "        WEST",newLine
-.byte   "   Harbor   NORTH",newLine
+.byte 5, 0, $e1
+.byte   "LABORATORY",newLine
+.byte   "FOR A CURE",newLine
+.byte   "(important)",newLine
 .byte   stopText
 MSG_ELLAY_RESIDENTIALSIGN2:
 .byte   "*      Ellay",newLine

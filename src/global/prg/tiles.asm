@@ -532,7 +532,14 @@ ui_thing_tiles11:
 .byte stopText
 
 Battle_Palettes:
-.incbin "../../split/global/battlePalettes.bin"
+.byte $0F, $2D, $16, $30
+.byte $0F, $12, $16, $30
+.byte $0F, $07, $18, $30
+.byte $0F, $11, $30, $16
+.byte $0F, $11, $30, $16
+.byte $0F, $11, $30, $16
+.byte $0F, $11, $30, $16
+.byte $0F, $11, $30, $16
 
 ;battle text list
 ;text indexed from battle actions

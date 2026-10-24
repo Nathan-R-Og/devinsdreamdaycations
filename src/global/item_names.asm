@@ -435,11 +435,11 @@ INAME_UNKITEM60:
 INAME_BOTTLROCKET:
 .byte "BottlRocket",stopText
 INAME_HAT:
-.byte "Hat",stopText
+.byte "Wrench",stopText
 INAME_DENTURES:
-.byte "Dentures",stopText
+.byte "Battery",stopText
 INAME_TICKET_STUB:
-.byte "Ticket Stub",stopText
+.byte "Transmitter",stopText
 INAME_IC_CHIP:
 .byte "IC-chip",stopText
 INAME_OCARINA:

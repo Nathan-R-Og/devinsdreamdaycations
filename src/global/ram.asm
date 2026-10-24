@@ -1,10 +1,12 @@
 .feature force_range
 
 .define current_light save_file_current+save_file_structure::unk_95
+.define time_steps current_light+1
 .define no_double UNK_F8
 .define time_min UNK_F8+1
 .define time_hour UNK_F8+2
 .define time_days UNK_F8+3
+
 
 .segment        "ZP": zeropage
 ; zeropage global variables

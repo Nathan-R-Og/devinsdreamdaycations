@@ -13,7 +13,7 @@ Ninten_Data:
 ;?
 .byte $00
 ;max hp, max pp, offense, defense
-.word 50,0,5+7,10
+.word 50,0,5+7,13
 ;fight, speed, wisdom, strength, force
 .byte 5,10,10,5,5
 ;level
@@ -33,7 +33,7 @@ Ninten_Data:
 ;sprite
 .addr SPRITEDEF_NINTEN
 ;items
-.byte $6E,$25,$00,$00,$00,$00,$00,$00
+.byte $25,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $17,$00,$00,$00
 

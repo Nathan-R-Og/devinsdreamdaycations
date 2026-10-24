@@ -50,16 +50,16 @@ ENEMY_TILE_POINTERS:
 .word ENEMY_TILE_POINTERE
 
 ENEMY_TILE_POINTER1:
-.byte 8,8
+.byte 8,6
 .byte $00
-.byte $00,$01,$02,$03,$04,$05,$06,$07
-.byte $10,$11,$12,$13,$14,$15,$16,$17
-.byte $20,$21,$22,$23,$24,$25,$26,$27
-.byte $30,$31,$32,$33,$34,$35,$36,$37
-.byte $08,$09,$0A,$0B,$0C,$0D,$0E,$0F
-.byte $18,$19,$1A,$1B,$1C,$1D,$1E,$1F
-.byte $28,$29,$2A,$2B,$2C,$2D,$2E,$2F
-.byte $38,$39,$3A,$3B,$3C,$3D,$3E,$3F
+.byte $00,$01,$02,$03,$04,$05
+.byte $10,$11,$12,$13,$14,$15
+.byte $20,$21,$22,$23,$24,$25
+.byte $30,$31,$32,$33,$34,$35
+.byte $06,$07,$08,$09,$0A,$0B
+.byte $16,$17,$18,$19,$1A,$1B
+.byte $26,$27,$28,$29,$2A,$2B
+.byte $36,$37,$38,$39,$3A,$3B
 
 ENEMY_TILE_POINTER2:
 .byte 8,6
@@ -746,7 +746,7 @@ BATACT_PKFIREGAMMA:
 ba_misc BA_MISC::LOADSOUND, SFX_Fire
 ba_use_psi $2E
 BATACT_FLAMETHROWER_SHARE:
-ba_misc BA_MISC::DAMAGESET, $64
+ba_misc BA_MISC::DAMAGESET, 40
 ba_jump BATACT_PKFIRE_LOOP
 BATACT_USE_FLAMETHROWER:
 ba_misc BA_MISC::LOADSOUND, SFX_Fire
@@ -814,7 +814,7 @@ BATACT_USE_BOMB:
 ba_misc BA_MISC::LOADSOUND, SFX_Bomb
 ba_use_item 1, $23
 BATACT_BOMB_SHARE:
-ba_misc BA_MISC::DAMAGESET, $3c
+ba_misc BA_MISC::DAMAGESET, 20
 ba_jump BATACT_PKFIRE_LOOP
 
 BATACT_USE_SUPER_BOMB:
@@ -851,7 +851,7 @@ BATACT_USE_PLASMABEAM:
 ba_misc BA_MISC::LOADSOUND, SFX_Beam
 ba_misc BA_MISC::LOADSOUND, SFX_Bomb
 ba_use_item 2, $26
-ba_misc BA_MISC::DAMAGESET, 64
+ba_misc BA_MISC::DAMAGESET, 48
 ba_target BA_TARGET::RETARGET
 ba_jumpifnot BA_CON::BOTHLIVE, BATACT_ALREADY_GONE
 ba_variety BA_VARIETY::ANIM_BEAM
