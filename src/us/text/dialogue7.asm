@@ -425,7 +425,7 @@ MSG_TALK_PARTY:
 .byte   stopText
 
 MSG_CHECK_NOTHING:
-.byte 5, 0, $e1
+.byte 5, 4, $e6
 .byte   "*No problem.",newLine
 .byte   stopText
 
@@ -541,23 +541,23 @@ MSG_HEALER_CHOICER:
 .byte   stopText
 
 MSG_CANARY_SIGN:
-.byte 5, 0, $e1
+.byte 5, 4, $e6
 .byte   "*",nintenName," checked the",newLine
 .byt    " note...",newLine
 .byte   stopText
 
 MSG_PODUNK_CANARYSIGN:
-.byte 5, 0, $e1
+.byte 5, 4, $e6
 .byte   "*Hidden in the corner,",newLine
 .byte   stopText
 
 MSG_PODUNK_CITYHALLSIGN:
-.byte 5, 0, $e1
+.byte 5, 4, $e6
 .byte   "* Uncle house",newLine
 .byte   stopText
 
 MSG_ELLAY_RESIDENTIALSIGN:
-.byte 5, 0, $e1
+.byte 5, 4, $e6
 .byte   "LABORATORY",newLine
 .byte   "FOR A CURE",newLine
 .byte   "(important)",newLine
@@ -614,7 +614,7 @@ MSG_MERRYSVILLE_SCHOOLSIGN:
 .byte   stopText
 
 MSG_MYHOME_SIGN:
-.byte 5, 8, $e1
+.byte 5, 4, $e6
 .byte   "*",nintenName,"'s house",newLine
 .byte   stopText
 
