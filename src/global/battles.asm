@@ -190,7 +190,7 @@ BATTLE_5:
 .byte ENEMIES::NONE,$00
 .byte ENEMIES::NONE,$00
 battlebyte8 2, 0
-battlebyte9 0, MUSIC::BATTLE_DANGEROUS
+battlebyte9 0, MUSIC::BATTLE_FLIPPANT
 
 BATTLE_6:
 .byte $01,$00
