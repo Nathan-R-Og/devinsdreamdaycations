@@ -246,11 +246,15 @@ MSG_PHONE_SAVED_RESETPROMPT:
 .byte   stopText
 
 MSG_PHONE_RESET_YES:
+.byte 5, 8, $e3
 .byte   "*HAHAHAHAHA!",newLine
 .byte   stopText
 
 MSG_PHONE_RESET_NO:
-.byte   "*KILL! KILL!",newLine
+.byte 5, 4, $e5
+.byte   "*KILL KILL KILL KILL!",newLine,newLine
+.byte 5, 8, $e3
+.byte   "*KILL!",newLine
 .byte   stopText
 
 MSG_PHONE_SAVEPROMPT:
@@ -262,10 +266,12 @@ MSG_PHONE_GOODLUCK:
 .byte   stopText
 
 MSG_PODUNK_PIPPIMOM_THANKS:
+.byte 5, 14, $e1
 .byte   "*FALL TO OUR HAND!",newLine
 .byte   stopText
 
 MSG_PODUNK_CEMETERYGUY1:
+.byte 5, 4, $e6
 .byte   "*",partyLead," put",newLine
 .byte   " ",item,".",newLine
 .byte   stopText
@@ -281,24 +287,24 @@ MSG_PODUNK_SCAREDGUY1:
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY2:
-.byte 5, 4, $e3
+.byte 5, 12, $e6
 .byte   "*Take it.",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY3:
-.byte 5, 4, $e3
+.byte 5, 12, $e6
 .byte   "*You're broke.",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY4:
-.byte 5, 4, $e3
+.byte 5, 12, $e6
 .byte   "*Whadd'ya want me",newLine
 .byte   " to do, carry it",newLine
 .byte   " for ya? Buzz off.",newLine
 .byte   stopText
 
 MSG_PODUNK_SCAREDGUY5:
-.byte 5, 4, $e3
+.byte 5, 12, $e6
 .byte   "*Bye.",newLine
 .byte   stopText
 
@@ -314,6 +320,7 @@ MSG_PODUNK_SCAREDGUY7:
 .byte   stopText
 
 MSG_PODUNK_ZOMBIE:
+.byte 5, 0, $e2
 .byte   "*Zombie!",newLine
 .byte   stopText
 
@@ -807,7 +814,7 @@ MSG_MAGICANT_NICKNAMEMAN_AFTER_YES:
 
 
 MSG_MAGICANT_CANNOTPARTMAN_YES:
-.byte 5, 12, $e4
+.byte 5, 8, $e6
 .byte   "*Thanks!",newLine
 .byte   stopText
 

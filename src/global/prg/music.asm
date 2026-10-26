@@ -2827,12 +2827,12 @@ Underground_BGM_header:
 .addr mus_underground_noise
 
 Home_BGM_header:
-.byte $02
-.byte NLT_43-Tempo_Lengths
-.addr mus_home_pulse1
-.addr mus_home_pulse2
-.addr mus_home_triangle
-.addr mus_home_noise
+.byte $00
+.byte NLT_18-Tempo_Lengths
+.addr mus_pollyanna_pulse1
+.addr mus_pollyanna_pulse2
+.addr mus_pollyanna_triangle
+.addr mus_pollyanna_noise
 
 Approaching_Mt_Itoi_header:
 .byte $00
@@ -2859,12 +2859,12 @@ Fallin_Love_header:
 .addr mus_fallin_love_noise
 
 Mother_Earth_header:
-.byte $00
-.byte NLT_18-Tempo_Lengths
-.addr mus_snowman_pulse1
-.addr mus_snowman_pulse2
-.addr mus_snowman_triangle
-.addr -1
+.byte $00   ; Transpose
+.byte NLT_18-Tempo_Lengths   ; Note length table offset
+.addr mus_mother_earth_pulse1 ; Pulse1 phrase pointers
+.addr mus_mother_earth_pulse2 ; Pulse2 phrase pointers
+.addr mus_mother_earth_triangle ; Triangle phrase pointers
+.addr mus_mother_earth_noise ; Noise phrase pointers
 
 Tank_BGM_header:
 .byte $00

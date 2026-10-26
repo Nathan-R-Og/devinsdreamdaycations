@@ -548,7 +548,7 @@ MSG_BURGERSHOP_NO_BUY:
 .byte   stopText
 
 MSG_BURGERSHOP_GOODBYE:
-.byte 5, 12, $e4
+.byte 5, 8, $e6
 .byte   "*Thank you very",newLine
 .byte   " much. Please",newLine
 .byte   " visit us again.",newLine

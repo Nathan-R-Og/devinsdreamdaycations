@@ -2893,6 +2893,7 @@ presented_by_tiles:
     ;nathan r
     .byte set_pos 7, 12
     .byte $9f,$86,$87,$88,$86,$9f,$89,$8a
+    .byte $80,$a0,$a1,$a2,$a3,$a4,$a5
 
 
     ;in association with
