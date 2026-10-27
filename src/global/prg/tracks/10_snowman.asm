@@ -3,7 +3,6 @@ mus_snowman_pulse1:
 B29_021C:
 .addr B29_02B0
 .addr B29_02D5
-.addr B29_02FD
 .addr -1
 .addr B29_021C
 
@@ -14,7 +13,6 @@ mus_snowman_pulse2:
 
 mus_snowman_triangle:
 .addr B29_0240
-.addr B29_0279
 .addr -1
 .addr mus_snowman_triangle
 

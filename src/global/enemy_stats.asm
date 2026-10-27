@@ -159,7 +159,7 @@ STATS_BIGWOODOH:
     ;exp
     .word 10
     ;money
-    .word 24
+    .word 40
     ;item
     .byte $00
     ;graphic
@@ -189,7 +189,7 @@ STATS_DRAGON:
     ;exp
     .word 20
     ;money
-    .word 24
+    .word 60
     ;item
     .byte $00
     ;graphic
@@ -219,7 +219,7 @@ STATS_R7038:
     ;exp
     .word 40
     ;money
-    .word 40
+    .word 85
     ;item
     .byte $00
     ;graphic
@@ -249,7 +249,7 @@ STATS_ELEPHANT:
     ;exp
     .word 100
     ;money
-    .word 100
+    .word 200
     ;item
     .byte $00
     ;graphic

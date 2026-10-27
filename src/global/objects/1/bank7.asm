@@ -8,7 +8,7 @@ OBJ_BANK_7:
 
 OBJ_SHACK_EXIT:
 objectDef OBJ_TYPE::DOOR, $3e, DIRECTIONS::RIGHT, $f6
-doorArgDef $12, $a1, DIRECTIONS::DOWN, $f4
+doorArgDef 0, $a1, DIRECTIONS::DOWN, $f4
 
 OBJ_SHACK_NOTE:
 objectDef $19, $36, DIRECTIONS::UP, $f5
@@ -39,7 +39,7 @@ OBJ_STOP
 
 OBJ_TOWER_EXIT:
 objectDef OBJ_TYPE::DOOR, $6b, DIRECTIONS::UP, $16f
-doorArgDef $12, $c5, DIRECTIONS::DOWN, $f0
+doorArgDef 0, $c5, DIRECTIONS::DOWN, $f0
 
 OBJ_TOWER_PANEL:
 objectDef $19, $6c, DIRECTIONS::UP, $16f

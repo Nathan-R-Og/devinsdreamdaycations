@@ -46,7 +46,7 @@ Credits_Entry:
     jsr PlayMusic
 
     ;swap music bank to the dedicated credits bank
-    lda #.BANK(CreditsMusic_Tick)
+    lda #.BANK(Music_Tick)
     sta music_bank
 
     ;wait for nmi
@@ -138,7 +138,7 @@ Credits_Entry_bad:
     jsr PlayMusic
 
     ;swap music bank to the dedicated credits bank
-    lda #.BANK(CreditsMusic_Tick)
+    lda #.BANK(Music_Tick)
     sta music_bank
 
     ;wait for nmi
@@ -855,7 +855,7 @@ credits_cmd_crash:
 ;byte code begin
 Credits_Script:
     ENDING_CMD_01_DELAY 120
-    ENDING_CMD_0B_PLAYMUS $2D
+    ENDING_CMD_0B_PLAYMUS $A
     ENDING_CMD_01_DELAY 120
     ENDING_CMD_0D_SETALLTILESETS $7e, $7F, $d4, $d3, $D0, $D4
     ENDING_CMD_05_LOADBG2MAP $2088, 20, 16
@@ -922,7 +922,7 @@ Credits_Script:
 ;byte code begin
 Credits_Script_bad:
     ENDING_CMD_01_DELAY 120
-    ENDING_CMD_0B_PLAYMUS $2D
+    ENDING_CMD_0B_PLAYMUS $A
     ENDING_CMD_01_DELAY 120
     ENDING_CMD_0D_SETALLTILESETS $7E, $7F, $d2, $d3, $D0, $D4
     ENDING_CMD_05_LOADBG2MAP $2108, 20, 8
