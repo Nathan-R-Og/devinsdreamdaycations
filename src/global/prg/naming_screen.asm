@@ -797,7 +797,7 @@ CharExists:
 .byte   "No character in",newLine
 .byte   "this game has  ",newLine
 .byte   "that name. Try ",newLine
-.byte   "again, and use ",newLine
+.byte   "again, or use ",newLine
 .byte   "only capital   ",newLine
 .byte   "letters.       ",stopText
 
@@ -810,7 +810,21 @@ ExistEntries:
 .byte   "Lloyd?",newLine
 .byte   "Teddy?",newLine
 .byte   "Lanyard",newLine
-
+.byte   "Odil?",newLine
+.byte   "Darkus?",newLine
+.byte   "A?",newLine
+.byte   "a?",newLine
+.byte   "Mike?",newLine
+.byte   "Devon?",newLine
+.byte   "Eric?",newLine
+.byte   "67?",newLine
+.byte   "MrTenda",newLine
+.byte   "Ness?",newLine
+.byte   "Paula?",newLine
+.byte   "Jeff?",newLine
+.byte   "Poo?",newLine
+.byte   "Lucas?",newLine
+.byte   "Name?",newLine
 .byte   "Mary?",newLine
 .byte   "Suzy?",newLine
 .byte   "George?",newLine
