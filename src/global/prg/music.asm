@@ -2740,7 +2740,7 @@ Bein_Friends_header:
 
 Pollyanna_header:
 .byte $00
-.byte NLT_18-Tempo_Lengths
+.byte NLT_5A-Tempo_Lengths
 .addr mus_pollyanna_pulse1
 .addr mus_pollyanna_pulse2
 .addr mus_pollyanna_triangle
@@ -2828,7 +2828,7 @@ Underground_BGM_header:
 
 Home_BGM_header:
 .byte $00
-.byte NLT_18-Tempo_Lengths
+.byte NLT_5A-Tempo_Lengths
 .addr mus_pollyanna_pulse1
 .addr mus_pollyanna_pulse2
 .addr mus_pollyanna_triangle
@@ -2868,7 +2868,7 @@ Mother_Earth_header:
 
 Tank_BGM_header:
 .byte $00
-.byte NLT_18-Tempo_Lengths
+.byte NLT_35-Tempo_Lengths
 .addr mus_tank_pulse1
 .addr mus_tank_pulse2
 .addr mus_tank_triangle

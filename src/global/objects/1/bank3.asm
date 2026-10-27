@@ -15,7 +15,7 @@ doorArgDef $12, $2D, DIRECTIONS::LEFT, $b6
 
 OBJ_LAB_ENTRANCE:
 objectDef OBJ_TYPE::DOOR, $113, DIRECTIONS::UP, $d8
-doorArgDef $12, $4d, DIRECTIONS::LEFT, $176
+doorArgDef $17, $4d, DIRECTIONS::LEFT, $176
 
 OBJ_LAB_SIGN:
 objectDef $19, $114, DIRECTIONS::UP, $d9

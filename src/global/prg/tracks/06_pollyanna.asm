@@ -22,6 +22,9 @@ mus_pollyanna_noise:
 
 mus_pollyanna_pulse2_t1:
 Note_Repeat 16
+Note_Length nl_half
+Note_Rest 
+Note_End_Repeat
     Note_Length nl_eighth
     Note_Rest 
     Note_F 5 ;42
@@ -103,7 +106,89 @@ Note_Repeat 16
     Note_DS 4 ;42
     Note_E 4 ;42
 
-Note_End_Repeat
+    ;shitty repeat but in 5 keys higher
+
+        Note_Length nl_eighth
+    Note_Rest
+    Note_AS 5 ;42
+    Note_Length nl_sixteenth
+    Note_C 6 ;42
+    Note_CS 6 ;42
+    Note_Length nl_eighth
+    Note_FS 6 ;42
+
+    Note_F 6 ;42
+    Note_Rest
+    Note_DS 6 ;42
+    Note_Rest
+    Note_CS 6 ;42
+
+    Note_Length nl_half
+    Note_C 6 ;42
+    Note_CS 6 ;42
+
+    ;measure 2
+    Note_Length nl_eighth
+    Note_Rest
+    Note_AS 5 ;42
+    Note_Length nl_sixteenth
+    Note_C 6 ;42
+    Note_CS 6 ;42
+    Note_Length nl_eighth
+    Note_FS 6 ;42
+
+    Note_F 6 ;42
+    Note_Rest
+    Note_DS 6 ;42
+    Note_Rest
+    Note_CS 6 ;42
+
+    Note_Length nl_sixteenth
+    Note_F 6
+    Note_DS 6
+    Note_CS 6
+    Note_GS 5
+    Note_F 6
+    Note_DS 6
+    Note_CS 6
+    Note_GS 5
+
+    Note_Length nl_half
+    Note_AS 5 ;42
+
+    ;measure 3
+    Note_Length nl_eighth
+    Note_Rest
+    Note_Rest
+    Note_F 5 ;42
+    Note_GS 5 ;42
+
+    Note_FS 6 ;42
+    Note_Rest
+    Note_F 6 ;42
+    Note_Rest
+
+    Note_FS 6 ;
+    Note_F 6 ;42
+    Note_CS 6 ;
+    Note_DS 6 ;
+
+    Note_Rest
+    Note_Rest
+    Note_C 6 ;
+    Note_CS 6 ;
+
+    ;measure 4
+    Note_Length nl_half
+    Note_AS 5 ;42
+    Note_GS 5 ;42
+    Note_FS 5 ;42
+    Note_Length nl_quarter
+    Note_F 5 ;42
+    Note_Length nl_eighth
+    Note_GS 4 ;42
+    Note_A 4 ;42
+
 Track_End
 
 delay_P1:
@@ -118,7 +203,37 @@ Track_End
 
 mus_pollyanna_triangle_t1:
 Set_Timbre 5, 0, timbre_c_triangle 0, 0
-Note_Repeat 16    
+Note_Repeat 8
+Note_Length nl_half
+Note_Rest 
+Note_End_Repeat
+
+;shitty intro triangle using 3 and 4 measure of end
+
+    Note_Length nl_half                        ;Measure 3 bar 1
+    Note_AS 3
+
+    Note_FS 4                                     ;bar 2
+
+    Note_DS 5                                     ;bar 3
+
+    Note_CS 5                                     ;bar 4
+
+    ;Measure 4 bar 1
+    Note_AS 4
+
+    Note_GS 4                                     ;bar 2
+
+    Note_FS 4                                     ;bar 3
+
+    Note_Length nl_quarter                         ;bar 4
+    Note_F 3
+    Note_Length nl_eighth
+    Note_GS 3
+    Note_A 3
+
+    ;normal
+
     Note_Length nl_half                        ;Measure 1 bar 1
     Note_F 3 ;42
 
@@ -167,7 +282,9 @@ Note_Repeat 16
     Note_DS 3 ;42
     Note_E 3 ;42
 
-        Note_Length nl_half                        ;Measure 1 bar 1
+    ;shitty same thing but in, GASP! 5 notes higher!
+
+    Note_Length nl_half                        ;Measure 1 bar 1
     Note_AS 3
 
     Note_FS 4                                     ;bar 2
@@ -215,7 +332,6 @@ Note_Repeat 16
     Note_GS 3
     Note_A 3
 
-Note_End_Repeat
 Track_End
 
 mus_pollyanna_noise_t1:
